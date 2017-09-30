@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Alboraq.MobileApp.Mobile.Views.RegisterPage"
+             xmlns:local="clr-namespace:Alboraq.MobileApp.Mobile;assembly=Alboraq.MobileApp.Mobile"
+             BindingContext="{x:Static local:App.RegisterViewModel}">
+  
+  <ContentPage.Content>
+    <StackLayout Padding="15" BackgroundColor="White">
+      <Label Text="Register"  Font="20"/>
+
+      <StackLayout>
+        <Label Text="Email:"/>
+        <Entry Text="{Binding RegisterModel.Email,
+          Mode=TwoWay}" Placeholder="Type your username..." FontSize="13"/>
+        <Label Text="Password:"/>
+        <Entry Text="{Binding RegisterModel.Password, 
+          Mode=TwoWay}" Placeholder="Type your password..." FontSize="13" IsPassword="True"/>
+        <Label Text="Username:"/>
+        <Entry Text="{Binding RegisterModel.ConfirmPassword, 
+          Mode=TwoWay}" Placeholder="Re-type your password..." FontSize="13" IsPassword="True"/>
+        <Label Text="Plate no:"/>
+        <Entry Text="{Binding RegisterModel.PlateNo, 
+          Mode=TwoWay}" Placeholder="Type your plate no..." FontSize="13"/>
+        <Label Text="Mobile no:"/>
+        <Entry Text="{Binding RegisterModel.MobileNo, 
+          Mode=TwoWay}" Placeholder="Type your mobile no..." FontSize="13"/>
+        <Button Command="{Binding RegisterCommand}" Text="Sign in" Style="{StaticResource DefaultButton}"/>
+      </StackLayout>
+    </StackLayout>
+  </ContentPage.Content>
+</ContentPage>

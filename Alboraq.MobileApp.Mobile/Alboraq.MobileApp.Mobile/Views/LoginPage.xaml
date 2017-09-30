@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Alboraq.MobileApp.Mobile.Views.LoginPage"
+             xmlns:local="clr-namespace:Alboraq.MobileApp.Mobile;assembly=Alboraq.MobileApp.Mobile"
+             BindingContext="{x:Static local:App.LoginViewModel}">
+
+  <ContentPage.Content>
+    <StackLayout Padding="15" BackgroundColor="White">
+      <Label Text="Sign in"  Font="20"/>
+
+      <StackLayout>
+        <Label Text="Username or email:"/>
+        <Entry Text="{Binding LoginModel.Username, 
+          Mode=TwoWay}" Placeholder="Type your username..." FontSize="13"/>
+        <Label Text="Password:"/>
+        <Entry Text="{Binding LoginModel.Password, 
+          Mode=TwoWay}" Placeholder="Type your password..." FontSize="13" IsPassword="True"/>
+        <Button Command="{Binding SignInCommand}" Text="Sign in" Style="{StaticResource DefaultButton}"/>
+      </StackLayout>
+
+      
+    </StackLayout>
+  </ContentPage.Content>
+</ContentPage>

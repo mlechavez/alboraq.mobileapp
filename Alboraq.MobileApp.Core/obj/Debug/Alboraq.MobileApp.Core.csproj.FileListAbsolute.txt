@@ -1,0 +1,5 @@
+C:\Github\Alboraq.MobileApp\Alboraq.MobileApp.Core\bin\Debug\Alboraq.MobileApp.Core.dll
+C:\Github\Alboraq.MobileApp\Alboraq.MobileApp.Core\bin\Debug\Alboraq.MobileApp.Core.pdb
+C:\Github\Alboraq.MobileApp\Alboraq.MobileApp.Core\obj\Debug\Alboraq.MobileApp.Core.csprojResolveAssemblyReference.cache
+C:\Github\Alboraq.MobileApp\Alboraq.MobileApp.Core\obj\Debug\Alboraq.MobileApp.Core.dll
+C:\Github\Alboraq.MobileApp\Alboraq.MobileApp.Core\obj\Debug\Alboraq.MobileApp.Core.pdb
