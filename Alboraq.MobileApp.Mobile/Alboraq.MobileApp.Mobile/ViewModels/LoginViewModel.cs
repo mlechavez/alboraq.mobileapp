@@ -49,13 +49,25 @@ namespace Alboraq.MobileApp.Mobile.ViewModels
             {
                 return new Command( ()=> 
                 {
+                    _navigationService.PopToRootAsync();
                     App.Current.MainPage = new TabbedPage()
                     {
                         Children =
                         {
-                            new NavigationPage(new HomePage())
-                            {
+                            new HomePage() {
                                 Title = "Home"
+                            },
+                            new MessagePage() {
+                                Title = "Messages"
+                            },
+                            new AboutPage() {
+                                Title = "About"
+                            },
+                            new MessagePage() {
+                                Title = "Messages"
+                            },
+                            new AboutPage() {
+                                Title = "About"
                             }
                         }
                     };

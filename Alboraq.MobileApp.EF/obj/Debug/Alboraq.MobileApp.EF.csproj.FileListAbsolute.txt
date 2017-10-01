@@ -10,3 +10,15 @@ C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.EF\bin\Debug\EntityFr
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.EF\obj\Debug\Alboraq.MobileApp.EF.csprojResolveAssemblyReference.cache
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.EF\obj\Debug\Alboraq.MobileApp.EF.dll
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.EF\obj\Debug\Alboraq.MobileApp.EF.pdb
+C:\Github\Alboraq.MobileApp\Alboraq.MobileApp.EF\bin\Debug\Alboraq.MobileApp.EF.dll.config
+C:\Github\Alboraq.MobileApp\Alboraq.MobileApp.EF\bin\Debug\Alboraq.MobileApp.EF.dll
+C:\Github\Alboraq.MobileApp\Alboraq.MobileApp.EF\bin\Debug\Alboraq.MobileApp.EF.pdb
+C:\Github\Alboraq.MobileApp\Alboraq.MobileApp.EF\bin\Debug\Alboraq.MobileApp.Core.dll
+C:\Github\Alboraq.MobileApp\Alboraq.MobileApp.EF\bin\Debug\EntityFramework.dll
+C:\Github\Alboraq.MobileApp\Alboraq.MobileApp.EF\bin\Debug\EntityFramework.SqlServer.dll
+C:\Github\Alboraq.MobileApp\Alboraq.MobileApp.EF\bin\Debug\Alboraq.MobileApp.Core.pdb
+C:\Github\Alboraq.MobileApp\Alboraq.MobileApp.EF\bin\Debug\EntityFramework.xml
+C:\Github\Alboraq.MobileApp\Alboraq.MobileApp.EF\bin\Debug\EntityFramework.SqlServer.xml
+C:\Github\Alboraq.MobileApp\Alboraq.MobileApp.EF\obj\Debug\Alboraq.MobileApp.EF.csprojResolveAssemblyReference.cache
+C:\Github\Alboraq.MobileApp\Alboraq.MobileApp.EF\obj\Debug\Alboraq.MobileApp.EF.dll
+C:\Github\Alboraq.MobileApp\Alboraq.MobileApp.EF\obj\Debug\Alboraq.MobileApp.EF.pdb

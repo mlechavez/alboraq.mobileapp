@@ -35,3 +35,6 @@ C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.Mobile\Alboraq.Mobile
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.Mobile\Alboraq.MobileApp.Mobile\obj\Debug\Alboraq.MobileApp.Mobile.Views.HomePage.xaml.g.cs
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.Mobile\Alboraq.MobileApp.Mobile\obj\Debug\Alboraq.MobileApp.Mobile.Views.MessagePage.xaml.g.cs
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.Mobile\Alboraq.MobileApp.Mobile\obj\Debug\Alboraq.MobileApp.Mobile.Views.AboutPage.xaml.g.cs
+C:\Github\Alboraq.MobileApp\Alboraq.MobileApp.Mobile\Alboraq.MobileApp.Mobile\obj\Debug\Alboraq.MobileApp.Mobile.Views.HomePage.xaml.g.cs
+C:\Github\Alboraq.MobileApp\Alboraq.MobileApp.Mobile\Alboraq.MobileApp.Mobile\obj\Debug\Alboraq.MobileApp.Mobile.Views.MessagePage.xaml.g.cs
+C:\Github\Alboraq.MobileApp\Alboraq.MobileApp.Mobile\Alboraq.MobileApp.Mobile\obj\Debug\Alboraq.MobileApp.Mobile.Views.AboutPage.xaml.g.cs
