@@ -91,11 +91,19 @@
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <None Include="Entitlements.plist" />
-    <None Include="Info.plist" />
+    <None Include="Info.plist">
+      <SubType>Designer</SubType>
+    </None>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <ITunesArtwork Include="iTunesArtwork" />
     <ITunesArtwork Include="iTunesArtwork@2x" />
     <None Include="packages.config" />
+    <BundleResource Include="Resources\porsche-next-thin.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </BundleResource>
+    <BundleResource Include="Resources\porsche-next-regular.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </BundleResource>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
@@ -142,6 +150,30 @@
       <Project>{b8d38f65-43b9-483f-96ff-7f06090ce1b5}</Project>
       <Name>Alboraq.MobileApp.Mobile</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\porsche_marquee_l_r.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\porsche_marquee_m_r.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\porsche_marquee_s_r.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\porsche_marquee_xs_r.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\porsche_marquee_l.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\porsche_marquee_m.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\porsche_marquee_s.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\porsche_marquee_xs.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.3.4.247\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.3.4.247\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />

@@ -19,19 +19,9 @@ namespace Alboraq.MobileApp.Mobile.ViewModels
 
         public WelcomeViewModel(INavigationService navigationService)
         {
-            _navigationService = navigationService;          
-            GetFeatures();
-        }       
-
-        private List<Feature> _features; 
-        public List<Feature> Features
-        {
-            get { return _features ?? (_features = new List<Feature>()); }
-            set
-            {
-                _features = value;
-            }
-        }
+            _navigationService = navigationService;
+            
+        }               
 
         public ICommand GotoSignInPageCommand
         {
@@ -49,18 +39,6 @@ namespace Alboraq.MobileApp.Mobile.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        void GetFeatures()
-        {
-            var featureList = new List<Feature>
-            {
-                new Feature { Title = "Appointment", Detail = "Set a service appointment for your car and receive a confirmation" },
-                new Feature { Title = "Products", Detail = "A variety of products are available to choose from!" },
-                new Feature { Title = "Menu Packages", Detail = "Price list of services based on the model of your car" },
-                new Feature { Title = "Menu Packages", Detail = "Price list of services based on the model of your car" },
-                new Feature { Title = "Menu Packages", Detail = "Price list of services based on the model of your car" }
-            };
-
-            Features.AddRange(featureList);
-        }
+       
     }
 }

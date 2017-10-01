@@ -1,5 +1,6 @@
 ﻿using Alboraq.MobileApp.Mobile.Helpers;
 using Alboraq.MobileApp.Mobile.Models;
+using Alboraq.MobileApp.Mobile.Views;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
@@ -48,8 +49,16 @@ namespace Alboraq.MobileApp.Mobile.ViewModels
             {
                 return new Command( ()=> 
                 {
-                    _navigationService.DisplayAlert("Sample Data", $"{LoginModel.Username} {LoginModel.Password}",
-                        "ok", "cancel");
+                    App.Current.MainPage = new TabbedPage()
+                    {
+                        Children =
+                        {
+                            new NavigationPage(new HomePage())
+                            {
+                                Title = "Home"
+                            }
+                        }
+                    };
                     //var isSuccess = await _accountService.Login(string.Empty, string.Empty, "password");
                     //if(isSuccess)
                 });

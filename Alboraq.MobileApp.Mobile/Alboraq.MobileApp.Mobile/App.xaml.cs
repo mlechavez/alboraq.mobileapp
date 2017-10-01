@@ -15,6 +15,7 @@ namespace Alboraq.MobileApp.Mobile
         public static WelcomeViewModel WelcomeViewModel { get; set; }
         public static LoginViewModel LoginViewModel { get; set; }
         public static RegisterViewModel RegisterViewModel { get; set; }
+        public static HomeViewModel HomeViewModel { get; set; }
 
         public static Page LoginPage { get; private set; }
         public static Page RegisterPage { get; private set; }

@@ -11,8 +11,8 @@
 namespace Alboraq.MobileApp.Mobile {
     
     
-    [global::Xamarin.Forms.Xaml.XamlFilePathAttribute("C:\\Github\\Alboraq.MobileApp\\Alboraq.MobileApp.Mobile\\Alboraq.MobileApp.Mobile\\App" +
-        ".xaml")]
+    [global::Xamarin.Forms.Xaml.XamlFilePathAttribute("C:\\Users\\Lester\\GitHub\\alboraq.mobileapp\\Alboraq.MobileApp.Mobile\\Alboraq.MobileA" +
+        "pp.Mobile\\App.xaml")]
     public partial class App : global::Xamarin.Forms.Application {
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "0.0.0.0")]

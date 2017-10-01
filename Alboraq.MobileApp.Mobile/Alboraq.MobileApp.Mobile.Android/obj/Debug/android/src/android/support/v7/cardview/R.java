@@ -2559,7 +2559,15 @@ containing a value of this type.
         public static int mr_ic_pause_light=0x7f02009e;
         public static int mr_ic_play_dark=0x7f02009f;
         public static int mr_ic_play_light=0x7f0200a0;
-        public static int notification_template_icon_bg=0x7f0200a1;
+        public static int notification_template_icon_bg=0x7f0200a9;
+        public static int porsche_marquee_l=0x7f0200a1;
+        public static int porsche_marquee_l_r=0x7f0200a2;
+        public static int porsche_marquee_m=0x7f0200a3;
+        public static int porsche_marquee_m_r=0x7f0200a4;
+        public static int porsche_marquee_s=0x7f0200a5;
+        public static int porsche_marquee_s_r=0x7f0200a6;
+        public static int porsche_marquee_xs=0x7f0200a7;
+        public static int porsche_marquee_xs_r=0x7f0200a8;
     }
     public static final class id {
         public static int action0=0x7f07008b;

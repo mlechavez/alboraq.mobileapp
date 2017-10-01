@@ -6,16 +6,35 @@
              BindingContext="{x:Static local:App.LoginViewModel}">
 
   <ContentPage.Content>
-    <StackLayout Padding="15" BackgroundColor="White">
-      <Label Text="Sign in"  Font="20"/>
+    <StackLayout HorizontalOptions="FillAndExpand" Padding="10,10,10,0" BackgroundColor="White">
+      <Label Text="Porsche Centre Doha"
+             Style="{StaticResource HeaderOneLabel}"
+             HorizontalOptions="Center"/>
 
-      <StackLayout>
-        <Label Text="Username or email:"/>
-        <Entry Text="{Binding LoginModel.Username, 
-          Mode=TwoWay}" Placeholder="Type your username..." FontSize="13"/>
-        <Label Text="Password:"/>
-        <Entry Text="{Binding LoginModel.Password, 
-          Mode=TwoWay}" Placeholder="Type your password..." FontSize="13" IsPassword="True"/>
+      <Label Text="Alboraq Automobiles Co. W.L.L" HorizontalOptions="Center" 
+             Style="{StaticResource DefaultLabel}"/>
+
+      <Image Source="porsche_marquee_l_r.jpg" Margin="10"/>
+
+      <BoxView HeightRequest="0.5" BackgroundColor="Silver" HorizontalOptions="FillAndExpand"></BoxView>
+
+      <Label Text="Sign in using your credentials" Style="{StaticResource HeaderOneLabel}"/>
+
+      <StackLayout Margin="0,30, 0, 0">
+        <Label Text="Username:" Style="{StaticResource DefaultLabel}"/>
+        <ContentView>
+          <Entry Text="{Binding LoginModel.Username, 
+          Mode=TwoWay}" Placeholder="Type your username..." Style="{StaticResource DefaultEntry}"/>
+        </ContentView>
+
+        <Label Text="Password:" Style="{StaticResource DefaultLabel}"/>
+        <ContentView>
+          <Entry Text="{Binding LoginModel.Password, 
+          Mode=TwoWay}" Placeholder="Type your password..." Style="{StaticResource DefaultEntry}"/>
+        </ContentView>
+        
+        
+        
         <Button Command="{Binding SignInCommand}" Text="Sign in" Style="{StaticResource DefaultButton}"/>
       </StackLayout>
 

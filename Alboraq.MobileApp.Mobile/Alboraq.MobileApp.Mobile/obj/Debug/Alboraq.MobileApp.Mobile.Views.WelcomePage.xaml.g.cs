@@ -11,8 +11,8 @@
 namespace Alboraq.MobileApp.Mobile.Views {
     
     
-    [global::Xamarin.Forms.Xaml.XamlFilePathAttribute("C:\\Github\\Alboraq.MobileApp\\Alboraq.MobileApp.Mobile\\Alboraq.MobileApp.Mobile\\Vie" +
-        "ws\\WelcomePage.xaml")]
+    [global::Xamarin.Forms.Xaml.XamlFilePathAttribute("C:\\Users\\Lester\\GitHub\\alboraq.mobileapp\\Alboraq.MobileApp.Mobile\\Alboraq.MobileA" +
+        "pp.Mobile\\Views\\WelcomePage.xaml")]
     public partial class WelcomePage : global::Xamarin.Forms.ContentPage {
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "0.0.0.0")]

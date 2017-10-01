@@ -6,26 +6,43 @@
              BindingContext="{x:Static local:App.RegisterViewModel}">
   
   <ContentPage.Content>
-    <StackLayout Padding="15" BackgroundColor="White">
-      <Label Text="Register"  Font="20"/>
+    <StackLayout HorizontalOptions="FillAndExpand" Padding="10,10,10,0" BackgroundColor="White">
+
+      <Label Text="Porsche Centre Doha"
+             Style="{StaticResource HeaderOneLabel}"
+             HorizontalOptions="Center"/>
+
+      <Label Text="Alboraq Automobiles Co. W.L.L" HorizontalOptions="Center" 
+             Style="{StaticResource DefaultLabel}"/>
+
+      <Image Source="porsche_marquee_l_r.jpg" Margin="10"/>
+
+      <BoxView HeightRequest="0.5" BackgroundColor="Silver" HorizontalOptions="FillAndExpand"></BoxView>
+      
+      <Label Text="Register your account" Style="{StaticResource HeaderOneLabel}"/>
 
       <StackLayout>
-        <Label Text="Email:"/>
+
+        <Label Text="Username:" Style="{StaticResource DefaultLabel}"/>
         <Entry Text="{Binding RegisterModel.Email,
-          Mode=TwoWay}" Placeholder="Type your username..." FontSize="13"/>
-        <Label Text="Password:"/>
+          Mode=TwoWay}" Placeholder="Type your username..." Style="{StaticResource DefaultEntry}"/>
+
+        <Label Text="Password:" Style="{StaticResource DefaultLabel}"/>
         <Entry Text="{Binding RegisterModel.Password, 
-          Mode=TwoWay}" Placeholder="Type your password..." FontSize="13" IsPassword="True"/>
-        <Label Text="Username:"/>
+          Mode=TwoWay}" Placeholder="Type your password..." Style="{StaticResource DefaultEntry}" IsPassword="True"/>
+
+        <Label Text="Confirm your password:" Style="{StaticResource DefaultLabel}"/>
         <Entry Text="{Binding RegisterModel.ConfirmPassword, 
-          Mode=TwoWay}" Placeholder="Re-type your password..." FontSize="13" IsPassword="True"/>
-        <Label Text="Plate no:"/>
+          Mode=TwoWay}" Placeholder="Re-type your password..." Style="{StaticResource DefaultEntry}" IsPassword="True"/>
+
+        <Label Text="Plate no:" Style="{StaticResource DefaultLabel}"/>
         <Entry Text="{Binding RegisterModel.PlateNo, 
-          Mode=TwoWay}" Placeholder="Type your plate no..." FontSize="13"/>
-        <Label Text="Mobile no:"/>
+          Mode=TwoWay}" Placeholder="Type your plate no..." Style="{StaticResource DefaultEntry}"/>
+
+        <Label Text="Mobile no:" Style="{StaticResource DefaultLabel}"/>
         <Entry Text="{Binding RegisterModel.MobileNo, 
-          Mode=TwoWay}" Placeholder="Type your mobile no..." FontSize="13"/>
-        <Button Command="{Binding RegisterCommand}" Text="Sign in" Style="{StaticResource DefaultButton}"/>
+          Mode=TwoWay}" Placeholder="Type your mobile no..." Style="{StaticResource DefaultEntry}"/>
+        <Button Command="{Binding RegisterCommand}" Text="Register" Style="{StaticResource DefaultButton}"/>
       </StackLayout>
     </StackLayout>
   </ContentPage.Content>

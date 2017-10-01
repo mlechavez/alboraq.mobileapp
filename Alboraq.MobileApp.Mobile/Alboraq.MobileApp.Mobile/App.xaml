@@ -5,21 +5,55 @@
   <Application.Resources>
     <!-- Application resource dictionary -->
     <ResourceDictionary>
-      
+
+      <OnPlatform x:Key="DefaultFontFamily"
+                  x:TypeArguments="x:String"
+                  iOS="porsche-next-regular"
+                  Android="porsche-next-regular"/>
+
+      <OnPlatform x:Key="HeaderFontFamily"
+                  x:TypeArguments="x:String"
+                  iOS="PorscheNextTT-Regular"
+                  Android="porsche-next-thin.ttf#PorscheNextTT-Thin"/>
+
+
       <Style x:Key="DefaultLabel" TargetType="Label">
-        <Setter Property="FontSize" Value="13"/>  
+        <Setter Property="FontSize" Value="15"/>
         <Setter Property="TextColor" Value="#333"/>
+        <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}"/>
       </Style>
 
-      <Style x:Key="HeaderLabel" TargetType="Label">
-        <Setter Property="FontSize" Value="35"/>
+      <Style x:Key="LeadLabel" TargetType="Label">
+        <Setter Property="FontSize" Value="17"/>
         <Setter Property="TextColor" Value="#333"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="FontFamily" Value="{StaticResource HeaderFontFamily}"/>
+      </Style>
+
+
+      <Style x:Key="HeaderOneLabel" TargetType="Label">
+        <Setter Property="FontSize" Value="30"/>
+        <Setter Property="TextColor" Value="#333"/>
+        <Setter Property="FontFamily" Value="{StaticResource HeaderFontFamily}"/>
+      </Style>
+
+      <Style x:Key="HeaderTwoLabel" TargetType="Label">
+        <Setter Property="FontSize" Value="25"/>
+        <Setter Property="TextColor" Value="#333"/>
+        <Setter Property="FontFamily" Value="{StaticResource HeaderFontFamily}"/>
+      </Style>
+
+      <Style x:Key="DefaultEntry" TargetType="Entry">
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="TextColor" Value="#333"/>
+        <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}"/>
       </Style>
 
       <Style x:Key="DefaultButton" TargetType="Button">
         <Setter Property="BackgroundColor" Value="#333"/>
         <Setter Property="TextColor" Value="#fff"/>
         <Setter Property="FontSize" Value="13"/>
+        <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}"/>
       </Style>
 
     </ResourceDictionary>
