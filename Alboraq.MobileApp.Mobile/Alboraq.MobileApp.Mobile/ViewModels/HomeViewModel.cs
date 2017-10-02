@@ -1,6 +1,7 @@
 ﻿using Alboraq.MobileApp.Mobile.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -17,13 +18,14 @@ namespace Alboraq.MobileApp.Mobile.ViewModels
             GetFeatures();
         }
 
-        private List<Feature> _features;
-        public List<Feature> Features
+        private ObservableCollection<Feature> _features;
+        public ObservableCollection<Feature> Features
         {
-            get { return _features ?? (_features = new List<Feature>()); }
+            get { return _features ?? (_features = new ObservableCollection<Feature>()); }
             set
             {
                 _features = value;
+                OnPropertyChanged("Features");
             }
         }
 
@@ -46,7 +48,11 @@ namespace Alboraq.MobileApp.Mobile.ViewModels
                 new Feature { Title = "Products", Detail = "Start shopping now!" }
             };
 
-            Features.AddRange(featureList);
+            foreach (var feature in featureList)
+            {
+                Features.Add(feature);
+            }
+            
         }
     }
 }

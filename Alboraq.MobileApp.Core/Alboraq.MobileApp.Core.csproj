@@ -48,6 +48,7 @@
     <Compile Include="IRepositories\IOrderRepository.cs" />
     <Compile Include="IRepositories\IProductRepository.cs" />
     <Compile Include="IRepositories\IRepository.cs" />
+    <Compile Include="IUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

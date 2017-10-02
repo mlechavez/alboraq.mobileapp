@@ -99,8 +99,20 @@ class MonoPackageManager_Resources {
 	public static final String[] Assemblies = new String[]{
 		/* We need to ensure that "Alboraq.MobileApp.Mobile.Android.dll" comes first in this list. */
 		"Alboraq.MobileApp.Mobile.Android.dll",
-		"Alboraq.MobileApp.Mobile.dll",
+		"Akavache.dll",
+		"Akavache.Sqlite3.dll",
 		"FormsViewGroup.dll",
+		"Newtonsoft.Json.dll",
+		"Splat.dll",
+		"SQLitePCLRaw.batteries_e_sqlite3.dll",
+		"SQLitePCLRaw.batteries_v2.dll",
+		"SQLitePCLRaw.core.dll",
+		"SQLitePCLRaw.lib.e_sqlite3.dll",
+		"SQLitePCLRaw.provider.e_sqlite3.dll",
+		"System.Reactive.Core.dll",
+		"System.Reactive.Interfaces.dll",
+		"System.Reactive.Linq.dll",
+		"System.Reactive.PlatformServices.dll",
 		"Xamarin.Android.Support.Animated.Vector.Drawable.dll",
 		"Xamarin.Android.Support.Design.dll",
 		"Xamarin.Android.Support.v4.dll",
@@ -113,6 +125,7 @@ class MonoPackageManager_Resources {
 		"Xamarin.Forms.Platform.Android.dll",
 		"Xamarin.Forms.Platform.dll",
 		"Xamarin.Forms.Xaml.dll",
+		"Alboraq.MobileApp.Mobile.dll",
 	};
 	public static final String[] Dependencies = new String[]{
 	};

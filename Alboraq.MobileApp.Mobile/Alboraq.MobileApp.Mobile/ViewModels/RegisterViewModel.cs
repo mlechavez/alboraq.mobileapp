@@ -1,5 +1,6 @@
 ﻿using Alboraq.MobileApp.Mobile.Helpers;
 using Alboraq.MobileApp.Mobile.Models;
+using Alboraq.MobileApp.Mobile.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -38,8 +39,23 @@ namespace Alboraq.MobileApp.Mobile.ViewModels
         {
             get
             {
-                return new Command(()=> {
-                    _navigationService.DisplayAlert("Title", $"{RegisterModel.Email} {RegisterModel.Password} {RegisterModel.ConfirmPassword} {RegisterModel.PlateNo} {RegisterModel.MobileNo}", "Accept daw", "Cancel daw");
+                return new Command(async ()=> {
+                    var isSuccess = await _accountService.RegisterAsync(RegisterModel);
+                    if (isSuccess)
+                    {
+                        App.Current.MainPage = new TabbedPage()
+                        {
+                            Children =
+                            {
+                                new HomePage() { Title = "Home"},
+
+                            }
+                        };
+                    }
+                    else
+                    {
+                        await _navigationService.DisplayAlert("Failed", "Registration failed!", "Ok", "Cancel");
+                    }
                 });                   
             }
         }

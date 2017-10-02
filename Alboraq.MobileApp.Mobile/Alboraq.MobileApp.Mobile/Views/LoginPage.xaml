@@ -30,7 +30,7 @@
         <Label Text="Password:" Style="{StaticResource DefaultLabel}"/>
         <ContentView>
           <Entry Text="{Binding LoginModel.Password, 
-          Mode=TwoWay}" Placeholder="Type your password..." Style="{StaticResource DefaultEntry}"/>
+          Mode=TwoWay}" Placeholder="Type your password..." Style="{StaticResource DefaultEntry}" IsPassword="True"/>
         </ContentView>
         
         

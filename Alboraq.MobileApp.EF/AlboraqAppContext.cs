@@ -1,14 +1,21 @@
 ﻿using Alboraq.MobileApp.Core.Entities;
 using Alboraq.MobileApp.EF.EntityConfigurations;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
 
 namespace Alboraq.MobileApp.EF
 {
-    public class AlboraqAppContext : DbContext
+    public class ApplicationUser : IdentityUser
+    {
+        public string PlateNo { get; set; }
+    }
+
+    public class AlboraqAppContext : IdentityDbContext<ApplicationUser>
     {
         public AlboraqAppContext()
-            :base("DefaultConnection")
-        {
+            :base("DefaultConnection", throwIfV1Schema: false)
+        {            
         }
 
         public AlboraqAppContext(string nameOrConnectionString)
@@ -23,10 +30,13 @@ namespace Alboraq.MobileApp.EF
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Configurations.Add(new AppointmentConfiguration());
             modelBuilder.Configurations.Add(new OrderConfiguration());
             modelBuilder.Configurations.Add(new OrderDetailConfiguration());
             modelBuilder.Configurations.Add(new ProductConfiguration());
+                        
         }
-    }
+    }    
 }

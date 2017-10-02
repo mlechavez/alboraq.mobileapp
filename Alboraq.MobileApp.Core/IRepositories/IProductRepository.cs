@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Alboraq.MobileApp.Core.IRepositories
 {
-    public interface IProductRepo : IRepository<Product>
+    public interface IProductRepository : IRepository<Product>
     {
     }
 }

@@ -36,6 +36,8 @@ namespace Alboraq.MobileApp.Mobile.Models
             }
         }
 
+        public string grant_type { get; set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged([CallerMemberName]string propertyName = null)

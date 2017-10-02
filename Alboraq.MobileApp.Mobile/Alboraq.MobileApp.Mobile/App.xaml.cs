@@ -5,8 +5,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Reactive.Linq;
 using Xamarin.Forms;
+using System.Threading.Tasks;
+using Alboraq.MobileApp.Mobile.Helpers;
+using System.Diagnostics;
+using System.Collections;
 
 namespace Alboraq.MobileApp.Mobile
 {
@@ -20,31 +24,61 @@ namespace Alboraq.MobileApp.Mobile
         public static Page LoginPage { get; private set; }
         public static Page RegisterPage { get; private set; }
 
+             
+
         public App()
         {
             InitializeComponent();
-           
-            //abstract navigation 
-            var navigationService = new NavigationService();
 
-            WelcomeViewModel = new WelcomeViewModel(navigationService);
-            LoginViewModel = new LoginViewModel(null, navigationService);
-            RegisterViewModel = new RegisterViewModel(null, navigationService);
+            //abstract navigation             
+            var cacheService = new CacheService();
+            var accountService = new AccountService(cacheService);
 
-            MainPage = new NavigationPage(new WelcomePage());
-            LoginPage = new LoginPage();
-            RegisterPage = new RegisterPage();
-            
-            navigationService.Navigation = MainPage.Navigation;
-            navigationService.MyPage = MainPage;
-            
+
+            Task.Run(async () => 
+            {
+                IEnumerable<string> keys = await cacheService.GetAllKeys();
+                foreach (var item in keys)
+                {
+                    Debug.WriteLine(item);
+                }
+                
+            });
+
+            bool loggedin = false;
+
+            if (loggedin)
+            {
+                MainPage = new TabbedPage()
+                {
+                    Children =
+                    {
+                        new HomePage() { Title = "Title" }
+                    }
+                };
+            }
+            else
+            {
+                var navigationService = new NavigationService();
+                WelcomeViewModel = new WelcomeViewModel(navigationService);
+                LoginViewModel = new LoginViewModel(accountService, navigationService);
+                RegisterViewModel = new RegisterViewModel(accountService, navigationService);
+
+
+
+                MainPage = new NavigationPage(new WelcomePage());
+                LoginPage = new LoginPage();
+                RegisterPage = new RegisterPage();
+                navigationService.Navigation = MainPage.Navigation;
+                navigationService.MyPage = MainPage;
+            }                                    
         }
 
-        void SetViewModels()
-        {
-
+        async Task GetCredentials(IAccountService accountService)
+        {            
+            await accountService.IsLoggedIn();                        
         }
-
+        
 
         protected override void OnStart()
         {
@@ -53,6 +87,7 @@ namespace Alboraq.MobileApp.Mobile
 
         protected override void OnSleep()
         {
+            
             // Handle when your app sleeps
         }
 

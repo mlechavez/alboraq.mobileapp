@@ -1,7 +1,10 @@
 ﻿using Alboraq.MobileApp.Mobile.Helpers;
 using Alboraq.MobileApp.Mobile.Models;
 using Alboraq.MobileApp.Mobile.Views;
+using Newtonsoft.Json;
+using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -11,6 +14,7 @@ namespace Alboraq.MobileApp.Mobile.ViewModels
     public class LoginViewModel : INotifyPropertyChanged
     {
         private readonly IAccountService _accountService;
+        //private readonly ICacheService _cacheService;
         private readonly INavigationService _navigationService;
        
 
@@ -21,16 +25,23 @@ namespace Alboraq.MobileApp.Mobile.ViewModels
             
         }
 
-        private LoginModel _loginModel;        
-        public LoginModel LoginModel
+        private string _username;
+
+        public string Username
         {
-            get { return _loginModel ?? (_loginModel = new LoginModel()); }
-            set
-            {
-                if(_loginModel != value) {
-                    _loginModel = value;
-                    OnPropertyChanged("LoginModel");
-                }
+            get { return _username; }
+            set { _username = value;
+                OnPropertyChanged("Username");
+            }
+        }
+
+        private string _password;
+
+        public string Password
+        {
+            get { return _password; }
+            set { _password = value;
+                OnPropertyChanged("Password");
             }
         }
 
@@ -47,36 +58,27 @@ namespace Alboraq.MobileApp.Mobile.ViewModels
             //TODO: REPLACE
             get
             {
-                return new Command( ()=> 
+                return new Command(async ()=> 
                 {
-                    _navigationService.PopToRootAsync();
-                    App.Current.MainPage = new TabbedPage()
+                    var isSuccess = await _accountService.LoginAsync(Username, Password);
+                                        
+                    if (isSuccess)
                     {
-                        Children =
+                        App.Current.MainPage = new TabbedPage()
                         {
-                            new HomePage() {
-                                Title = "Home"
-                            },
-                            new MessagePage() {
-                                Title = "Messages"
-                            },
-                            new AboutPage() {
-                                Title = "About"
-                            },
-                            new MessagePage() {
-                                Title = "Messages"
-                            },
-                            new AboutPage() {
-                                Title = "About"
+                            Children =
+                            {
+                                new HomePage() { Title = "Home"},
+
                             }
-                        }
-                    };
-                    //var isSuccess = await _accountService.Login(string.Empty, string.Empty, "password");
-                    //if(isSuccess)
+                        };
+                    }
+                    else
+                    {                        
+                        await _navigationService.DisplayAlert("Failed", "Login failed! Please try again.", "Ok", "Cancel");
+                    }
                 });
             }
         }
-
-
     }
 }

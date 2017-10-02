@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Alboraq.MobileApp.Mobile.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,7 @@ namespace Alboraq.MobileApp.Mobile.Views
     {
         public HomePage()
         {
-            InitializeComponent();
+            InitializeComponent();            
         }
     }
 }
