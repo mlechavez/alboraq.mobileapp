@@ -12,5 +12,6 @@ namespace Alboraq.MobileApp.Mobile.Helpers
         Task InsertObject<T>(string key, T Value);
         Task RemoveObject(string key);
         Task<IEnumerable<string>> GetAllKeys();
+
     }
 }

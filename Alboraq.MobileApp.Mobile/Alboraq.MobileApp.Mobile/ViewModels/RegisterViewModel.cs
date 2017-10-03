@@ -1,13 +1,10 @@
 ﻿using Alboraq.MobileApp.Mobile.Helpers;
 using Alboraq.MobileApp.Mobile.Models;
 using Alboraq.MobileApp.Mobile.Views;
-using System;
-using System.Collections.Generic;
+using Newtonsoft.Json;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -29,9 +26,23 @@ namespace Alboraq.MobileApp.Mobile.ViewModels
         public RegisterModel RegisterModel
         {
             get { return _registerModel ?? (_registerModel = new RegisterModel()); }
-            set {
+            set
+            {
                 _registerModel = value;
                 OnPropertyChanged("RegisterModel");
+            }
+        }
+
+        private bool _canRegister = true;
+
+        public bool CanRegister
+        {
+            get { return _canRegister; }
+            set
+            {
+                _canRegister = value;
+                OnPropertyChanged("CanRegister");
+                ((Command)RegisterCommand).ChangeCanExecute();
             }
         }
 
@@ -39,24 +50,41 @@ namespace Alboraq.MobileApp.Mobile.ViewModels
         {
             get
             {
-                return new Command(async ()=> {
-                    var isSuccess = await _accountService.RegisterAsync(RegisterModel);
-                    if (isSuccess)
+                return new Command(async () =>
+                {
+                    var response = await _accountService.RegisterAsync(RegisterModel);
+
+                    if (response.IsSuccessStatusCode)
                     {
                         App.Current.MainPage = new TabbedPage()
                         {
                             Children =
                             {
                                 new HomePage() { Title = "Home"},
-
+                                new AboutPage() { Title = "About"},
                             }
                         };
                     }
                     else
                     {
-                        await _navigationService.DisplayAlert("Failed", "Registration failed!", "Ok", "Cancel");
+                        var content = await response.Content.ReadAsStringAsync();
+
+                        ErrorRegister json = JsonConvert.DeserializeObject<ErrorRegister>(content);
+
+                        StringBuilder strBuilder = new StringBuilder();
+
+                        foreach (var item in json.ModelState.Values)
+                        {
+                            foreach (var error in item)
+                            {
+                                strBuilder.AppendLine(error);
+                            }
+                        }
+
+                        await _navigationService.DisplayAlert("Registration failed", $"{strBuilder.ToString()}", "Ok", "Cancel");
+
                     }
-                });                   
+                }, () => CanRegister);
             }
         }
 

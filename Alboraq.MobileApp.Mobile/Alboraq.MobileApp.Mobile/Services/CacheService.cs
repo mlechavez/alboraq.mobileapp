@@ -13,7 +13,7 @@ namespace Alboraq.MobileApp.Mobile.Services
     {
         public CacheService()
         {
-            BlobCache.ApplicationName = "AlboraqApp";
+            BlobCache.ApplicationName = "AlboraqApp";              
         }
 
         public async Task<IEnumerable<string>> GetAllKeys()
@@ -43,5 +43,7 @@ namespace Alboraq.MobileApp.Mobile.Services
         {
             await BlobCache.LocalMachine.Invalidate(key);            
         }
+
+
     }
 }

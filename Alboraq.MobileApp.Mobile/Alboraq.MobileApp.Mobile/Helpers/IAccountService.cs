@@ -10,8 +10,7 @@ namespace Alboraq.MobileApp.Mobile.Helpers
 {
     public interface IAccountService
     {
-        Task<bool> LoginAsync(string username, string password);
-        Task<bool> RegisterAsync(RegisterModel registerModel);
-        Task<bool> IsLoggedIn();
+        Task<HttpResponseMessage> LoginAsync(string username, string password);
+        Task<HttpResponseMessage> RegisterAsync(RegisterModel registerModel);
     }
 }

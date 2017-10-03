@@ -6,6 +6,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -23,6 +24,21 @@ namespace Alboraq.MobileApp.Mobile.ViewModels
             _accountService = accountService;
             _navigationService = navigationService;
             
+        }
+
+        private bool _canLogin = true;
+
+        public bool CanLogin 
+        {
+            get { return _canLogin; }
+            set {
+                if(_canLogin != value)
+                {
+                    _canLogin = value;
+                    OnPropertyChanged("CanLogin");
+                    ((Command)SignInCommand).ChangeCanExecute();
+                }                
+            }
         }
 
         private string _username;
@@ -45,6 +61,17 @@ namespace Alboraq.MobileApp.Mobile.ViewModels
             }
         }
 
+        private string _btnMsg;
+
+        public string BtnMessage
+        {
+            get { return _btnMsg ?? (_btnMsg = "Sign in"); }
+            set { _btnMsg = value;
+                OnPropertyChanged("BtnMessage");
+            }
+        }
+
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged([CallerMemberName]string propertyName = null)
@@ -52,32 +79,38 @@ namespace Alboraq.MobileApp.Mobile.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-
         public ICommand SignInCommand
-        {
-            //TODO: REPLACE
+        {            
             get
             {
                 return new Command(async ()=> 
                 {
-                    var isSuccess = await _accountService.LoginAsync(Username, Password);
-                                        
-                    if (isSuccess)
+                    CanLogin = false;
+                    BtnMessage = "Signing in... please wait";
+                    var response = await _accountService.LoginAsync(Username, Password);
+                    
+                    if (response.IsSuccessStatusCode)
                     {
+                        CanLogin = true;
+                        BtnMessage = "Sign in";
                         App.Current.MainPage = new TabbedPage()
                         {
                             Children =
                             {
                                 new HomePage() { Title = "Home"},
-
+                                new AboutPage() { Title = "About"}
                             }
                         };
                     }
                     else
-                    {                        
-                        await _navigationService.DisplayAlert("Failed", "Login failed! Please try again.", "Ok", "Cancel");
+                    {
+                        var content = await response.Content.ReadAsStringAsync();
+
+                        ErrorLogin errorLogin = JsonConvert.DeserializeObject<ErrorLogin>(content);                                                
+
+                        await _navigationService.DisplayAlert("Login failed", $"{errorLogin.Description}", "Ok", "Cancel");
                     }
-                });
+                }, ()=> CanLogin);
             }
         }
     }

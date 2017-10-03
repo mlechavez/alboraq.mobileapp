@@ -23,9 +23,9 @@
 
       <StackLayout>
 
-        <Label Text="Username:" Style="{StaticResource DefaultLabel}"/>
+        <Label Text="Email:" Style="{StaticResource DefaultLabel}"/>
         <Entry Text="{Binding RegisterModel.Email,
-          Mode=TwoWay}" Placeholder="Type your username..." Style="{StaticResource DefaultEntry}"/>
+          Mode=TwoWay}" Placeholder="Type your email..." Style="{StaticResource DefaultEntry}"/>
 
         <Label Text="Password:" Style="{StaticResource DefaultLabel}"/>
         <Entry Text="{Binding RegisterModel.Password, 

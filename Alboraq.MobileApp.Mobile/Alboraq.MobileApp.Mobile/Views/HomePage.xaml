@@ -12,6 +12,16 @@
     <StackLayout HorizontalOptions="FillAndExpand" Padding="10,10,10,0" BackgroundColor="White">
 
       <Label Text="Home page"/>
+
+      <StackLayout Spacing="10">
+        <Label Text="{Binding LoginTest.AccessToken}" FontSize="15"/>
+        <Label Text="{Binding LoginTest.TokenType}" FontSize="15"/>
+        <Label Text="{Binding LoginTest.ExpiresIn}" FontSize="15"/>
+        <Label Text="{Binding LoginTest.Username}" FontSize="15"/>
+        <Label Text="{Binding LoginTest.DateIssued}" FontSize="15"/>
+        <Label Text="{Binding LoginTest.DateExpires}" FontSize="15"/>
+      </StackLayout>
+      
       <ListView ItemsSource="{Binding Features}">
         <ListView.ItemTemplate>
           <DataTemplate>

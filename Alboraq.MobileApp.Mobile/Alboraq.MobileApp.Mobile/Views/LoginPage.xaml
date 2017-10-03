@@ -23,19 +23,19 @@
       <StackLayout Margin="0,30, 0, 0">
         <Label Text="Username:" Style="{StaticResource DefaultLabel}"/>
         <ContentView>
-          <Entry Text="{Binding LoginModel.Username, 
+          <Entry Text="{Binding Username, 
           Mode=TwoWay}" Placeholder="Type your username..." Style="{StaticResource DefaultEntry}"/>
         </ContentView>
 
         <Label Text="Password:" Style="{StaticResource DefaultLabel}"/>
         <ContentView>
-          <Entry Text="{Binding LoginModel.Password, 
+          <Entry Text="{Binding Password, 
           Mode=TwoWay}" Placeholder="Type your password..." Style="{StaticResource DefaultEntry}" IsPassword="True"/>
         </ContentView>
         
         
         
-        <Button Command="{Binding SignInCommand}" Text="Sign in" Style="{StaticResource DefaultButton}"/>
+        <Button Command="{Binding SignInCommand}" Text="{Binding BtnMessage}" Style="{StaticResource DefaultButton}"/>
       </StackLayout>
 
       

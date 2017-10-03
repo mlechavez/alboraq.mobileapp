@@ -1,8 +1,10 @@
-﻿using Alboraq.MobileApp.Mobile.Models;
+﻿using Akavache;
+using Alboraq.MobileApp.Mobile.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -16,6 +18,19 @@ namespace Alboraq.MobileApp.Mobile.ViewModels
         public HomeViewModel()
         {
             GetFeatures();
+            
+            BlobCache.Secure.GetObject<AppCredentials>("login")
+                .Subscribe(x => LoginTest = x, exs => Debug.WriteLine("no key!"));            
+        }
+
+        private AppCredentials _login;
+
+        public AppCredentials LoginTest
+        {
+            get { return _login; }
+            set { _login = value;
+                OnPropertyChanged("LoginTest");
+            }
         }
 
         private ObservableCollection<Feature> _features;

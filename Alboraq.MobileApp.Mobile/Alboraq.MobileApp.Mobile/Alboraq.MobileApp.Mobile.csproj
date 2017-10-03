@@ -42,6 +42,7 @@
     <Compile Include="Helpers\IAccountService.cs" />
     <Compile Include="Helpers\ICacheService.cs" />
     <Compile Include="Models\AppCredentials.cs" />
+    <Compile Include="Models\ErrorModels.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Services\AccountService.cs" />
     <Compile Include="Helpers\INavigationService.cs" />

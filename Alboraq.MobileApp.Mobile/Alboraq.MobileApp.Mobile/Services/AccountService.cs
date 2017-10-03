@@ -8,25 +8,21 @@ using Alboraq.MobileApp.Mobile.Models;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Reactive.Linq;
+using Akavache;
+using System.Diagnostics;
 
 namespace Alboraq.MobileApp.Mobile.Services
 {
     public class AccountService : IAccountService
-    {
-        private readonly ICacheService _cacheService;
+    {        
 
-        public AccountService(ICacheService cacheService)
+        public AccountService()
         {
-            _cacheService = cacheService;
+            BlobCache.ApplicationName = "AlboraqApp";
+            BlobCache.EnsureInitialized();      
         }
 
-        public async Task<bool> IsLoggedIn()
-        {
-            var credentials = await _cacheService.GetObject<AppCredentials>("appCredentials");
-            return credentials != null;
-        }
-
-        public async Task<bool> LoginAsync(string username, string password)
+        public async Task<HttpResponseMessage> LoginAsync(string username, string password)
         {
             var keyValues = new List<KeyValuePair<string, string>> {
                 new KeyValuePair<string, string>("username", username),
@@ -46,40 +42,42 @@ namespace Alboraq.MobileApp.Mobile.Services
             {                
                 var content = await response.Content.ReadAsStringAsync();
 
-                AppCredentials credentials = JsonConvert.DeserializeObject<AppCredentials>(content);                
-
-                await _cacheService.InsertObject("appCredentials", credentials);
-                return true;
+                AppCredentials login = JsonConvert.DeserializeObject<AppCredentials>(content);
+                await BlobCache.Secure.InsertObject("login", login);
+                return response;
             }
-            return false;
+            return response;
         }
 
-        public async Task<bool> RegisterAsync(RegisterModel registerModel)
+        public async Task<HttpResponseMessage> RegisterAsync(RegisterModel registerModel)
         {
             if (registerModel == null) throw new ArgumentNullException("loginModel");
             
-
             var json = JsonConvert.SerializeObject(registerModel);
-
             var content = new StringContent(json);
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-            var client = new HttpClient();
-            var responseMessage = await client.PostAsync("http://10.0.2.2:8085/api/account/register", content);
+            var request = new HttpRequestMessage(HttpMethod.Post, "http://10.0.2.2:8085/api/account/register");
 
-            if (responseMessage.IsSuccessStatusCode)
+            request.Content = content;
+
+            
+            var client = new HttpClient();
+            var response = await client.SendAsync(request);
+            
+            if (response.IsSuccessStatusCode)
             {
-                var isSuccess = await LoginAsync(registerModel.Email, registerModel.Password);
-                if (isSuccess)
+                var loginResponse = await LoginAsync(registerModel.Email, registerModel.Password);
+                if (loginResponse.IsSuccessStatusCode)
                 {
-                    return true;
+                    var loginContent = await loginResponse.Content.ReadAsStringAsync();
+                    AppCredentials login = JsonConvert.DeserializeObject<AppCredentials>(loginContent);
+
+                    await BlobCache.Secure.InsertObject("login", login);
+                    return response;
                 }
-                else
-                {
-                    return false;
-                }
-            }
-            return false;
-        }
+            }            
+            return response;
+        }       
     }
 }
