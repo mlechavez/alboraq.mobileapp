@@ -1,5 +1,6 @@
 ﻿using Alboraq.MobileApp.Mobile.Helpers;
 using Alboraq.MobileApp.Mobile.Models;
+using Alboraq.MobileApp.Mobile.Services;
 using Alboraq.MobileApp.Mobile.Views;
 using System;
 using System.Collections.Generic;
@@ -14,23 +15,37 @@ using Xamarin.Forms;
 namespace Alboraq.MobileApp.Mobile.ViewModels
 {
     public class WelcomeViewModel : INotifyPropertyChanged
-    {
-        private readonly INavigationService _navigationService;
+    {        
+        public WelcomeViewModel()
+        {                        
+        }
 
-        public WelcomeViewModel(INavigationService navigationService)
-        {
-            _navigationService = navigationService;
-            
-        }               
+        public INavigation Navigation { get; set; }
 
         public ICommand GotoSignInPageCommand
         {
-            get { return new Command(() => _navigationService.PushAsync(App.LoginPage)); }
+            get
+            {
+                return new Command(async () =>
+                {
+                    var loginPage = new LoginPage();
+                    
+                    await Navigation.PushAsync(loginPage, true);
+                });
+            }
         }
 
         public ICommand GotoRegisterPageCommand
         {
-            get { return new Command(() => _navigationService.PushAsync(App.RegisterPage)); }
+            get
+            {
+                return new Command(async () => 
+                {
+                    var registerPage = new RegisterPage();
+
+                    await Navigation.PushAsync(registerPage, true);
+                });
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

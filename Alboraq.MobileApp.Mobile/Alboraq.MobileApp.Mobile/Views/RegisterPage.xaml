@@ -2,26 +2,26 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Alboraq.MobileApp.Mobile.Views.RegisterPage"
-             xmlns:local="clr-namespace:Alboraq.MobileApp.Mobile;assembly=Alboraq.MobileApp.Mobile"
-             BindingContext="{x:Static local:App.RegisterViewModel}">
+             xmlns:local="clr-namespace:Alboraq.MobileApp.Mobile.ViewModels"
+             Title="Register">
   
   <ContentPage.Content>
-    <StackLayout HorizontalOptions="FillAndExpand" Padding="10,10,10,0" BackgroundColor="White">
+    <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="White">
 
       <Label Text="Porsche Centre Doha"
              Style="{StaticResource HeaderOneLabel}"
              HorizontalOptions="Center"/>
 
-      <Label Text="Alboraq Automobiles Co. W.L.L" HorizontalOptions="Center" 
-             Style="{StaticResource DefaultLabel}"/>
+      <Label Text="Alboraq Automobiles Co w.l.l"
+             Style="{StaticResource DefaultLabel}"
+             HorizontalOptions="Center"/>
 
       <Image Source="porsche_marquee_l_r.jpg" Margin="10"/>
 
       <BoxView HeightRequest="0.5" BackgroundColor="Silver" HorizontalOptions="FillAndExpand"></BoxView>
-      
-      <Label Text="Register your account" Style="{StaticResource HeaderOneLabel}"/>
-
-      <StackLayout>
+            
+      <StackLayout Padding="20">
+        <Label Text="Register your account" Style="{StaticResource HeaderOneLabel}"/>
 
         <Label Text="Email:" Style="{StaticResource DefaultLabel}"/>
         <Entry Text="{Binding RegisterModel.Email,

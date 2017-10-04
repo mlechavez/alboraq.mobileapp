@@ -1,10 +1,41 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Alboraq.MobileApp.Mobile.Views.AboutPage">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="About Page" />
-        </StackLayout>
-    </ContentPage.Content>
+             x:Class="Alboraq.MobileApp.Mobile.Views.AboutPage"
+             Title="About">
+  
+  <ContentPage.Content>
+    <StackLayout Padding="20">
+      <Label Text="Founded as a Qatari company with limited liability according to the Rules and Regulations of the state of Qatar in August 2005."
+             Style="{StaticResource DefaultLabel}"/>
+
+      <Label Text="Al Boraq Automobiles Company is fully owned and registered in the Qatari Chamber of the Commerce under the name of:"
+             Style="{StaticResource DefaultLabel}"/>
+
+      <Label Text="Salman J. Al Darwish" FontAttributes="Bold"
+             FontSize="17" FontFamily="{StaticResource DefaultFontFamily}"/>
+
+      <Label Text="Official opration started on 1st October 2005 and 1st unit deliverred on 5th November 2005."
+             Style="{StaticResource DefaultLabel}"/>
+
+      <Label Text="The construction of the workshop started on 1st of August 2005 and first vehicle was received for repairs on 1st of October 2005, only two months later."
+             Style="{StaticResource DefaultLabel}"/>
+
+      <Label Text="Workshop facility was complted December 2005."
+             Style="{StaticResource DefaultLabel}"/>
+
+      <Label Text="The official inauguration of Showroom and Workshop by Dr. WendelinWeideking took place o 14th of March 2006."
+             Style="{StaticResource DefaultLabel}"/>
+
+      <Label Text="Launch of the compny and the new Cayman S on December 2006"
+             Style="{StaticResource DefaultLabel}"/>
+
+      <Label Text="Qatar record sales of 347 units on the 1st year of operation."
+             Style="{StaticResource DefaultLabel}"/>
+
+      <Label Text="Inauguration of Quick service Centre in January 2009."
+             Style="{StaticResource DefaultLabel}"/>
+
+    </StackLayout>
+  </ContentPage.Content>
 </ContentPage>

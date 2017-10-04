@@ -12,14 +12,13 @@ namespace Alboraq.MobileApp.Mobile.ViewModels
 {
     public class RegisterViewModel : INotifyPropertyChanged
     {
-        private readonly INavigationService _navigationService;
-        private readonly IAccountService _accountService;
-
-        public RegisterViewModel(IAccountService accountService, INavigationService navigationService)
-        {
-            _accountService = accountService;
-            _navigationService = navigationService;
+        
+        public RegisterViewModel()
+        {            
         }
+        public INavigation Navigation { get; set; }
+        public IAccountService AccountService { get; set; }
+        public Page Page { get; set; }
 
         private RegisterModel _registerModel;
 
@@ -46,24 +45,33 @@ namespace Alboraq.MobileApp.Mobile.ViewModels
             }
         }
 
+        private string _btnRegisterText;
+
+        public string BtnRegisterText
+        {
+            get { return _btnRegisterText; }
+            set { _btnRegisterText = value;
+                OnPropertyChanged("BtnRegisterText");
+            }
+        }
+
+
         public ICommand RegisterCommand
         {
             get
             {
                 return new Command(async () =>
                 {
-                    var response = await _accountService.RegisterAsync(RegisterModel);
+                    CanRegister = false;
+                    BtnRegisterText = "Registering... please wait";
+                    var response = await AccountService.RegisterAsync(RegisterModel);
 
                     if (response.IsSuccessStatusCode)
                     {
-                        App.Current.MainPage = new TabbedPage()
-                        {
-                            Children =
-                            {
-                                new HomePage() { Title = "Home"},
-                                new AboutPage() { Title = "About"},
-                            }
-                        };
+                        CanRegister = true;
+                        BtnRegisterText = "Register";
+
+                        App.SetHomePage();
                     }
                     else
                     {
@@ -81,7 +89,7 @@ namespace Alboraq.MobileApp.Mobile.ViewModels
                             }
                         }
 
-                        await _navigationService.DisplayAlert("Registration failed", $"{strBuilder.ToString()}", "Ok", "Cancel");
+                        await Page.DisplayAlert("Registration failed", $"{strBuilder.ToString()}", "Ok", "Cancel");
 
                     }
                 }, () => CanRegister);

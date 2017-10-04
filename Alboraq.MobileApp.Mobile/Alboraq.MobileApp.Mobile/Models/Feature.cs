@@ -10,5 +10,6 @@ namespace Alboraq.MobileApp.Mobile.Models
     {
         public string Title { get; set; }
         public string Detail { get; set; }
+        public string ImageUrl { get; set; }
     }
 }

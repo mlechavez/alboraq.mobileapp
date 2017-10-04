@@ -66,3 +66,5 @@ C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.Mobile\Alboraq.Mobile
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.Mobile\Alboraq.MobileApp.Mobile\bin\Debug\System.Reactive.Interfaces.xml
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.Mobile\Alboraq.MobileApp.Mobile\bin\Debug\System.Reactive.Linq.xml
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.Mobile\Alboraq.MobileApp.Mobile\bin\Debug\System.Reactive.PlatformServices.xml
+C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.Mobile\Alboraq.MobileApp.Mobile\obj\Debug\Alboraq.MobileApp.Mobile.Views.CallUsPage.xaml.g.cs
+C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.Mobile\Alboraq.MobileApp.Mobile\obj\Debug\Alboraq.MobileApp.Mobile.Views.DirectionsPage.xaml.g.cs

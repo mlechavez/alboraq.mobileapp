@@ -1,5 +1,6 @@
 ﻿using Alboraq.MobileApp.Mobile.Helpers;
 using Alboraq.MobileApp.Mobile.Models;
+using Alboraq.MobileApp.Mobile.Renderers;
 using Alboraq.MobileApp.Mobile.Views;
 using Newtonsoft.Json;
 using System;
@@ -13,18 +14,16 @@ using Xamarin.Forms;
 namespace Alboraq.MobileApp.Mobile.ViewModels
 {
     public class LoginViewModel : INotifyPropertyChanged
-    {
-        private readonly IAccountService _accountService;
-        //private readonly ICacheService _cacheService;
-        private readonly INavigationService _navigationService;
+    {        
        
 
-        public LoginViewModel(IAccountService accountService, INavigationService navigationService)
-        {
-            _accountService = accountService;
-            _navigationService = navigationService;
-            
+        public LoginViewModel()
+        {            
+                        
         }
+        public INavigation Navigation { get; set; }
+        public IAccountService AccountService { get; set; }
+        public Page Page { get; set; }
 
         private bool _canLogin = true;
 
@@ -83,35 +82,32 @@ namespace Alboraq.MobileApp.Mobile.ViewModels
         {            
             get
             {
-                return new Command(async ()=> 
+                return new Command( ()=> 
                 {
-                    CanLogin = false;
-                    BtnMessage = "Signing in... please wait";
-                    var response = await _accountService.LoginAsync(Username, Password);
+                    App.SetHomePage();
+
+                    //CanLogin = false;
+                    //BtnMessage = "Signing in... please wait";
+                    //var response = await _accountService.LoginAsync(Username, Password);
                     
-                    if (response.IsSuccessStatusCode)
-                    {
-                        CanLogin = true;
-                        BtnMessage = "Sign in";
-                        App.Current.MainPage = new TabbedPage()
-                        {
-                            Children =
-                            {
-                                new HomePage() { Title = "Home"},
-                                new AboutPage() { Title = "About"}
-                            }
-                        };
-                    }
-                    else
-                    {
-                        var content = await response.Content.ReadAsStringAsync();
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    //    CanLogin = true;
+                    //    BtnMessage = "Sign in";
+                    //    App.SetMainPage();                    
+                    //}
+                    //else
+                    //{
+                    //    var content = await response.Content.ReadAsStringAsync();
 
-                        ErrorLogin errorLogin = JsonConvert.DeserializeObject<ErrorLogin>(content);                                                
+                    //    ErrorLogin errorLogin = JsonConvert.DeserializeObject<ErrorLogin>(content);                                                
 
-                        await _navigationService.DisplayAlert("Login failed", $"{errorLogin.Description}", "Ok", "Cancel");
-                    }
+                    //    await _navigationService.DisplayAlert("Login failed", $"{errorLogin.Description}", "Ok", "Cancel");
+                    //}
                 }, ()=> CanLogin);
             }
         }
+
+        
     }
 }

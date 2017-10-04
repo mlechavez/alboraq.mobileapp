@@ -17,21 +17,8 @@ namespace Alboraq.MobileApp.Mobile.ViewModels
         
         public HomeViewModel()
         {
-            GetFeatures();
-            
-            BlobCache.Secure.GetObject<AppCredentials>("login")
-                .Subscribe(x => LoginTest = x, exs => Debug.WriteLine("no key!"));            
-        }
-
-        private AppCredentials _login;
-
-        public AppCredentials LoginTest
-        {
-            get { return _login; }
-            set { _login = value;
-                OnPropertyChanged("LoginTest");
-            }
-        }
+            GetFeatures();                            
+        }        
 
         private ObservableCollection<Feature> _features;
         public ObservableCollection<Feature> Features
@@ -56,11 +43,16 @@ namespace Alboraq.MobileApp.Mobile.ViewModels
         {
             var featureList = new List<Feature>
             {
-                new Feature { Title = "Appointment", Detail = "Set a service appointment for your car and receive a confirmation" },
-                new Feature { Title = "Menu Packages", Detail = "Price list of services based on the model of your car" },
-                new Feature { Title = "Special Offers", Detail = "Get inside and on our on-going offers!" },                
-                new Feature { Title = "Porsche Car Configurator", Detail = "Start building your car here." },
-                new Feature { Title = "Products", Detail = "Start shopping now!" }
+                new Feature { Title = "Appointment", Detail = "Make an appointment",
+                    ImageUrl ="https://xamarin.com/content/images/pages/forms/example-app.png" },
+                new Feature { Title = "Products", Detail = "Start shopping now!",
+                    ImageUrl ="https://xamarin.com/content/images/pages/forms/example-app.png"},
+                new Feature { Title = "Porsche Car Configurator", Detail = "Build your car.",
+                    ImageUrl ="https://xamarin.com/content/images/pages/forms/example-app.png" },
+                new Feature { Title = "Menu Packages", Detail = "Packages suited for your car",
+                    ImageUrl ="https://xamarin.com/content/images/pages/forms/example-app.png" },
+                new Feature { Title = "Special Offers", Detail = "Get inside and on our on-going offers!",
+                    ImageUrl ="https://xamarin.com/content/images/pages/forms/example-app.png" }                
             };
 
             foreach (var feature in featureList)

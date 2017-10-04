@@ -11,7 +11,7 @@ namespace Alboraq.MobileApp.Mobile.Services
     public class NavigationService : INavigationService
     {
         public INavigation Navigation { get; internal set; }
-        public Page MyPage { get; set; }
+        public Page NavigationPage { get; set; }
 
         public IReadOnlyList<Page> ModalStack
         {
@@ -91,7 +91,7 @@ namespace Alboraq.MobileApp.Mobile.Services
 
         public Task<bool> DisplayAlert(string title, string message, string accept, string cancel = null)
         {
-            return MyPage.DisplayAlert(title, message, accept, cancel);
+            return NavigationPage.DisplayAlert(title, message, accept, cancel);
         }
     }
 }

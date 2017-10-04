@@ -2,36 +2,42 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Alboraq.MobileApp.Mobile.Views.HomePage"
-             xmlns:vm="clr-namespace:Alboraq.MobileApp.Mobile.ViewModels">
+             xmlns:vm="clr-namespace:Alboraq.MobileApp.Mobile.ViewModels"
+             Title="Home">
 
   <ContentPage.BindingContext>
     <vm:HomeViewModel/>
   </ContentPage.BindingContext>
-  
-    <ContentPage.Content>
-    <StackLayout HorizontalOptions="FillAndExpand" Padding="10,10,10,0" BackgroundColor="White">
 
-      <Label Text="Home page"/>
+  <ContentPage.ToolbarItems>
+    <ToolbarItem Text="Test tool bar"></ToolbarItem>
+  </ContentPage.ToolbarItems>
 
-      <StackLayout Spacing="10">
-        <Label Text="{Binding LoginTest.AccessToken}" FontSize="15"/>
-        <Label Text="{Binding LoginTest.TokenType}" FontSize="15"/>
-        <Label Text="{Binding LoginTest.ExpiresIn}" FontSize="15"/>
-        <Label Text="{Binding LoginTest.Username}" FontSize="15"/>
-        <Label Text="{Binding LoginTest.DateIssued}" FontSize="15"/>
-        <Label Text="{Binding LoginTest.DateExpires}" FontSize="15"/>
-      </StackLayout>
-      
-      <ListView ItemsSource="{Binding Features}">
+  <ContentPage.Content>
+    <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="White">
+
+      <ListView ItemsSource="{Binding Features}"
+                HasUnevenRows="True">
         <ListView.ItemTemplate>
           <DataTemplate>
-            <TextCell Text="{Binding Title}"
-                      Detail="{Binding Detail}">
-            </TextCell>
+            <ViewCell>
+              <ViewCell.View>
+                <StackLayout Padding="15">
+                  <Label Text="{Binding Title}" FontSize="17"
+                         FontFamily="{StaticResource HeaderFontFamily}"
+                         TextColor="Red" HorizontalOptions="Center"/>
+                  <Image Source="{Binding ImageUrl}" HorizontalOptions="Center" WidthRequest="100" HeightRequest="100"
+                       Margin="5,5,5,10"/>
+                  <Label Text="{Binding Detail}" FontSize="15" FontAttributes="Bold"
+                         FontFamily="{StaticResource DefaultFontFamily}"
+                         HorizontalOptions="Center"/>
+                </StackLayout>
+              </ViewCell.View>
+            </ViewCell>
           </DataTemplate>
         </ListView.ItemTemplate>
       </ListView>
-      
+
     </StackLayout>
-    </ContentPage.Content>
+  </ContentPage.Content>
 </ContentPage>

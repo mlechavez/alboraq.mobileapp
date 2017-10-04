@@ -8,12 +8,12 @@
 
       <OnPlatform x:Key="DefaultFontFamily"
                   x:TypeArguments="x:String"
-                  iOS="porsche-next-regular"
-                  Android="porsche-next-regular"/>
+                  iOS="PorscheNextTT-Regular"
+                  Android="porsche-next-regular.ttf#PorscheNextTT-Regular"/>
 
       <OnPlatform x:Key="HeaderFontFamily"
                   x:TypeArguments="x:String"
-                  iOS="PorscheNextTT-Regular"
+                  iOS="PorscheNextTT-Thin"
                   Android="porsche-next-thin.ttf#PorscheNextTT-Thin"/>
 
 

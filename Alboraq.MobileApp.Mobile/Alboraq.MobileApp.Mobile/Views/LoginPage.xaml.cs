@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Alboraq.MobileApp.Mobile.Helpers;
+using Alboraq.MobileApp.Mobile.Services;
+using Alboraq.MobileApp.Mobile.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +18,12 @@ namespace Alboraq.MobileApp.Mobile.Views
         public LoginPage()
         {
             InitializeComponent();
+            var vm = new LoginViewModel();
+            vm.Navigation = Navigation;
+            vm.Page = this;
+            vm.AccountService = new AccountService();
+
+            BindingContext = vm;
         }
     }
 }

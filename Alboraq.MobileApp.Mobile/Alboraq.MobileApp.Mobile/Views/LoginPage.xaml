@@ -2,11 +2,10 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Alboraq.MobileApp.Mobile.Views.LoginPage"
-             xmlns:local="clr-namespace:Alboraq.MobileApp.Mobile;assembly=Alboraq.MobileApp.Mobile"
-             BindingContext="{x:Static local:App.LoginViewModel}">
-
+             xmlns:local="clr-namespace:Alboraq.MobileApp.Mobile.ViewModels">
+  
   <ContentPage.Content>
-    <StackLayout HorizontalOptions="FillAndExpand" Padding="10,10,10,0" BackgroundColor="White">
+    <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="White">
       <Label Text="Porsche Centre Doha"
              Style="{StaticResource HeaderOneLabel}"
              HorizontalOptions="Center"/>
@@ -18,9 +17,10 @@
 
       <BoxView HeightRequest="0.5" BackgroundColor="Silver" HorizontalOptions="FillAndExpand"></BoxView>
 
-      <Label Text="Sign in using your credentials" Style="{StaticResource HeaderOneLabel}"/>
+      <StackLayout Padding="20">
 
-      <StackLayout Margin="0,30, 0, 0">
+        <Label Text="Sign in using your credentials" Style="{StaticResource HeaderOneLabel}"/>
+        
         <Label Text="Username:" Style="{StaticResource DefaultLabel}"/>
         <ContentView>
           <Entry Text="{Binding Username, 

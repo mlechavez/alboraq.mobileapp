@@ -2,8 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Alboraq.MobileApp.Mobile.Views.WelcomePage"
-             xmlns:local="clr-namespace:Alboraq.MobileApp.Mobile;assembly=Alboraq.MobileApp.Mobile"
-             BindingContext="{x:Static local:App.WelcomeViewModel}">
+             xmlns:vm="clr-namespace:Alboraq.MobileApp.Mobile.ViewModels"
+             Title="Welcome">
 
   
   <ContentPage.Content>
@@ -13,11 +13,12 @@
              Style="{StaticResource HeaderOneLabel}"
              HorizontalOptions="Center"/>
 
-      <Label Text="Alboraq Automobiles Co. W.L.L" HorizontalOptions="Center" 
-             Style="{StaticResource DefaultLabel}"/>
+      <Label Text="Alboraq Automobiles Co w.l.l"
+             Style="{StaticResource DefaultLabel}"
+             HorizontalOptions="Center"/>
 
       <Image Source="porsche_marquee_l_r.jpg" Margin="10"/>
-
+      
       <BoxView HeightRequest="0.5" BackgroundColor="Silver" HorizontalOptions="FillAndExpand"></BoxView>
       
 
