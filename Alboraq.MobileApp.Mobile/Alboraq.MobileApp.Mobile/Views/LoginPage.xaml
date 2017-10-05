@@ -5,8 +5,8 @@
              xmlns:local="clr-namespace:Alboraq.MobileApp.Mobile.ViewModels">
   
   <ContentPage.Content>
-    <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="White">
-      <Label Text="Porsche Centre Doha"
+    <StackLayout HorizontalOptions="FillAndExpand" Padding="0, 20, 0, 0" BackgroundColor="White">
+      <!--<Label Text="Porsche Centre Doha"
              Style="{StaticResource HeaderOneLabel}"
              HorizontalOptions="Center"/>
 
@@ -15,12 +15,12 @@
 
       <Image Source="porsche_marquee_l_r.jpg" Margin="10"/>
 
-      <BoxView HeightRequest="0.5" BackgroundColor="Silver" HorizontalOptions="FillAndExpand"></BoxView>
+      <BoxView HeightRequest="0.5" BackgroundColor="Silver" HorizontalOptions="FillAndExpand"></BoxView>-->
 
       <StackLayout Padding="20">
 
         <Label Text="Sign in using your credentials" Style="{StaticResource HeaderOneLabel}"/>
-        
+
         <Label Text="Username:" Style="{StaticResource DefaultLabel}"/>
         <ContentView>
           <Entry Text="{Binding Username, 
@@ -32,12 +32,9 @@
           <Entry Text="{Binding Password, 
           Mode=TwoWay}" Placeholder="Type your password..." Style="{StaticResource DefaultEntry}" IsPassword="True"/>
         </ContentView>
-        
-        
-        
-        <Button Command="{Binding SignInCommand}" Text="{Binding BtnMessage}" Style="{StaticResource DefaultButton}"/>
-      </StackLayout>
 
+        <Button Command="{Binding SignInCommand}" Text="{Binding BtnMessage}" Style="{StaticResource DefaultButton}" />
+      </StackLayout>
       
     </StackLayout>
   </ContentPage.Content>

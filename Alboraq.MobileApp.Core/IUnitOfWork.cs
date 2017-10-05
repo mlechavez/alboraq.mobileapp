@@ -9,6 +9,7 @@ namespace Alboraq.MobileApp.Core
 {
     public interface IUnitOfWork : IDisposable
     {
+        IAppointmentRepository Appointments { get; }
         IOrderDetailRepository OrderDetails { get; }
         IOrderRepository Orders { get; }
         IProductRepository Products { get; }

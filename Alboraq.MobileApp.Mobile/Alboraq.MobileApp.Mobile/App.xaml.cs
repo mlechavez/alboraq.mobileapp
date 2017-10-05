@@ -39,14 +39,14 @@ namespace Alboraq.MobileApp.Mobile
                     new MessagePage(),
                     new CallUsPage(),
                     new DirectionsPage(),
-                    new AboutPage(),
+                    new AboutPage()
                 }
             };
             NavigationPage.SetHasNavigationBar(tabbedPage, false);
             App.Current.MainPage = new PorscheNavigationPage(tabbedPage);
         }
 
-        public AppCredentials Test { get; set; }   
+        public AppCredentialsModel Test { get; set; }   
              
         protected override void OnStart()
         {
@@ -57,7 +57,7 @@ namespace Alboraq.MobileApp.Mobile
 
             try
             {
-                BlobCache.UserAccount.GetObject<AppCredentials>("login")
+                BlobCache.UserAccount.GetObject<AppCredentialsModel>("login")
                 .Subscribe(x => Test = x, ex => Debug.WriteLine("No Key"));
             }
             catch (KeyNotFoundException)
@@ -84,7 +84,7 @@ namespace Alboraq.MobileApp.Mobile
 
             try
             {
-                BlobCache.UserAccount.GetObject<AppCredentials>("login")
+                BlobCache.UserAccount.GetObject<AppCredentialsModel>("login")
                 .Subscribe(x => Test = x, ex => Debug.WriteLine("No Key"));
             }
             catch (KeyNotFoundException)

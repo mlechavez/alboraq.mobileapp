@@ -8,7 +8,7 @@ namespace Alboraq.MobileApp.EF.Migrations
     internal sealed class Configuration : DbMigrationsConfiguration<Alboraq.MobileApp.EF.AlboraqAppContext>
     {
         public Configuration()
-        {
+        {            
             AutomaticMigrationsEnabled = true;
         }
 

@@ -1,15 +1,13 @@
 ﻿using Alboraq.MobileApp.Mobile.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Alboraq.MobileApp.Mobile.Models;
 using Newtonsoft.Json;
 using System.Net.Http;
-using System.Reactive.Linq;
+using System.Net.Http.Headers;
 using Akavache;
-using System.Diagnostics;
+using System.Reactive.Linq;
 
 namespace Alboraq.MobileApp.Mobile.Services
 {
@@ -19,7 +17,7 @@ namespace Alboraq.MobileApp.Mobile.Services
         public AccountService()
         {
             BlobCache.ApplicationName = "AlboraqApp";
-            BlobCache.EnsureInitialized();      
+            BlobCache.EnsureInitialized();
         }
 
         public async Task<HttpResponseMessage> LoginAsync(string username, string password)
@@ -39,13 +37,13 @@ namespace Alboraq.MobileApp.Mobile.Services
             var response = await client.SendAsync(request);
 
             if (response.IsSuccessStatusCode)
-            {                
-                var content = await response.Content.ReadAsStringAsync();
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
 
-                AppCredentials login = JsonConvert.DeserializeObject<AppCredentials>(content);
+                AppCredentialsModel login = JsonConvert.DeserializeObject<AppCredentialsModel>(responseContent);
                 await BlobCache.Secure.InsertObject("login", login);
-                return response;
             }
+            
             return response;
         }
 
@@ -55,7 +53,7 @@ namespace Alboraq.MobileApp.Mobile.Services
             
             var json = JsonConvert.SerializeObject(registerModel);
             var content = new StringContent(json);
-            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
             var request = new HttpRequestMessage(HttpMethod.Post, "http://10.0.2.2:8085/api/account/register");
 
@@ -67,15 +65,7 @@ namespace Alboraq.MobileApp.Mobile.Services
             
             if (response.IsSuccessStatusCode)
             {
-                var loginResponse = await LoginAsync(registerModel.Email, registerModel.Password);
-                if (loginResponse.IsSuccessStatusCode)
-                {
-                    var loginContent = await loginResponse.Content.ReadAsStringAsync();
-                    AppCredentials login = JsonConvert.DeserializeObject<AppCredentials>(loginContent);
-
-                    await BlobCache.Secure.InsertObject("login", login);
-                    return response;
-                }
+                response = await LoginAsync(registerModel.Email, registerModel.Password);              
             }            
             return response;
         }       

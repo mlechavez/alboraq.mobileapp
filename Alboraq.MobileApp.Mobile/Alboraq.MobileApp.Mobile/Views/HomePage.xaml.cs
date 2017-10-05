@@ -15,7 +15,11 @@ namespace Alboraq.MobileApp.Mobile.Views
     {
         public HomePage()
         {
-            InitializeComponent();            
+            InitializeComponent();
+            var vm = new HomeViewModel();
+            vm.Navigation = Navigation;
+            vm.Page = this;
+            BindingContext = vm;   
         }
     }
 }

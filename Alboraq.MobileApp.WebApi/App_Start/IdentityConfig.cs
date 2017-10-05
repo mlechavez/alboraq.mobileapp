@@ -4,6 +4,8 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Alboraq.MobileApp.WebApi.Models;
+using System;
+using System.Net.Mail;
 
 namespace Alboraq.MobileApp.WebApi
 {
@@ -24,7 +26,7 @@ namespace Alboraq.MobileApp.WebApi
             {
                 AllowOnlyAlphanumericUserNames = false,
                 RequireUniqueEmail = true
-            };
+            };            
             // Configure validation logic for passwords
             manager.PasswordValidator = new PasswordValidator
             {
@@ -34,12 +36,51 @@ namespace Alboraq.MobileApp.WebApi
                 RequireLowercase = false,
                 RequireUppercase = false,
             };
+            // Configure email Service
+            manager.AppEmailService = new AppEmailService();
+
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)
             {
                 manager.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
             return manager;
+        }
+
+        public IAppEmailService AppEmailService { get; set; }
+
+        public async Task SendAppEmailAsync(string subject, string body, string to)
+        {
+            if (AppEmailService == null) throw new NotImplementedException("AppEmailService has not been implemented.");
+
+            var message = new IdentityMessage { Subject = subject, Body = body, Destination = to };
+
+            await AppEmailService.SendAsync(message);
+        }
+    }
+
+
+    public interface IAppEmailService
+    {
+        Task SendAsync(IdentityMessage message);
+    }
+
+    public class AppEmailService : IAppEmailService
+    {
+        public async Task SendAsync(IdentityMessage message)
+        {
+            MailMessage mailMessage = new MailMessage();
+            mailMessage.From = new MailAddress("kyocera.km3060@boraq-porsche.com.qa");
+            mailMessage.To.Add(new MailAddress(message.Destination));
+            mailMessage.Subject = message.Subject;
+            mailMessage.Body = message.Body;
+            mailMessage.IsBodyHtml = true;
+
+            using (var client = new SmtpClient("192.168.6.9", 25))
+            {
+                client.Credentials = new System.Net.NetworkCredential("kyocera.km3060@boraq-porsche.com.qa", "kyocera123");
+                await client.SendMailAsync(mailMessage);
+            }
         }
     }
 }

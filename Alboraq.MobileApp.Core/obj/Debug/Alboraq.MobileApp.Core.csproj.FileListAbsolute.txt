@@ -7,4 +7,3 @@ C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.Core\bin\Debug\Albora
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.Core\bin\Debug\Alboraq.MobileApp.Core.pdb
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.Core\obj\Debug\Alboraq.MobileApp.Core.dll
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.Core\obj\Debug\Alboraq.MobileApp.Core.pdb
-C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.Core\obj\Debug\Alboraq.MobileApp.Core.csprojResolveAssemblyReference.cache

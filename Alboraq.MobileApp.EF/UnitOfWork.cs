@@ -12,6 +12,7 @@ namespace Alboraq.MobileApp.EF
     public class UnitOfWork : IUnitOfWork
     {
         private AlboraqAppContext _ctx;
+        private IAppointmentRepository _appointments;
         private IOrderDetailRepository _orderDetails;
         private IOrderRepository _orders;
         private IProductRepository _products;
@@ -20,6 +21,15 @@ namespace Alboraq.MobileApp.EF
         {
             _ctx = new AlboraqAppContext(nameOrConnectionstring);
         }
+
+        public IAppointmentRepository Appointments
+        {
+            get
+            {
+                return _appointments ?? (_appointments = new AppointmentRepository(_ctx));
+            }
+        }
+
         public IOrderDetailRepository OrderDetails
         {
             get
@@ -47,6 +57,7 @@ namespace Alboraq.MobileApp.EF
         public void Dispose()
         {
             _ctx.Dispose();
+            _appointments = null;
             _orderDetails = null;
             _orders = null;
             _products = null;

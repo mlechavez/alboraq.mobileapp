@@ -1,5 +1,6 @@
 ﻿using Akavache;
 using Alboraq.MobileApp.Mobile.Models;
+using Alboraq.MobileApp.Mobile.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,6 +10,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace Alboraq.MobileApp.Mobile.ViewModels
 {
@@ -18,16 +21,34 @@ namespace Alboraq.MobileApp.Mobile.ViewModels
         public HomeViewModel()
         {
             GetFeatures();                            
-        }        
+        }
+        public INavigation Navigation { get; set; }
+        public Page Page { get; set; }
 
-        private ObservableCollection<Feature> _features;
-        public ObservableCollection<Feature> Features
+        private ObservableCollection<FeatureModel> _features;
+        public ObservableCollection<FeatureModel> Features
         {
-            get { return _features ?? (_features = new ObservableCollection<Feature>()); }
+            get { return _features ?? (_features = new ObservableCollection<FeatureModel>()); }
             set
             {
                 _features = value;
                 OnPropertyChanged("Features");
+            }
+        }
+
+        private FeatureModel _feature;
+
+        public FeatureModel Feature
+        {
+            get { return _feature; }
+            set {
+                if(_feature != value)
+                {
+                    _feature = value;
+                    OnPropertyChanged("Feature");
+                    GoToPage(_feature.Title);
+                    _feature = null;
+                }                
             }
         }
 
@@ -38,21 +59,22 @@ namespace Alboraq.MobileApp.Mobile.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        public ICommand Get { get; set; }
 
         void GetFeatures()
         {
-            var featureList = new List<Feature>
+            var featureList = new List<FeatureModel>
             {
-                new Feature { Title = "Appointment", Detail = "Make an appointment",
+                new FeatureModel { Title = "Appointment", Detail = "Make an appointment",
                     ImageUrl ="https://xamarin.com/content/images/pages/forms/example-app.png" },
-                new Feature { Title = "Products", Detail = "Start shopping now!",
-                    ImageUrl ="https://xamarin.com/content/images/pages/forms/example-app.png"},
-                new Feature { Title = "Porsche Car Configurator", Detail = "Build your car.",
+                new FeatureModel { Title = "Products", Detail = "Start shopping now!",
+                    ImageUrl ="https://xamarin.com/content/images/pages/forms/example-app.png"},                
+                new FeatureModel { Title = "Menu Packages", Detail = "Packages suited for your car",
                     ImageUrl ="https://xamarin.com/content/images/pages/forms/example-app.png" },
-                new Feature { Title = "Menu Packages", Detail = "Packages suited for your car",
+                new FeatureModel { Title = "Special Offers", Detail = "Get inside and on our on-going offers!",
                     ImageUrl ="https://xamarin.com/content/images/pages/forms/example-app.png" },
-                new Feature { Title = "Special Offers", Detail = "Get inside and on our on-going offers!",
-                    ImageUrl ="https://xamarin.com/content/images/pages/forms/example-app.png" }                
+                new FeatureModel { Title = "Porsche Car Configurator", Detail = "Build your car.",
+                    ImageUrl ="https://xamarin.com/content/images/pages/forms/example-app.png" }
             };
 
             foreach (var feature in featureList)
@@ -60,6 +82,31 @@ namespace Alboraq.MobileApp.Mobile.ViewModels
                 Features.Add(feature);
             }
             
+        }
+
+        void GoToPage(string featureName)
+        {
+            switch (featureName.ToLower())
+            {
+                case "appointment":
+                    var appointmentPage = new AppointmentPage();
+                    Navigation.PushAsync(appointmentPage, animated: true);
+                    break;
+                case "products":
+                    var productListPage = new ProductListPage();
+                    Navigation.PushAsync(productListPage, animated: true);
+                    break;
+                case "menu packages":
+                    var menupackagesPage = new MenuPackagesPage();
+                    Navigation.PushAsync(menupackagesPage);
+                    break;
+                case "special offers":
+                    var specialOffersPage = new SpecialOffersPage();
+                    Navigation.PushAsync(specialOffersPage);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

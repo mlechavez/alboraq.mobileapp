@@ -16,9 +16,10 @@ namespace Alboraq.MobileApp.EF.EntityConfigurations
             HasKey(x => x.ID);
 
             Property(x => x.ID).HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity);
-            Property(x => x.CustomerNo).HasMaxLength(128);
+            Property(x => x.CustomerName).HasMaxLength(128);
             Property(x => x.PlateNo).HasMaxLength(30);
             Property(x => x.MobileNo).HasMaxLength(20);
+            Property(x => x.Email).HasMaxLength(200);
             
         }
     }

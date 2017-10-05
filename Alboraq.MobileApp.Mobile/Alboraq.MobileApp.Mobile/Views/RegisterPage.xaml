@@ -6,9 +6,9 @@
              Title="Register">
   
   <ContentPage.Content>
-    <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="White">
+    <StackLayout HorizontalOptions="FillAndExpand" Padding="0, 20, 0, 0" BackgroundColor="White">
 
-      <Label Text="Porsche Centre Doha"
+      <!--<Label Text="Porsche Centre Doha"
              Style="{StaticResource HeaderOneLabel}"
              HorizontalOptions="Center"/>
 
@@ -18,7 +18,7 @@
 
       <Image Source="porsche_marquee_l_r.jpg" Margin="10"/>
 
-      <BoxView HeightRequest="0.5" BackgroundColor="Silver" HorizontalOptions="FillAndExpand"></BoxView>
+      <BoxView HeightRequest="0.5" BackgroundColor="Silver" HorizontalOptions="FillAndExpand"></BoxView>-->
             
       <StackLayout Padding="20">
         <Label Text="Register your account" Style="{StaticResource HeaderOneLabel}"/>
@@ -35,14 +35,18 @@
         <Entry Text="{Binding RegisterModel.ConfirmPassword, 
           Mode=TwoWay}" Placeholder="Re-type your password..." Style="{StaticResource DefaultEntry}" IsPassword="True"/>
 
+        <Label Text="Name:" Style="{StaticResource DefaultLabel}"/>
+        <Entry Text="{Binding RegisterModel.Name, 
+          Mode=TwoWay}" Placeholder="Type your name..." Style="{StaticResource DefaultEntry}"/>
+        
         <Label Text="Plate no:" Style="{StaticResource DefaultLabel}"/>
         <Entry Text="{Binding RegisterModel.PlateNo, 
           Mode=TwoWay}" Placeholder="Type your plate no..." Style="{StaticResource DefaultEntry}"/>
 
         <Label Text="Mobile no:" Style="{StaticResource DefaultLabel}"/>
-        <Entry Text="{Binding RegisterModel.MobileNo, 
+        <Entry Text="{Binding RegisterModel.PhoneNumber, 
           Mode=TwoWay}" Placeholder="Type your mobile no..." Style="{StaticResource DefaultEntry}"/>
-        <Button Command="{Binding RegisterCommand}" Text="Register" Style="{StaticResource DefaultButton}"/>
+        <Button Command="{Binding RegisterCommand}" Text="{Binding BtnRegisterText}" Style="{StaticResource DefaultButton}"/>
       </StackLayout>
     </StackLayout>
   </ContentPage.Content>

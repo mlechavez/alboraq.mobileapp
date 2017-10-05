@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Alboraq.MobileApp.Mobile.Models
 {
-    public class AppCredentials
+    public class AppCredentialsModel
     {
         [JsonProperty("access_token")]
         public string AccessToken { get; set; }

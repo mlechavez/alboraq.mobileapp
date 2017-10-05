@@ -328,16 +328,22 @@ namespace Alboraq.MobileApp.WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, PhoneNumber = model.PhoneNumber, PlateNo = model.PlateNo };
+            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, Name = model.Name, PhoneNumber = model.PhoneNumber, PlateNo = model.PlateNo };
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 
-            if (!result.Succeeded)
+            if (result.Succeeded)
             {
-                return GetErrorResult(result);
+                result = await UserManager.SetPhoneNumberAsync(user.Id, model.PhoneNumber);
+                if (result.Succeeded)
+                {
+                    return Ok();
+                }
+                
             }
-
-            return Ok();
+            return GetErrorResult(result);
+            
+            
         }
 
         // POST api/Account/RegisterExternal

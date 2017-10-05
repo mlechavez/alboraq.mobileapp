@@ -33,7 +33,7 @@ namespace Alboraq.MobileApp.WebApi.Models
     }
 
     public class RegisterBindingModel
-    {
+    {        
         [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
@@ -46,9 +46,16 @@ namespace Alboraq.MobileApp.WebApi.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]        
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "Name")]
+        public string Name { get; set; }
+
         public string PlateNo { get; set; }
+        [Required]
+        [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
 
     }
@@ -83,5 +90,13 @@ namespace Alboraq.MobileApp.WebApi.Models
         [Display(Name = "Confirm new password")]
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+    }
+
+    public class AppUserInfo
+    {
+        public string Email { get; set; }
+        public string Name { get; set; }
+        public string PhoneNumber { get; set; }
+        public string PlateNo { get; set; }
     }
 }

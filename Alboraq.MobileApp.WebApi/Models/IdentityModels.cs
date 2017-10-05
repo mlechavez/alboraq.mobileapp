@@ -10,6 +10,7 @@ namespace Alboraq.MobileApp.WebApi.Models
     public class ApplicationUser : IdentityUser
     {
         public string PlateNo { get; set; }
+        public string Name { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
         {

@@ -17,22 +17,21 @@
     <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="White">
 
       <ListView ItemsSource="{Binding Features}"
-                HasUnevenRows="True">
+                HasUnevenRows="True"
+                SelectedItem="{Binding Feature, Mode=TwoWay}">
         <ListView.ItemTemplate>
           <DataTemplate>
             <ViewCell>
-              <ViewCell.View>
-                <StackLayout Padding="15">
-                  <Label Text="{Binding Title}" FontSize="17"
+              <StackLayout Padding="15">
+                <Label Text="{Binding Title}" FontSize="17"
                          FontFamily="{StaticResource HeaderFontFamily}"
                          TextColor="Red" HorizontalOptions="Center"/>
-                  <Image Source="{Binding ImageUrl}" HorizontalOptions="Center" WidthRequest="100" HeightRequest="100"
+                <Image Source="{Binding ImageUrl}" HorizontalOptions="Center" WidthRequest="100" HeightRequest="100"
                        Margin="5,5,5,10"/>
-                  <Label Text="{Binding Detail}" FontSize="15" FontAttributes="Bold"
+                <Label Text="{Binding Detail}" FontSize="15" FontAttributes="Bold"
                          FontFamily="{StaticResource DefaultFontFamily}"
                          HorizontalOptions="Center"/>
-                </StackLayout>
-              </ViewCell.View>
+              </StackLayout>
             </ViewCell>
           </DataTemplate>
         </ListView.ItemTemplate>

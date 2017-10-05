@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Alboraq.MobileApp.Mobile.Models
 {
-    public class BranchLocation
+    public class BranchLocationModel
     {
         public string BranchName { get; set; }
         public string BranchCode { get; set; }

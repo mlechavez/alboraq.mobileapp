@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Alboraq.MobileApp.Mobile.Models
 {
-    public class Feature
+    public class FeatureModel
     {
         public string Title { get; set; }
         public string Detail { get; set; }

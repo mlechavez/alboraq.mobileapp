@@ -21,10 +21,10 @@ namespace Alboraq.MobileApp.Mobile.ViewModels
         public INavigation Navigation { get; set; }
         public Page Page { get; set; }
 
-        private List<BranchLocation> _branchLocations;
-        public List<BranchLocation> BranchLocations
+        private List<BranchLocationModel> _branchLocations;
+        public List<BranchLocationModel> BranchLocations
         {
-            get { return _branchLocations ?? (_branchLocations = new List<BranchLocation>()); }
+            get { return _branchLocations ?? (_branchLocations = new List<BranchLocationModel>()); }
             set {
                 _branchLocations = value;
                 OnPropertyChanged("BranchLocations");
@@ -51,12 +51,12 @@ namespace Alboraq.MobileApp.Mobile.ViewModels
 
         void GetLocations()
         {
-            BranchLocations = new List<BranchLocation>
+            BranchLocations = new List<BranchLocationModel>
             {
-                new BranchLocation { BranchName = "Porsche Centre Doha", Address = "Al Medina, Pearl", BranchCode = "sh", PhoneNumber = "+97444599666" },
-                new BranchLocation { BranchName = "Porsche Quick Service", Address = "Al Medina, Pearl", BranchCode = "qs", PhoneNumber = "+97444599733" },
-                new BranchLocation { BranchName = "Porsche Bodyshop", Address = "Al Medina, Pearl", BranchCode = "st27", PhoneNumber = "+97444599776" },
-                new BranchLocation { BranchName = "Porsche Service Centre", Address = "Al Medina, Pearl", BranchCode = "st16", PhoneNumber = "+97444599800" }
+                new BranchLocationModel { BranchName = "Porsche Centre Doha", Address = "Al Medina, Pearl", BranchCode = "sh", PhoneNumber = "+97444599666" },
+                new BranchLocationModel { BranchName = "Porsche Quick Service", Address = "Al Medina, Pearl", BranchCode = "qs", PhoneNumber = "+97444599733" },
+                new BranchLocationModel { BranchName = "Porsche Bodyshop", Address = "Al Medina, Pearl", BranchCode = "st27", PhoneNumber = "+97444599776" },
+                new BranchLocationModel { BranchName = "Porsche Service Centre", Address = "Al Medina, Pearl", BranchCode = "st16", PhoneNumber = "+97444599800" }
             };
         }
     }

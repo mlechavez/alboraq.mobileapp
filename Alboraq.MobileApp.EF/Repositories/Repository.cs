@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Alboraq.MobileApp.EF.Repositories
 {
-    internal class Repository<T> : IRepository<T> where T : class
+    internal abstract class Repository<T> : IRepository<T> where T : class
     {
         private AlboraqAppContext _ctx;
         private DbSet<T> _set;
