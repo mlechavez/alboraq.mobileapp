@@ -12,8 +12,8 @@ using System.Web.Http;
 
 namespace Alboraq.MobileApp.WebApi.Controllers
 {
-    [Authorize]
-    [RoutePrefix("api/appointment")]
+    //[Authorize]
+    [RoutePrefix("api/Appointment")]
     public class AppointmentController : ApiController
     {
         private ApplicationUserManager _userManager;
@@ -37,20 +37,25 @@ namespace Alboraq.MobileApp.WebApi.Controllers
                 _userManager = value;
             }
         }        
-
-        [HttpPost]
-        [Route("newappointment")]
-        public async Task<IHttpActionResult> NewAppointment(Appointment appointment)
+         
+        [Route("NewAppointment")]        
+        public async Task<IHttpActionResult> NewAppointment(AppointmentBindingModel model)
         {
-            var user = await UserManager.FindByEmailAsync(appointment.Email);
+            var user = await UserManager.FindByNameAsync(model.Email);
 
             if (user == null)
             {
                 return NotFound();
             }
-            appointment.CustomerName = user.Name;
-            appointment.PlateNo = user.PlateNo;
-            appointment.MobileNo = user.PhoneNumber;
+
+            var appointment = new Appointment
+            {
+                CustomerName = user.Name,
+                PlateNo = user.PlateNo,
+                AppointmentDate = model.AppointmentDate,
+                MobileNo = user.PhoneNumber,
+                Email = user.Email
+            };
             
             _uow.Appointments.Add(appointment);
             await _uow.SaveChangesAsync();

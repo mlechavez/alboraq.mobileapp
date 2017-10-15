@@ -13,7 +13,7 @@ namespace Alboraq.MobileApp.Mobile.Models
         public string CustomerName { get; set; }
         [JsonProperty]
         public string PlateNo { get; set; }
-        public DateTime? AppointmentDate { get; set; }
+        public DateTime AppointmentDate { get; set; }
         [JsonProperty]
         public string MobileNo { get; set; }
         public string Email { get; set; }

@@ -2,18 +2,17 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Alboraq.MobileApp.Mobile.Views.AppointmentPage">
-  <ContentPage.Content>
-    <StackLayout Padding="10, 20, 10, 10">
-      <Label Text="Select your desired date" Style="{StaticResource HeaderOneLabel}" />
+  <StackLayout Padding="10, 20, 10, 10">
+    <Label Text="Select your desired date" Style="{StaticResource HeaderOneLabel}" />
 
-      <StackLayout Padding="0,0,0,20">
-        <DatePicker Date="{Binding Appointment.MinimumDate, StringFormat='{0}:yyyy-MM-dd'}" 
-                  MinimumDate="{Binding MinimumDate, StringFormat='{0}:yyyy-MM-dd'}}" />  
-      </StackLayout>
-      
-
-      <Button Text="Set appointment" Command="{Binding SetAppointmentCommand}"
-              Style="{StaticResource DefaultButton}"/>
+    <StackLayout Padding="0,0,0,20">
+      <Entry Text="{Binding AccountInfo.Name, Mode=TwoWay}" Placeholder="Full name..." Style="{StaticResource DefaultEntry}" />
+      <Entry Text="{Binding AccountInfo.PlateNo, Mode=TwoWay}" Placeholder="Plate no..." Style="{StaticResource DefaultEntry}"/>
+      <Entry Text="{Binding AccountInfo.MobileNo, Mode=TwoWay}" Placeholder="Mobile no..." Style="{StaticResource DefaultEntry}"/>
+      <DatePicker Date="{Binding SelectedDate, StringFormat='{0}:yyyy-MM-dd'}" 
+                  MinimumDate="{Binding MinimumDate, StringFormat='{0}:yyyy-MM-dd'}}" />
     </StackLayout>
-  </ContentPage.Content>
+    <Button Text="Set appointment" Command="{Binding SetAppointmentCommand}"
+              Style="{StaticResource DefaultButton}"/>
+  </StackLayout>
 </ContentPage>

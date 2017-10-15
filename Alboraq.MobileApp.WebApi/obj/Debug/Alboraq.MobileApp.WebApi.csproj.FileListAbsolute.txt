@@ -63,6 +63,7 @@ C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.WebApi\bin\Unity.WebA
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.WebApi\bin\WebGrease.dll
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.WebApi\bin\Alboraq.MobileApp.Core.pdb
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.WebApi\bin\Alboraq.MobileApp.EF.pdb
+C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.WebApi\bin\Alboraq.MobileApp.EF.dll.config
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.WebApi\bin\Microsoft.AI.DependencyCollector.xml
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.WebApi\bin\Microsoft.AI.ServerTelemetryChannel.xml
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.WebApi\bin\Microsoft.AI.Web.xml
@@ -103,5 +104,6 @@ C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.WebApi\bin\Microsoft.
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.WebApi\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.WebApi\bin\System.Web.Http.Owin.xml
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.WebApi\obj\Debug\Alboraq.MobileApp.WebApi.csprojResolveAssemblyReference.cache
+C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.WebApi\obj\Debug\Alboraq.MobileApp.WebApi.csproj.CoreCompileInputs.cache
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.WebApi\obj\Debug\Alboraq.MobileApp.WebApi.dll
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.WebApi\obj\Debug\Alboraq.MobileApp.WebApi.pdb

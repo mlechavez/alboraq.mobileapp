@@ -20,14 +20,21 @@ namespace Alboraq.MobileApp.Mobile.Services
         {            
         }
         public async Task<HttpResponseMessage> SetAppointmentAsync(string email, string token, DateTime appointmentDate)
-        {
-            var json = JsonConvert.SerializeObject(model);
+        {            
+            var appointmentModel = new AppointmentModel
+            {
+                Email = email,
+                AppointmentDate = appointmentDate
+            };
+
+            var json = JsonConvert.SerializeObject(appointmentModel);
             var content = new StringContent(json);
-            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");            
 
-            var request = new HttpRequestMessage(HttpMethod.Post, "http://10.0.2.2/api/appointment/newappointment");
-
-            request.Content = content;
+            var request = new HttpRequestMessage(HttpMethod.Post, "http://10.0.2.2/api/appointment/newappointment")
+            {
+                Content = content
+            };
 
             var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);

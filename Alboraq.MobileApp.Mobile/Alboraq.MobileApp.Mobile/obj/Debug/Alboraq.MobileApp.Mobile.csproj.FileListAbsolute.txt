@@ -57,6 +57,7 @@ C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.Mobile\Alboraq.Mobile
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.Mobile\Alboraq.MobileApp.Mobile\bin\Debug\Xamarin.Forms.Xaml.xml
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.Mobile\Alboraq.MobileApp.Mobile\obj\Debug\Alboraq.MobileApp.Mobile.csproj.App.config
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.Mobile\Alboraq.MobileApp.Mobile\obj\Debug\Alboraq.MobileApp.Mobile.csprojResolveAssemblyReference.cache
+C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.Mobile\Alboraq.MobileApp.Mobile\obj\Debug\Alboraq.MobileApp.Mobile.csproj.CoreCompileInputs.cache
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.Mobile\Alboraq.MobileApp.Mobile\obj\Debug\Alboraq.MobileApp.Mobile.App.xaml.g.cs
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.Mobile\Alboraq.MobileApp.Mobile\obj\Debug\Alboraq.MobileApp.Mobile.Views.LoginPage.xaml.g.cs
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.Mobile\Alboraq.MobileApp.Mobile\obj\Debug\Alboraq.MobileApp.Mobile.Views.WelcomePage.xaml.g.cs

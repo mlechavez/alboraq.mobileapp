@@ -39,5 +39,6 @@ C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.EF\bin\Debug\Newtonso
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.EF\bin\Debug\System.Net.Http.Formatting.xml
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.EF\bin\Debug\System.Web.Http.xml
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.EF\obj\Debug\Alboraq.MobileApp.EF.csprojResolveAssemblyReference.cache
+C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.EF\obj\Debug\Alboraq.MobileApp.EF.csproj.CoreCompileInputs.cache
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.EF\obj\Debug\Alboraq.MobileApp.EF.dll
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.EF\obj\Debug\Alboraq.MobileApp.EF.pdb

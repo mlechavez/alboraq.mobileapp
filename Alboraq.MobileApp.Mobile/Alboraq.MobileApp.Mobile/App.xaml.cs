@@ -57,7 +57,7 @@ namespace Alboraq.MobileApp.Mobile
 
             try
             {
-                BlobCache.UserAccount.GetObject<AppCredentialsModel>("login")
+                BlobCache.Secure.GetObject<AppCredentialsModel>("login")
                 .Subscribe(x => Test = x, ex => Debug.WriteLine("No Key"));
             }
             catch (KeyNotFoundException)
@@ -84,7 +84,7 @@ namespace Alboraq.MobileApp.Mobile
 
             try
             {
-                BlobCache.UserAccount.GetObject<AppCredentialsModel>("login")
+                BlobCache.Secure.GetObject<AppCredentialsModel>("login")
                 .Subscribe(x => Test = x, ex => Debug.WriteLine("No Key"));
             }
             catch (KeyNotFoundException)

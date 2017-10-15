@@ -11,23 +11,26 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using System.Reactive.Linq;
+using Alboraq.MobileApp.Mobile.Views;
+using System.Diagnostics;
 
 namespace Alboraq.MobileApp.Mobile.ViewModels
 {
     public class AppointmentViewModel : INotifyPropertyChanged
     {        
         private DateTime _minDate;
-        private bool canSetAppointment = true;
+        private bool canSetAppointment = true;        
         public AppointmentViewModel()
         {
             BlobCache.ApplicationName = "AlboraqApp";
             BlobCache.EnsureInitialized();
-            SetAppointmentCommand = new Command(async()=> await SimulateSetAppointment(), ()=> canSetAppointment);
+            SetAppointmentCommand = new Command(async () => await SimulateSetAppointment(), ()=> canSetAppointment);
+            GetAccountInfo();
         }
         public INavigation Navigation { get; set; }
         public Page Page { get; set; }
         public IAppointmentService AppointmentService { get; set; }
-
+        public IAccountService AccountService { get; set; }
 
         public DateTime MinimumDate
         {
@@ -35,9 +38,28 @@ namespace Alboraq.MobileApp.Mobile.ViewModels
             set { _minDate = value;
                 OnPropertyChanged("MinimumDate");
             }
-        }        
+        }
 
+        private DateTime _selectedDate;
 
+        public DateTime SelectedDate
+        {
+            get { return _selectedDate = DateTime.Now.AddDays(1); }
+            set { _selectedDate = value;
+                OnPropertyChanged("SelectedDate");
+            }
+        }
+
+        private AccountInfoModel _accounInfo;
+
+        public AccountInfoModel AccountInfo
+        {
+            get { return _accounInfo = new AccountInfoModel(); }
+            set { _accounInfo = value;
+                OnPropertyChanged("AccountInfo");
+            }
+        }
+        
         public ICommand SetAppointmentCommand { get; private set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -47,6 +69,14 @@ namespace Alboraq.MobileApp.Mobile.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        void GetAccountInfo()
+        {
+            AppCredentialsModel appCredentialsModel = null;
+                BlobCache.Secure.GetObject<AppCredentialsModel>("login")
+                    .Subscribe(x => appCredentialsModel = x, () => Debug.WriteLine("No Key!"));
+
+            Task.Run(async ()=> AccountInfo = await AccountService.GetAccountInfoAsync(appCredentialsModel.Username, appCredentialsModel.AccessToken));            
+        }
         async Task SimulateSetAppointment()
         {
             AppCredentialsModel login = null;
@@ -59,7 +89,13 @@ namespace Alboraq.MobileApp.Mobile.ViewModels
             {
                 
             }
-                
+
+            if (login == null)
+            {
+                await Navigation.PopToRootAsync();
+                Application.Current.MainPage = new NavigationPage(new LoginPage());
+                return;
+            }
             
             CanInitiateSetAppointment(false);
             //TODO: CHANGE THE MINIMUM DATE....
@@ -71,7 +107,7 @@ namespace Alboraq.MobileApp.Mobile.ViewModels
             }
             else
             {
-                await Page.DisplayAlert("Success!", "Something went wrong.", "Ok");
+                await Page.DisplayAlert("Failed!", "Something went wrong.", "Ok");
             }
             CanInitiateSetAppointment(true);
         }

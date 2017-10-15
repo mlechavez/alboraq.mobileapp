@@ -62,7 +62,7 @@ namespace Alboraq.MobileApp.WebApi.Controllers
             {
                 Email = User.Identity.GetUserName(),
                 HasRegistered = externalLogin == null,
-                LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
+                LoginProvider = externalLogin?.LoginProvider
             };
         }
 
@@ -379,6 +379,21 @@ namespace Alboraq.MobileApp.WebApi.Controllers
             return Ok();
         }
 
+        // GET api/Account/GetCurrentUser
+        [Route("GetCurrentUser")]
+        public async Task<IHttpActionResult> GetCurrentUser(string email)
+        {
+            var user = await UserManager.FindByNameAsync(email);
+
+            if (user == null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                return Ok(new { CustomerName = user.Name, PlateNo = user.PlateNo, MobileNo = user.PhoneNumber });
+            }
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing && _userManager != null)
@@ -434,8 +449,10 @@ namespace Alboraq.MobileApp.WebApi.Controllers
 
             public IList<Claim> GetClaims()
             {
-                IList<Claim> claims = new List<Claim>();
-                claims.Add(new Claim(ClaimTypes.NameIdentifier, ProviderKey, null, LoginProvider));
+                IList<Claim> claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.NameIdentifier, ProviderKey, null, LoginProvider)
+                };
 
                 if (UserName != null)
                 {

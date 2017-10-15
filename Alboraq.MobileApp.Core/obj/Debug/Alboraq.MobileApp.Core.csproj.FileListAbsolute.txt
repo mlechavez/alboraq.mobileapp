@@ -5,5 +5,7 @@ C:\Github\Alboraq.MobileApp\Alboraq.MobileApp.Core\obj\Debug\Alboraq.MobileApp.C
 C:\Github\Alboraq.MobileApp\Alboraq.MobileApp.Core\obj\Debug\Alboraq.MobileApp.Core.pdb
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.Core\bin\Debug\Alboraq.MobileApp.Core.dll
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.Core\bin\Debug\Alboraq.MobileApp.Core.pdb
+C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.Core\obj\Debug\Alboraq.MobileApp.Core.csprojResolveAssemblyReference.cache
+C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.Core\obj\Debug\Alboraq.MobileApp.Core.csproj.CoreCompileInputs.cache
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.Core\obj\Debug\Alboraq.MobileApp.Core.dll
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.Core\obj\Debug\Alboraq.MobileApp.Core.pdb

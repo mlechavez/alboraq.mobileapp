@@ -21,6 +21,7 @@ namespace Alboraq.MobileApp.Mobile.Views
             vm.Navigation = Navigation;
             vm.Page = this;
             vm.AppointmentService = new AppointmentService();
+            vm.AccountService = new AccountService();
             BindingContext = vm;            
         }
     }

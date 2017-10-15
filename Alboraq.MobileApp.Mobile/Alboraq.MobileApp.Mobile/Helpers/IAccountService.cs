@@ -12,5 +12,6 @@ namespace Alboraq.MobileApp.Mobile.Helpers
     {
         Task<HttpResponseMessage> LoginAsync(string username, string password);
         Task<HttpResponseMessage> RegisterAsync(RegisterModel registerModel);
+        Task<AccountInfoModel> GetAccountInfoAsync(string email, string token);
     }
 }

@@ -20,6 +20,26 @@ namespace Alboraq.MobileApp.Mobile.Services
             BlobCache.EnsureInitialized();
         }
 
+        public async Task<AccountInfoModel> GetAccountInfoAsync(string email, string token)
+        {            
+            var request = new HttpRequestMessage(HttpMethod.Get, "http://10.0.2.2/api/account/getcurrentuser?email=" + email);
+
+            var client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var response = await client.SendAsync(request);
+
+            AccountInfoModel accountInfo = null;
+
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                accountInfo = JsonConvert.DeserializeObject<AccountInfoModel>(content);
+                await BlobCache.Secure.InsertObject("accountInfo", accountInfo);
+            }
+            return accountInfo;            
+        }
+
         public async Task<HttpResponseMessage> LoginAsync(string username, string password)
         {
             var keyValues = new List<KeyValuePair<string, string>> {
@@ -28,9 +48,10 @@ namespace Alboraq.MobileApp.Mobile.Services
                 new KeyValuePair<string, string>("grant_type", "password")
             };
 
-            var request = new HttpRequestMessage(HttpMethod.Post, "http://10.0.2.2:8085/token");
-
-            request.Content = new FormUrlEncodedContent(keyValues);
+            var request = new HttpRequestMessage(HttpMethod.Post, "http://10.0.2.2:8085/token")
+            {
+                Content = new FormUrlEncodedContent(keyValues)
+            };
 
             var client = new HttpClient();
 
@@ -55,11 +76,11 @@ namespace Alboraq.MobileApp.Mobile.Services
             var content = new StringContent(json);
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-            var request = new HttpRequestMessage(HttpMethod.Post, "http://10.0.2.2:8085/api/account/register");
+            var request = new HttpRequestMessage(HttpMethod.Post, "http://10.0.2.2:8085/api/account/register")
+            {
+                Content = content
+            };
 
-            request.Content = content;
-
-            
             var client = new HttpClient();
             var response = await client.SendAsync(request);
             
@@ -69,5 +90,6 @@ namespace Alboraq.MobileApp.Mobile.Services
             }            
             return response;
         }       
+
     }
 }
