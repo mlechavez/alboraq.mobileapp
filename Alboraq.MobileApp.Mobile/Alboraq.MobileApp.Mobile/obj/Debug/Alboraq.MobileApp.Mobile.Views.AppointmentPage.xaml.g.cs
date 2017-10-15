@@ -11,8 +11,8 @@
 namespace Alboraq.MobileApp.Mobile.Views {
     
     
-    [global::Xamarin.Forms.Xaml.XamlFilePathAttribute("C:\\Users\\Lester\\GitHub\\alboraq.mobileapp\\Alboraq.MobileApp.Mobile\\Alboraq.MobileA" +
-        "pp.Mobile\\Views\\AppointmentPage.xaml")]
+    [global::Xamarin.Forms.Xaml.XamlFilePathAttribute("D:\\GitHub\\alboraq.mobileapp\\Alboraq.MobileApp.Mobile\\Alboraq.MobileApp.Mobile\\Vie" +
+        "ws\\AppointmentPage.xaml")]
     public partial class AppointmentPage : global::Xamarin.Forms.ContentPage {
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "0.0.0.0")]

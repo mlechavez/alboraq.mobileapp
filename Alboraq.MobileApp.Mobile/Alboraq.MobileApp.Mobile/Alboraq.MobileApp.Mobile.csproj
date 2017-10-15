@@ -42,7 +42,7 @@
     <Compile Include="Helpers\IAccountService.cs" />
     <Compile Include="Helpers\IAppointmentService.cs" />
     <Compile Include="Helpers\ICacheService.cs" />
-    <Compile Include="Models\AccounInfoModel.cs" />
+    <Compile Include="Models\AccountInfoModel.cs" />
     <Compile Include="Models\AppointmentModel.cs" />
     <Compile Include="Models\BranchLocationModel.cs" />
     <Compile Include="Renderers\PorscheNavigationPage.cs" />
