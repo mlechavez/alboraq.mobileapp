@@ -2,17 +2,13 @@
 using Alboraq.MobileApp.Mobile.Helpers;
 using Alboraq.MobileApp.Mobile.Models;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using System.Reactive.Linq;
 using Alboraq.MobileApp.Mobile.Views;
-using System.Diagnostics;
 
 namespace Alboraq.MobileApp.Mobile.ViewModels
 {
@@ -21,12 +17,10 @@ namespace Alboraq.MobileApp.Mobile.ViewModels
         private DateTime _minDate;
         private bool canSetAppointment = true;        
         public AppointmentViewModel()
-        {
-            BlobCache.ApplicationName = "AlboraqApp";
-            BlobCache.EnsureInitialized();
-            SetAppointmentCommand = new Command(async () => await SimulateSetAppointment(), ()=> canSetAppointment);
-            GetAccountInfo();
+        {            
+            SetAppointmentCommand = new Command(async () => await SimulateSetAppointment(), ()=> canSetAppointment);            
         }
+
         public INavigation Navigation { get; set; }
         public Page Page { get; set; }
         public IAppointmentService AppointmentService { get; set; }
@@ -54,7 +48,7 @@ namespace Alboraq.MobileApp.Mobile.ViewModels
 
         public AccountInfoModel AccountInfo
         {
-            get { return _accounInfo = new AccountInfoModel(); }
+            get { return _accounInfo; }
             set { _accounInfo = value;
                 OnPropertyChanged("AccountInfo");
             }
@@ -68,38 +62,22 @@ namespace Alboraq.MobileApp.Mobile.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        void GetAccountInfo()
-        {
-            AppCredentialsModel appCredentialsModel = null;
-                BlobCache.Secure.GetObject<AppCredentialsModel>("login")
-                    .Subscribe(x => appCredentialsModel = x, () => Debug.WriteLine("No Key!"));
-
-            Task.Run(async ()=> AccountInfo = await AccountService.GetAccountInfoAsync(appCredentialsModel.Username, appCredentialsModel.AccessToken));            
-        }
+        
         async Task SimulateSetAppointment()
-        {
-            AppCredentialsModel login = null;
-
-            try
-            {
-                login = await BlobCache.Secure.GetObject<AppCredentialsModel>("login");
-            }
-            catch (Exception)
-            {
-                
-            }
-
-            if (login == null)
-            {
-                await Navigation.PopToRootAsync();
-                Application.Current.MainPage = new NavigationPage(new LoginPage());
-                return;
-            }
-            
+        {                                  
             CanInitiateSetAppointment(false);
+
+            var appointment = new AppointmentModel
+            {
+                CustomerName = AccountInfo.CustomerName,
+                PlateNo = AccountInfo.PlateNo,
+                MobileNo = AccountInfo.MobileNo,
+                AppointmentDate = SelectedDate,
+                Email = App.AppCredentials.Username
+            };
+
             //TODO: CHANGE THE MINIMUM DATE....
-            var response = await AppointmentService.SetAppointmentAsync(login.Username, login.AccessToken, MinimumDate);
+            var response = await AppointmentService.SetAppointmentAsync(App.AppCredentials.Username, App.AppCredentials.AccessToken, appointment);
 
             if (response.IsSuccessStatusCode)
             {

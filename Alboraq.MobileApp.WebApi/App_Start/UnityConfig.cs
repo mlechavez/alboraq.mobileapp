@@ -23,7 +23,7 @@ namespace Alboraq.MobileApp.WebApi
             container.RegisterType<IUserStore<ApplicationUser>, UserStore<ApplicationUser>>();
             container.RegisterType<RoleStore<IdentityRole>>(new InjectionConstructor(new Models.ApplicationDbContext()));
             container.RegisterType<AccountController>(new InjectionConstructor());
-            container.RegisterType<AppointmentController>(new InjectionConstructor());            
+            container.RegisterType<AppointmentController>(new InjectionConstructor(new UnitOfWork("DefaultConnection")));            
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }
     }

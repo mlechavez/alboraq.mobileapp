@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Alboraq.MobileApp.Mobile.Views.ProductCategoryListPage"
+             Title="Product Categories">
+  <ContentPage.Content>
+    <StackLayout Padding="0,20,0,0">
+      <Label Text="Choose Category" 
+             Style="{StaticResource HeaderOneLabel}"
+             HorizontalOptions="Center"/>
+      <ListView ItemsSource="{Binding ProductCategories}"
+                HasUnevenRows="True">
+        <ListView.ItemTemplate>
+          <DataTemplate>
+            <ViewCell>
+              <StackLayout Margin="0, 15, 0, 15" Padding="10">
+                <Label Text="{Binding CategoryName}" 
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       Style="{StaticResource LeadLabel}"/>
+              </StackLayout>
+            </ViewCell>
+          </DataTemplate>
+        </ListView.ItemTemplate>
+      </ListView>
+    </StackLayout>
+  </ContentPage.Content>
+</ContentPage>

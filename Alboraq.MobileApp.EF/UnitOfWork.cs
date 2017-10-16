@@ -1,8 +1,4 @@
 ﻿using Alboraq.MobileApp.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Alboraq.MobileApp.Core.IRepositories;
 using Alboraq.MobileApp.EF.Repositories;
@@ -16,6 +12,7 @@ namespace Alboraq.MobileApp.EF
         private IOrderDetailRepository _orderDetails;
         private IOrderRepository _orders;
         private IProductRepository _products;
+        private IProductCategoryRepository _productCategories;
 
         public UnitOfWork(string nameOrConnectionstring)
         {
@@ -54,6 +51,14 @@ namespace Alboraq.MobileApp.EF
             }
         }
 
+        public IProductCategoryRepository ProductCategories
+        {
+            get
+            {
+                return _productCategories = (_productCategories = new ProductCategoryRepository(_ctx));
+            }
+        }
+
         public void Dispose()
         {
             _ctx.Dispose();
@@ -61,6 +66,7 @@ namespace Alboraq.MobileApp.EF
             _orderDetails = null;
             _orders = null;
             _products = null;
+            _productCategories = null;
         }
 
         public int SaveChanges()

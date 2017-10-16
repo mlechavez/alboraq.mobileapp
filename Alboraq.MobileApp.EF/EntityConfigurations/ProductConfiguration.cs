@@ -1,10 +1,5 @@
 ﻿using Alboraq.MobileApp.Core.Entities;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity.ModelConfiguration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Alboraq.MobileApp.EF.EntityConfigurations
 {
@@ -23,8 +18,7 @@ namespace Alboraq.MobileApp.EF.EntityConfigurations
 
             HasMany(x => x.OrderDetails)
                 .WithRequired(x => x.Product)
-                .HasForeignKey(x => x.ProductNo);  
-
+                .HasForeignKey(x => x.ProductNo);
         }
     }
 }

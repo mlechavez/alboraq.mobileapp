@@ -37,9 +37,9 @@ namespace Alboraq.MobileApp.WebApi.Controllers
                 _userManager = value;
             }
         }        
-         
+
         [Route("NewAppointment")]        
-        public async Task<IHttpActionResult> NewAppointment(AppointmentBindingModel model)
+        public async Task<IHttpActionResult> NewAppointment([FromBody]AppointmentBindingModel model)
         {
             var user = await UserManager.FindByNameAsync(model.Email);
 

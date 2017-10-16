@@ -10,6 +10,6 @@ namespace Alboraq.MobileApp.Mobile.Helpers
 {
     public interface IAppointmentService
     {
-        Task<HttpResponseMessage> SetAppointmentAsync(string email, string token, DateTime appointmentDate);
+        Task<HttpResponseMessage> SetAppointmentAsync(string email, string token, AppointmentModel model);
     }
 }

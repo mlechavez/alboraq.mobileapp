@@ -6,11 +6,14 @@
     <Label Text="Select your desired date" Style="{StaticResource HeaderOneLabel}" />
 
     <StackLayout Padding="0,0,0,20">
-      <Entry Text="{Binding AccountInfo.Name, Mode=TwoWay}" Placeholder="Full name..." Style="{StaticResource DefaultEntry}" />
+      <Label Text="Full name" Style="{StaticResource DefaultLabel}"/>
+      <Entry Text="{Binding AccountInfo.CustomerName, Mode=TwoWay}" Placeholder="Full name..." Style="{StaticResource DefaultEntry}" />
+      <Label Text="Plate no." Style="{StaticResource DefaultLabel}"/>
       <Entry Text="{Binding AccountInfo.PlateNo, Mode=TwoWay}" Placeholder="Plate no..." Style="{StaticResource DefaultEntry}"/>
+      <Label Text="Mobile no." Style="{StaticResource DefaultLabel}"/>
       <Entry Text="{Binding AccountInfo.MobileNo, Mode=TwoWay}" Placeholder="Mobile no..." Style="{StaticResource DefaultEntry}"/>
-      <DatePicker Date="{Binding SelectedDate, StringFormat='{0}:yyyy-MM-dd'}" 
-                  MinimumDate="{Binding MinimumDate, StringFormat='{0}:yyyy-MM-dd'}}" />
+      <DatePicker Date="{Binding SelectedDate}" 
+                  MinimumDate="{Binding MinimumDate}" />
     </StackLayout>
     <Button Text="Set appointment" Command="{Binding SetAppointmentCommand}"
               Style="{StaticResource DefaultButton}"/>

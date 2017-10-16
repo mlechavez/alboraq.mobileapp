@@ -26,6 +26,7 @@ namespace Alboraq.MobileApp.Mobile.ViewModels
         public Page Page { get; set; }
 
         private ObservableCollection<FeatureModel> _features;
+
         public ObservableCollection<FeatureModel> Features
         {
             get { return _features ?? (_features = new ObservableCollection<FeatureModel>()); }
@@ -93,8 +94,8 @@ namespace Alboraq.MobileApp.Mobile.ViewModels
                     Navigation.PushAsync(appointmentPage, animated: true);
                     break;
                 case "products":
-                    var productListPage = new ProductListPage();
-                    Navigation.PushAsync(productListPage, animated: true);
+                    var productCategoryListPage = new ProductCategoryListPage();
+                    Navigation.PushAsync(productCategoryListPage, animated: true);
                     break;
                 case "menu packages":
                     var menupackagesPage = new MenuPackagesPage();

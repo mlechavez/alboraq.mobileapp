@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 namespace Alboraq.MobileApp.Mobile.Models
 {
     public class AppointmentModel
-    {
-        public int ID { get; set; }
+    {        
         public string CustomerName { get; set; }
         [JsonProperty]
         public string PlateNo { get; set; }

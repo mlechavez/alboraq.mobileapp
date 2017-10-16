@@ -12,14 +12,13 @@
   <ContentPage.Content>
     <StackLayout>
       <ListView ItemsSource="{Binding BranchLocations}"
-                HasUnevenRows="True"
-                >
+                HasUnevenRows="True">
         <ListView.ItemTemplate>
           <DataTemplate>
             <TextCell Text="{Binding BranchName}"
                       TextColor="Red"
                       Detail="{Binding Address}"
-                      Command="{Binding CallUsCommand}"/>
+                      Command="{Binding CallLocationCommand}"/>
           </DataTemplate>
         </ListView.ItemTemplate>
       </ListView>

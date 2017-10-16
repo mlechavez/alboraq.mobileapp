@@ -12,17 +12,16 @@ using System.Reactive.Linq;
 namespace Alboraq.MobileApp.Mobile.Services
 {
     public class AccountService : IAccountService
-    {        
+    {
+        private const string baseUri = "http://10.0.2.2:8085";
 
         public AccountService()
-        {
-            BlobCache.ApplicationName = "AlboraqApp";
-            BlobCache.EnsureInitialized();
+        {            
         }
 
         public async Task<AccountInfoModel> GetAccountInfoAsync(string email, string token)
         {            
-            var request = new HttpRequestMessage(HttpMethod.Get, "http://10.0.2.2/api/account/getcurrentuser?email=" + email);
+            var request = new HttpRequestMessage(HttpMethod.Get, $"{baseUri}/api/account/getcurrentuser?email=" + email);
 
             var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -48,7 +47,7 @@ namespace Alboraq.MobileApp.Mobile.Services
                 new KeyValuePair<string, string>("grant_type", "password")
             };
 
-            var request = new HttpRequestMessage(HttpMethod.Post, "http://10.0.2.2:8085/token")
+            var request = new HttpRequestMessage(HttpMethod.Post, $"{baseUri}/token")
             {
                 Content = new FormUrlEncodedContent(keyValues)
             };
@@ -76,7 +75,7 @@ namespace Alboraq.MobileApp.Mobile.Services
             var content = new StringContent(json);
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-            var request = new HttpRequestMessage(HttpMethod.Post, "http://10.0.2.2:8085/api/account/register")
+            var request = new HttpRequestMessage(HttpMethod.Post, $"{baseUri}/api/account/register")
             {
                 Content = content
             };

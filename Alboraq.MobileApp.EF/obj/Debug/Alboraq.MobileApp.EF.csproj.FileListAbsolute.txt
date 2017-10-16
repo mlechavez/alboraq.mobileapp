@@ -14,11 +14,11 @@ C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.EF\bin\Debug\Alboraq.
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.EF\bin\Debug\Alboraq.MobileApp.EF.dll
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.EF\bin\Debug\Alboraq.MobileApp.EF.pdb
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.EF\bin\Debug\Alboraq.MobileApp.Core.dll
+C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.EF\bin\Debug\CommonServiceLocator.dll
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.EF\bin\Debug\EntityFramework.dll
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.EF\bin\Debug\EntityFramework.SqlServer.dll
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.EF\bin\Debug\Microsoft.AspNet.Identity.Core.dll
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.EF\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
-C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.EF\bin\Debug\Microsoft.Practices.ServiceLocation.dll
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.EF\bin\Debug\Microsoft.Practices.Unity.Configuration.dll
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.EF\bin\Debug\Microsoft.Practices.Unity.dll
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.EF\bin\Debug\Microsoft.Practices.Unity.RegistrationByConvention.dll
@@ -30,8 +30,6 @@ C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.EF\bin\Debug\EntityFr
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.EF\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.EF\bin\Debug\Microsoft.AspNet.Identity.Core.xml
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.EF\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
-C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.EF\bin\Debug\Microsoft.Practices.ServiceLocation.pdb
-C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.EF\bin\Debug\Microsoft.Practices.ServiceLocation.xml
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.EF\bin\Debug\Microsoft.Practices.Unity.xml
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.EF\bin\Debug\Microsoft.Practices.Unity.Configuration.xml
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.EF\bin\Debug\Microsoft.Practices.Unity.RegistrationByConvention.xml

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Alboraq.MobileApp.Core.Entities
 {
@@ -16,11 +12,15 @@ namespace Alboraq.MobileApp.Core.Entities
         public string ProductDescription { get; set; }
         public decimal UnitPrice { get; set; }
         public decimal Qoh { get; set; }
+        public string ImageUrl { get; set; }
+        public int? ProductCategoryID { get; set; }
 
         public virtual ICollection<OrderDetail> OrderDetails
         {
             get { return _orderDetails ?? (_orderDetails = new List<OrderDetail>()); }
             set { _orderDetails = value; }
         }
+
+        public virtual ProductCategory ProductCategory { get; set; }
     }
 }

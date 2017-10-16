@@ -1,10 +1,6 @@
 ﻿using Alboraq.MobileApp.Mobile.Views;
 using Xamarin.Forms;
 using Akavache;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System;
-using System.Reactive.Linq;
 using Alboraq.MobileApp.Mobile.Models;
 using Alboraq.MobileApp.Mobile.Renderers;
 
@@ -13,12 +9,15 @@ namespace Alboraq.MobileApp.Mobile
     public partial class App : Application
     {
         public App()
-        {
-
+        {            
             InitializeComponent();
+            BlobCache.ApplicationName = "AlboraqApp";
+            BlobCache.EnsureInitialized();
 
             SetWelcomePage();
         }        
+        public static AppCredentialsModel AppCredentials { get; internal set; }
+        public static AccountInfoModel AccountInfo { get; internal set; }
 
         private void SetWelcomePage()
         {
@@ -43,58 +42,38 @@ namespace Alboraq.MobileApp.Mobile
                 }
             };
             NavigationPage.SetHasNavigationBar(tabbedPage, false);
-            App.Current.MainPage = new PorscheNavigationPage(tabbedPage);
-        }
-
-        public AppCredentialsModel Test { get; set; }   
+            Current.MainPage = new PorscheNavigationPage(tabbedPage);
+        }        
              
         protected override void OnStart()
         {
             base.OnStart();
 
-            BlobCache.ApplicationName = "AlboraqApp";
-            BlobCache.EnsureInitialized();
+            //Task.Run(async () =>
+            //{                
+            //    AppCredentials = await BlobCache.Secure.GetObject<AppCredentialsModel>("login");
 
-            try
-            {
-                BlobCache.Secure.GetObject<AppCredentialsModel>("login")
-                .Subscribe(x => Test = x, ex => Debug.WriteLine("No Key"));
-            }
-            catch (KeyNotFoundException)
-            {
+            //    if (AppCredentials != null)
+            //    {
+            //        SetHomePage();
+            //    }
+            //    else
+            //    {
+            //        SetWelcomePage();
+            //    }
 
-            }
-            if (Test != null)
-            {
-                App.SetHomePage();
-            }
+                
+            //});                        
         }
 
         protected override void OnSleep()
-        {
-            //BlobCache.Shutdown().Wait();
+        {            
             // Handle when your app sleeps
         }
 
         protected override void OnResume()
         {
-            // Handle when your app resumes
-            BlobCache.ApplicationName = "AlboraqApp";
-            BlobCache.EnsureInitialized();
-
-            try
-            {
-                BlobCache.Secure.GetObject<AppCredentialsModel>("login")
-                .Subscribe(x => Test = x, ex => Debug.WriteLine("No Key"));
-            }
-            catch (KeyNotFoundException)
-            {
-
-            }
-            if (Test != null)
-            {
-                App.SetHomePage();
-            }
+            // Handle when your app resumes            
         }
     }
 }

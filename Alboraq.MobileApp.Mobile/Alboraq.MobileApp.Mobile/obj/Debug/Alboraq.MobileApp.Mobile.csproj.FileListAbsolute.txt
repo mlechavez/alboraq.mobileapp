@@ -74,3 +74,4 @@ C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.Mobile\Alboraq.Mobile
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.Mobile\Alboraq.MobileApp.Mobile\obj\Debug\Alboraq.MobileApp.Mobile.Views.MenuPackagesPage.xaml.g.cs
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.Mobile\Alboraq.MobileApp.Mobile\obj\Debug\Alboraq.MobileApp.Mobile.dll
 C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.Mobile\Alboraq.MobileApp.Mobile\obj\Debug\Alboraq.MobileApp.Mobile.pdb
+C:\Users\Lester\GitHub\alboraq.mobileapp\Alboraq.MobileApp.Mobile\Alboraq.MobileApp.Mobile\obj\Debug\Alboraq.MobileApp.Mobile.Views.ProductCategoryListPage.xaml.g.cs

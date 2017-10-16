@@ -16,22 +16,17 @@ namespace Alboraq.MobileApp.Mobile.Services
 {
     public class AppointmentService : IAppointmentService
     {
+        private const string baseUri = "http://10.0.2.2:8085";
+
         public AppointmentService()
         {            
         }
-        public async Task<HttpResponseMessage> SetAppointmentAsync(string email, string token, DateTime appointmentDate)
-        {            
-            var appointmentModel = new AppointmentModel
-            {
-                Email = email,
-                AppointmentDate = appointmentDate
-            };
-
-            var json = JsonConvert.SerializeObject(appointmentModel);
+        public async Task<HttpResponseMessage> SetAppointmentAsync(string email, string token, AppointmentModel model)
+        {                        
+            var json = JsonConvert.SerializeObject(model);
             var content = new StringContent(json);
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");            
-
-            var request = new HttpRequestMessage(HttpMethod.Post, "http://10.0.2.2/api/appointment/newappointment")
+            var request = new HttpRequestMessage(HttpMethod.Post, $"{baseUri}/api/appointment/newappointment")
             {
                 Content = content
             };
