@@ -40,7 +40,7 @@ namespace Alboraq.MobileApp.Mobile.Views
                 {
                     productCategories = await vm.ProductService.GetCategoriesAsync();
 
-                    if (productCategories != null).
+                    if (productCategories != null)
 
                     {
                         foreach (var category in productCategories)
