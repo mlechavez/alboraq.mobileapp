@@ -42,10 +42,9 @@
     <Compile Include="Helpers\IAccountService.cs" />
     <Compile Include="Helpers\IAppointmentService.cs" />
     <Compile Include="Helpers\ICacheService.cs" />
-<<<<<<< HEAD
+
     <Compile Include="Helpers\IProductService.cs" />
-=======
->>>>>>> 7f94bcb1b591a9e9be15ca9abe9be75b9b98b2c1
+
     <Compile Include="Models\AccountInfoModel.cs" />
     <Compile Include="Models\AppointmentModel.cs" />
     <Compile Include="Models\BranchLocationModel.cs" />

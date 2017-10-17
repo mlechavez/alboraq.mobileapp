@@ -195,12 +195,6 @@
     <AndroidResource Include="Resources\values\styles.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Alboraq.MobileApp.Mobile\Alboraq.MobileApp.Mobile.csproj">
-      <Project>{b8d38f65-43b9-483f-96ff-7f06090ce1b5}</Project>
-      <Name>Alboraq.MobileApp.Mobile</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable\porsche_marquee_l.jpg" />
   </ItemGroup>
   <ItemGroup>
