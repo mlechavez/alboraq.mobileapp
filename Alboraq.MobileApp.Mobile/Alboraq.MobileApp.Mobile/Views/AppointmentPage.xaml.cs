@@ -22,11 +22,13 @@ namespace Alboraq.MobileApp.Mobile.Views
         public AppointmentPage()
         {
             InitializeComponent();
-            vm = new AppointmentViewModel();
-            vm.Navigation = Navigation;
-            vm.Page = this;
-            vm.AppointmentService = new AppointmentService();
-            vm.AccountService = new AccountService();
+            vm = new AppointmentViewModel
+            {
+                Navigation = Navigation,
+                Page = this,
+                AppointmentService = new AppointmentService(),
+                AccountService = new AccountService()
+            };
             BindingContext = vm;            
         }
 
