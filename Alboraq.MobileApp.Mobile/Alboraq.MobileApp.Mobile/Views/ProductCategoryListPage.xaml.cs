@@ -22,21 +22,35 @@ namespace Alboraq.MobileApp.Mobile.Views
         public ProductCategoryListPage()
         {
             InitializeComponent();
-            vm = new ProductCategoryViewModel();
-            vm.Navigation = Navigation;
-            vm.ProductService = new ProductService();
+            vm = new ProductCategoryViewModel
+            {
+                Navigation = Navigation,
+                ProductService = new ProductService()
+            };
             BindingContext = vm;
         }
 
-        protected override void OnAppearing()
+        protected async override void OnAppearing()
         {
             base.OnAppearing();
 
-            Task.Run(async () => 
-            {
-                List<ProductCategoryModel> productCategories = await BlobCache.InMemory.GetObject<List<ProductCategoryModel>>("productCategories");
+            List<ProductCategoryModel> productCategories = new List<ProductCategoryModel>();
 
-                if (productCategories == null)
+            try
+            {
+                productCategories = await BlobCache.InMemory.GetObject<List<ProductCategoryModel>>("productCategories");
+
+                if (productCategories.Count > 0)
+                {
+                    foreach (var category in productCategories)
+                    {
+                        vm.ProductCategories.Add(category);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                if (productCategories.Count == 0)
                 {
                     productCategories = await vm.ProductService.GetCategoriesAsync();
 
@@ -49,8 +63,8 @@ namespace Alboraq.MobileApp.Mobile.Views
                         }
                         await BlobCache.InMemory.InsertObject("productCategories", productCategories);
                     }
-                }                
-            });
+                }
+            }                        
         }
     }
 }
