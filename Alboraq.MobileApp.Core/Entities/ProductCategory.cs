@@ -1,9 +1,5 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Alboraq.MobileApp.Core.Entities
 {
@@ -13,7 +9,9 @@ namespace Alboraq.MobileApp.Core.Entities
 
         public int ProductCategoryID { get; set; }
         public string CategoryName { get; set; }
-        
+        public string CategoryDescription { get; set; }
+        public string ImageUrl { get; set; }
+
         [JsonIgnore]
         public virtual ICollection<Product> Products
         {

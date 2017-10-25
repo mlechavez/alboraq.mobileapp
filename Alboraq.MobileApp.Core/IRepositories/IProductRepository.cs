@@ -9,5 +9,6 @@ namespace Alboraq.MobileApp.Core.IRepositories
 {
     public interface IProductRepository : IRepository<Product>
     {
+        Task<List<Product>> GetProductsByCategoryNameAsync(string categoryName);        
     }
 }

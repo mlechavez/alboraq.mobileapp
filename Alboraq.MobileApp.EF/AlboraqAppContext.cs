@@ -4,13 +4,23 @@ using Alboraq.MobileApp.EF.Migrations;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace Alboraq.MobileApp.EF
 {
     public class ApplicationUser : IdentityUser
     {
         public string PlateNo { get; set; }
-        public string Name { get; set; }        
+        public string Name { get; set; }
+
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
+        {
+            // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
+            var userIdentity = await manager.CreateIdentityAsync(this, authenticationType);
+            // Add custom user claims here
+            return userIdentity;
+        }
     }
 
     public class AlboraqAppContext : IdentityDbContext<ApplicationUser>

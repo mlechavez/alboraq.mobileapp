@@ -6,6 +6,7 @@ using Microsoft.Owin;
 using Alboraq.MobileApp.WebApi.Models;
 using System;
 using System.Net.Mail;
+using Alboraq.MobileApp.EF;
 
 namespace Alboraq.MobileApp.WebApi
 {
@@ -16,19 +17,15 @@ namespace Alboraq.MobileApp.WebApi
         public ApplicationUserManager(IUserStore<ApplicationUser> store)
             : base(store)
         {
-        }
-
-        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
-        {
-            var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
+            
             // Configure validation logic for usernames
-            manager.UserValidator = new UserValidator<ApplicationUser>(manager)
+            UserValidator = new UserValidator<ApplicationUser>(this)
             {
                 AllowOnlyAlphanumericUserNames = false,
                 RequireUniqueEmail = true
-            };            
+            };
             // Configure validation logic for passwords
-            manager.PasswordValidator = new PasswordValidator
+            PasswordValidator = new PasswordValidator
             {
                 RequiredLength = 6,
                 RequireNonLetterOrDigit = false,
@@ -37,15 +34,14 @@ namespace Alboraq.MobileApp.WebApi
                 RequireUppercase = false,
             };
             // Configure email Service
-            manager.AppEmailService = new AppEmailService();
+            AppEmailService = new AppEmailService();
 
-            var dataProtectionProvider = options.DataProtectionProvider;
+            var dataProtectionProvider = Startup.DataProtectionProvider;
             if (dataProtectionProvider != null)
             {
-                manager.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
+                UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
-            return manager;
-        }
+        }        
 
         public IAppEmailService AppEmailService { get; set; }
 
@@ -69,8 +65,10 @@ namespace Alboraq.MobileApp.WebApi
     {
         public async Task SendAsync(IdentityMessage message)
         {
-            MailMessage mailMessage = new MailMessage();
-            mailMessage.From = new MailAddress("kyocera.km3060@boraq-porsche.com.qa");
+            MailMessage mailMessage = new MailMessage
+            {
+                From = new MailAddress("kyocera.km3060@boraq-porsche.com.qa")                
+            };
             mailMessage.To.Add(new MailAddress(message.Destination));
             mailMessage.Subject = message.Subject;
             mailMessage.Body = message.Body;

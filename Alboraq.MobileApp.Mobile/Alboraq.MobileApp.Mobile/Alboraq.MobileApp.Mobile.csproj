@@ -42,9 +42,7 @@
     <Compile Include="Helpers\IAccountService.cs" />
     <Compile Include="Helpers\IAppointmentService.cs" />
     <Compile Include="Helpers\ICacheService.cs" />
-
     <Compile Include="Helpers\IProductService.cs" />
-
     <Compile Include="Models\AccountInfoModel.cs" />
     <Compile Include="Models\AppointmentModel.cs" />
     <Compile Include="Models\BranchLocationModel.cs" />
@@ -68,6 +66,7 @@
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\ProductCategoryViewModel.cs" />
+    <Compile Include="ViewModels\ProductListViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\WelcomeViewModel.cs" />
     <Compile Include="Views\AboutPage.xaml.cs">

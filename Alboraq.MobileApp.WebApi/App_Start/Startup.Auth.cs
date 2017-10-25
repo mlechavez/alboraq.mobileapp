@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.Google;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
 using Alboraq.MobileApp.WebApi.Providers;
-using Alboraq.MobileApp.WebApi.Models;
+using Microsoft.Owin.Security.DataProtection;
+using System.Web.Http;
+using Alboraq.MobileApp.EF;
 
 namespace Alboraq.MobileApp.WebApi
 {
@@ -19,16 +17,20 @@ namespace Alboraq.MobileApp.WebApi
 
         public static string PublicClientId { get; private set; }
 
+        internal static IDataProtectionProvider DataProtectionProvider { get; private set; }
         // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
         {
-            // Configure the db context and user manager to use a single instance per request
-            app.CreatePerOwinContext(ApplicationDbContext.Create);
-            app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
+            DataProtectionProvider = app.GetDataProtectionProvider();
 
             // Enable the application to use a cookie to store information for the signed in user
             // and to use a cookie to temporarily store information about a user logging in with a third party login provider
-            app.UseCookieAuthentication(new CookieAuthenticationOptions());
+            app.UseCookieAuthentication(new CookieAuthenticationOptions()
+            {
+                AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
+                LoginPath = new PathString("/auth/signin"),
+                ExpireTimeSpan = TimeSpan.FromMinutes(30)
+            });
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             // Configure the application for OAuth based flow
@@ -64,6 +66,20 @@ namespace Alboraq.MobileApp.WebApi
             //    ClientId = "",
             //    ClientSecret = ""
             //});
+
+            //var userManager = GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(ApplicationUserManager)) as ApplicationUserManager;
+
+            //var appUser = userManager.FindByName("admin");
+
+            //if (appUser == null)
+            //{
+            //    var user = new ApplicationUser
+            //    {
+            //        UserName = "echavez.marklester@boraq-porsche.com.qa",
+            //        Email = "echavez.marklester@boraq-porsche.com.qa",
+            //        Name = "Mark Lester Echavez"                    
+            //    };
+            //}
         }
     }
 }

@@ -12,10 +12,10 @@ namespace Alboraq.MobileApp.Mobile
         {            
             InitializeComponent();
             BlobCache.ApplicationName = "AlboraqApp";
-            BlobCache.EnsureInitialized();
+            BlobCache.EnsureInitialized();            
 
             SetWelcomePage();
-        }        
+        }
         public static AppCredentialsModel AppCredentials { get; internal set; }
         public static AccountInfoModel AccountInfo { get; internal set; }
 
@@ -44,11 +44,19 @@ namespace Alboraq.MobileApp.Mobile
             NavigationPage.SetHasNavigationBar(tabbedPage, false);
             Current.MainPage = new PorscheNavigationPage(tabbedPage);
         }        
-             
+        
         protected override void OnStart()
         {
-            base.OnStart();
+            base.OnStart();                                  
+        }
 
+        protected override void OnSleep()
+        {            
+            // Handle when your app sleeps
+        }
+
+        protected override void OnResume()
+        {
             //Task.Run(async () =>
             //{                
             //    AppCredentials = await BlobCache.Secure.GetObject<AppCredentialsModel>("login");
@@ -62,17 +70,8 @@ namespace Alboraq.MobileApp.Mobile
             //        SetWelcomePage();
             //    }
 
-                
-            //});                        
-        }
 
-        protected override void OnSleep()
-        {            
-            // Handle when your app sleeps
-        }
-
-        protected override void OnResume()
-        {
+            //});  
             // Handle when your app resumes            
         }
     }

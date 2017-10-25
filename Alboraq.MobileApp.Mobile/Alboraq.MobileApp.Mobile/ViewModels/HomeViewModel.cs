@@ -90,19 +90,19 @@ namespace Alboraq.MobileApp.Mobile.ViewModels
             switch (featureName.ToLower())
             {
                 case "appointment":
-                    var appointmentPage = new AppointmentPage();
+                    var appointmentPage = new AppointmentPage { Title = "Appointment" };
                     Navigation.PushAsync(appointmentPage, animated: true);
                     break;
                 case "products":
-                    var productCategoryListPage = new ProductCategoryListPage();
+                    var productCategoryListPage = new ProductCategoryListPage { Title = "Product Categories" };
                     Navigation.PushAsync(productCategoryListPage, animated: true);
                     break;
                 case "menu packages":
-                    var menupackagesPage = new MenuPackagesPage();
+                    var menupackagesPage = new MenuPackagesPage { Title = "Menu Packages" };
                     Navigation.PushAsync(menupackagesPage);
                     break;
                 case "special offers":
-                    var specialOffersPage = new SpecialOffersPage();
+                    var specialOffersPage = new SpecialOffersPage { Title = "Special Offers" };
                     Navigation.PushAsync(specialOffersPage);
                     break;
                 default:

@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using System.Collections.Specialized;
 using System.Diagnostics;
+using Alboraq.MobileApp.Mobile.Views;
 
 namespace Alboraq.MobileApp.Mobile.ViewModels
 {
@@ -22,6 +23,7 @@ namespace Alboraq.MobileApp.Mobile.ViewModels
         }
         public INavigation Navigation { get; set; }
         public IProductService ProductService { get; set; }
+        public Page Page { get; set; }
 
         private ObservableCollection<ProductCategoryModel> _productCategories;
         public ObservableCollection<ProductCategoryModel> ProductCategories
@@ -32,12 +34,40 @@ namespace Alboraq.MobileApp.Mobile.ViewModels
                 OnPropertyChanged("ProductCategories");                
             }
         }
-        
+
+        private ProductCategoryModel _productCategory;
+
+        public ProductCategoryModel ProductCategory
+        {
+            get { return _productCategory; }
+            set {
+                if(_productCategory != value)
+                {
+                    _productCategory = value;
+                    OnPropertyChanged("ProductCategory");
+                    GotoPage(_productCategory.CategoryName);
+                }
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;        
 
         protected void OnPropertyChanged([CallerMemberName]string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }        
+
+        void GotoPage(string category)
+        {
+            var viewModel = new ProductListViewModel
+            {
+                SelectedCategory = category,
+                Navigation = Navigation
+            };
+
+            var productsPage = new ProductListPage(category) { Title = category };
+
+            Navigation.PushAsync(productsPage, animated: true);
+        }
     }
 }

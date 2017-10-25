@@ -1,18 +1,16 @@
 namespace Alboraq.MobileApp.EF.Migrations
 {
-    using System;
-    using System.Data.Entity;
+    using Microsoft.AspNet.Identity.EntityFramework;
     using System.Data.Entity.Migrations;
-    using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Alboraq.MobileApp.EF.AlboraqAppContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<AlboraqAppContext>
     {
         public Configuration()
         {            
             AutomaticMigrationsEnabled = true;
         }
 
-        protected override void Seed(Alboraq.MobileApp.EF.AlboraqAppContext context)
+        protected override void Seed(AlboraqAppContext context)
         {
             //  This method will be called after migrating to the latest version.
 
@@ -26,6 +24,12 @@ namespace Alboraq.MobileApp.EF.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
+            
+            context.Roles.AddOrUpdate(r => r.Name,                
+                new IdentityRole { Name = "receptionist" },
+                new IdentityRole { Name = "parts salesman" },
+                new IdentityRole { Name = "crm" }
+            );
         }
     }
 }

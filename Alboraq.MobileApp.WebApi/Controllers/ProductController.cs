@@ -10,6 +10,7 @@ using System.Web.Http;
 
 namespace Alboraq.MobileApp.WebApi.Controllers
 {
+    [Authorize]
     [RoutePrefix("api/product")]
     public class ProductController : ApiController
     {
@@ -25,6 +26,20 @@ namespace Alboraq.MobileApp.WebApi.Controllers
             var productCategories = await _uow.ProductCategories.GetAllAsync();
             
             return Ok(productCategories);
+        }
+
+        [Route("getproductsbycategoryname")]
+        public async Task<IHttpActionResult> GetProductsByCategoryName(string categoryName)
+        {
+            var products = await _uow.Products.GetProductsByCategoryNameAsync(categoryName);
+            return Ok(products);
+        }
+
+        [Route("getproductdetail")]
+        public async Task<IHttpActionResult> GetProductDetail(string productNo)
+        {
+            var product = await _uow.Products.GetAsync(productNo);
+            return Ok(product);
         }
     }
 }

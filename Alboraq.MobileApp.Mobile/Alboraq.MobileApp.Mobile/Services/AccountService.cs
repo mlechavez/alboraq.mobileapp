@@ -62,6 +62,7 @@ namespace Alboraq.MobileApp.Mobile.Services
 
                 AppCredentialsModel login = JsonConvert.DeserializeObject<AppCredentialsModel>(responseContent);
                 await BlobCache.Secure.InsertObject("login", login);
+                App.AppCredentials = login;
             }
             
             return response;

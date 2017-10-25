@@ -20,6 +20,7 @@ namespace Alboraq.MobileApp.EF.EntityConfigurations
             Property(x => x.PlateNo).HasMaxLength(30);
             Property(x => x.MobileNo).HasMaxLength(20);
             Property(x => x.Email).HasMaxLength(200);
+            Property(x => x.DateConfirmed).IsOptional();
             
         }
     }

@@ -1,12 +1,5 @@
 ﻿using Alboraq.MobileApp.Core;
-using Alboraq.MobileApp.Core.Entities;
-using Alboraq.MobileApp.WebApi.Models;
-using Microsoft.AspNet.Identity.Owin;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+using Alboraq.MobileApp.WebApi.Models.MVC.Appointments;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -16,39 +9,26 @@ namespace Alboraq.MobileApp.WebApi.Controllers
     [RoutePrefix("api/Appointment")]
     public class AppointmentController : ApiController
     {
-        private ApplicationUserManager _userManager;
-        private IUnitOfWork _uow;
-        public AppointmentController()
+        private readonly ApplicationUserManager _userManager;
+        private readonly IUnitOfWork _uow;
+        
+        public AppointmentController(ApplicationUserManager userManager, IUnitOfWork uow)
         {
-        }
-
-        public AppointmentController(IUnitOfWork uow)
-        {
+            _userManager = userManager;
             _uow = uow;
-        }
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
-        }        
+        }                
 
         [Route("NewAppointment")]        
-        public async Task<IHttpActionResult> NewAppointment([FromBody]AppointmentBindingModel model)
+        public async Task<IHttpActionResult> NewAppointment([FromBody] AppointmentModel model)
         {
-            var user = await UserManager.FindByNameAsync(model.Email);
+            var user = await _userManager.FindByNameAsync(model.Email);
 
             if (user == null)
             {
                 return NotFound();
             }
 
-            var appointment = new Appointment
+            var appointment = new Core.Entities.Appointment
             {
                 CustomerName = user.Name,
                 PlateNo = user.PlateNo,
@@ -60,7 +40,7 @@ namespace Alboraq.MobileApp.WebApi.Controllers
             _uow.Appointments.Add(appointment);
             await _uow.SaveChangesAsync();
 
-            await UserManager.SendAppEmailAsync("New Appointment", "new appointment has been added check online", "echavez.marklester@boraq-porsche.com.qa");
+            await _userManager.SendAppEmailAsync("New Appointment", "new appointment has been added check online", "echavez.marklester@boraq-porsche.com.qa");
             
             return Ok(appointment);
         }

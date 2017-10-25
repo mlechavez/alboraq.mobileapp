@@ -1,0 +1,83 @@
+﻿
+@{
+    ViewBag.Title = "Sign in";
+}
+
+<h2>Sign in</h2>
+
+<div id="alertContainer" class="alert alert-danger collapse" role="alert">
+    <a id="linkClose" class="close" href="#">&times;</a>
+</div>
+
+<form id="frmLogin" method="post">
+    <div class="form-group">
+        <label>Username:</label>
+        <input type="text" id="Username" name="Username" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label>Password:</label>
+        <input type="password" id="Password" name="Password" class="form-control" />
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Sign in</button>
+    </div>
+</form>
+
+@section scripts
+{
+<script>
+    (function ($, widgetObject) {
+        var controls = {
+            frmLogin: $('#frmLogin'),
+            txtUsername: $('#Username'),
+            txtPassword: $('#Password'),
+            alertContainer: $('#alertContainer'),
+            linkClose: $('#linkClose')
+        }
+
+        widgetObject.init = function () {
+            bindUiActions();
+        }
+
+        var bindUiActions = function () {
+            controls.frmLogin.on('submit', function (e) {
+                e.preventDefault();
+
+                $.ajax({
+                    method: 'post',
+                    url: '/token',
+                    contentType: 'application/json',
+                    data: {
+                        username: controls.txtUsername.val(),
+                        password: controls.txtPassword.val(),
+                        grant_type: 'password'
+                    },
+                    success: function (response) {
+                        sessionStorage.setItem('access_token', response.access_token);
+                        sessionStorage.setItem('token_type', response.token_type);
+                        window.location.href = '/';
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        var error = JSON.parse(jqXHR.responseText);
+                        //remove existing message
+                        controls.alertContainer.find('p').remove();
+                        //append error description
+                        controls.alertContainer.append("<p>" + error.error_description + "</p>").show('fade');
+                    }
+                });
+            });
+
+            controls.linkClose.on('click', function () {
+                //remove error message
+                controls.alertContainer.find('p').remove();
+
+                controls.alertContainer.hide('fade');
+                return false;
+            });
+        };
+
+    }(jQuery, window.LoginWidget = window.LoginWidget || {}));
+
+    LoginWidget.init();
+</script>
+}

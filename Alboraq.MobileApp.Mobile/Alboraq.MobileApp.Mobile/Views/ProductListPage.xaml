@@ -3,6 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Alboraq.MobileApp.Mobile.Views.ProductListPage">
   <ContentPage.Content>
-    
+    <StackLayout Padding="0,20,0,0">
+      <Label Text="Select product" Style="{StaticResource LeadLabel}"/>
+      <ListView ItemsSource="{Binding Products}"
+                HasUnevenRows="True">
+        <ListView.ItemTemplate>
+          <DataTemplate>
+            <ImageCell Text="{Binding ProductName}"
+                       Detail="{Binding ProductNo}"
+                       ImageSource="{Binding ImageUrl}"/>
+          </DataTemplate>
+        </ListView.ItemTemplate>
+      </ListView>
+    </StackLayout>
   </ContentPage.Content>
 </ContentPage>

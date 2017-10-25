@@ -1,11 +1,15 @@
 using Alboraq.MobileApp.Core;
 using Alboraq.MobileApp.EF;
-using Alboraq.MobileApp.WebApi.Controllers;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.DataHandler;
+using Microsoft.Owin.Security.DataHandler.Serializer;
+using Microsoft.Owin.Security.DataProtection;
 using Microsoft.Practices.Unity;
+using System.Data.Entity;
 using System.Web.Http;
-using Unity.WebApi;
+using System.Web.Mvc;
 
 namespace Alboraq.MobileApp.WebApi
 {
@@ -19,12 +23,25 @@ namespace Alboraq.MobileApp.WebApi
             // it is NOT necessary to register your controllers
 
             // e.g. container.RegisterType<ITestService, TestService>();
-            container.RegisterType<IUnitOfWork, UnitOfWork>(new InjectionConstructor("DefaultConnection"));
-            container.RegisterType<IUserStore<ApplicationUser>, UserStore<ApplicationUser>>();
-            container.RegisterType<RoleStore<IdentityRole>>(new InjectionConstructor(new Models.ApplicationDbContext()));
-            container.RegisterType<AccountController>(new InjectionConstructor());
-            container.RegisterType<AppointmentController>(new InjectionConstructor(new UnitOfWork("DefaultConnection")));            
-            GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
+            container.RegisterType<IUnitOfWork, UnitOfWork>(new HierarchicalLifetimeManager(), new InjectionConstructor("DefaultConnection"));
+
+            container.RegisterType<IUserStore<ApplicationUser>, UserStore<ApplicationUser>>(new HierarchicalLifetimeManager());
+            container.RegisterType<IRoleStore<IdentityRole, string>, RoleStore<IdentityRole>>(new HierarchicalLifetimeManager(), new InjectionConstructor(new AlboraqAppContext()));
+
+            container.RegisterType<ApplicationUserManager>(new HierarchicalLifetimeManager());
+            container.RegisterType<DbContext, AlboraqAppContext>(new HierarchicalLifetimeManager(), new InjectionConstructor("DefaultConnection"));
+            container.RegisterType<UserManager<ApplicationUser>>(new HierarchicalLifetimeManager());
+
+            container.RegisterType<ISecureDataFormat<AuthenticationTicket>, SecureDataFormat<AuthenticationTicket>>();
+            container.RegisterType<ISecureDataFormat<AuthenticationTicket>, TicketDataFormat>();
+            container.RegisterType<IDataSerializer<AuthenticationTicket>, TicketSerializer>();
+            container.RegisterType<IDataProtector>(new InjectionFactory(c => new DpapiDataProtectionProvider().Create("ASP.Net Identity")));
+            
+            //web api
+            GlobalConfiguration.Configuration.DependencyResolver = new Unity.WebApi.UnityDependencyResolver(container);
+
+            //mvc
+            DependencyResolver.SetResolver(new Unity.Mvc5.UnityDependencyResolver(container));
         }
     }
 }

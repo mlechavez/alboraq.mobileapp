@@ -25,6 +25,7 @@ namespace Alboraq.MobileApp.Mobile.Views
             vm = new ProductCategoryViewModel
             {
                 Navigation = Navigation,
+                Page = this,
                 ProductService = new ProductService()
             };
             BindingContext = vm;
@@ -33,38 +34,40 @@ namespace Alboraq.MobileApp.Mobile.Views
         protected async override void OnAppearing()
         {
             base.OnAppearing();
-
-            List<ProductCategoryModel> productCategories = new List<ProductCategoryModel>();
-
-            try
+            
+            if (vm.ProductCategories.Count == 0)
             {
-                productCategories = await BlobCache.InMemory.GetObject<List<ProductCategoryModel>>("productCategories");
-
-                if (productCategories.Count > 0)
+                List<ProductCategoryModel> productCategories = new List<ProductCategoryModel>();
+                try
                 {
-                    foreach (var category in productCategories)
-                    {
-                        vm.ProductCategories.Add(category);
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                if (productCategories.Count == 0)
-                {
-                    productCategories = await vm.ProductService.GetCategoriesAsync();
+                    productCategories = await BlobCache.LocalMachine.GetObject<List<ProductCategoryModel>>("productCategories");
 
-                    if (productCategories != null)
-
+                    if (productCategories.Count > 0)
                     {
                         foreach (var category in productCategories)
                         {
                             vm.ProductCategories.Add(category);
                         }
-                        await BlobCache.InMemory.InsertObject("productCategories", productCategories);
                     }
                 }
-            }                        
+                catch (Exception)
+                {
+                    if (productCategories.Count == 0)
+                    {
+                        productCategories = await vm.ProductService.GetCategoriesAsync();
+
+                        if (productCategories != null)
+
+                        {
+                            foreach (var category in productCategories)
+                            {
+                                vm.ProductCategories.Add(category);
+                            }
+                            await BlobCache.LocalMachine.InsertObject("productCategories", productCategories);
+                        }
+                    }
+                }
+            }            
         }
     }
 }
