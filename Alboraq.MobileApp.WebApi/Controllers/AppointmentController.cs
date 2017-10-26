@@ -21,11 +21,16 @@ namespace Alboraq.MobileApp.WebApi.Controllers
         [Route("NewAppointment")]        
         public async Task<IHttpActionResult> NewAppointment([FromBody] AppointmentModel model)
         {
+            if (!ModelState.IsValid)
+            {                
+                return BadRequest(ModelState);
+            }
+
             var user = await _userManager.FindByNameAsync(model.Email);
 
             if (user == null)
             {
-                return NotFound();
+                return Content(System.Net.HttpStatusCode.NotFound, "The user cannot be found!");
             }
 
             var appointment = new Core.Entities.Appointment
@@ -40,7 +45,7 @@ namespace Alboraq.MobileApp.WebApi.Controllers
             _uow.Appointments.Add(appointment);
             await _uow.SaveChangesAsync();
 
-            await _userManager.SendAppEmailAsync("New Appointment", "new appointment has been added check online", "echavez.marklester@boraq-porsche.com.qa");
+            //await _userManager.SendAppEmailAsync("New Appointment", "new appointment has been added check online", "echavez.marklester@boraq-porsche.com.qa");
             
             return Ok(appointment);
         }

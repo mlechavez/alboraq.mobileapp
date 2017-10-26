@@ -1,6 +1,7 @@
 ﻿using Alboraq.MobileApp.Core;
 using Alboraq.MobileApp.WebApi.Models.MVC.Appointments;
 using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -30,6 +31,7 @@ namespace Alboraq.MobileApp.WebApi.Controllers.MVC
             return View(viewModel);
         }
 
+        [HttpPost]
         [Route("confirmAppointment")]
         public async Task<ActionResult> ConfirmAppointment(int appointmentID)
         {
@@ -42,8 +44,11 @@ namespace Alboraq.MobileApp.WebApi.Controllers.MVC
 
             appointment.IsConfirmed = true;
             appointment.DateConfirmed = DateTime.UtcNow;
+            appointment.ConfirmedBy = User.Identity.Name;
 
             await _unitOfWork.SaveChangesAsync();
+
+            //TO DO: SEND EMAIL AND SMS HERE
 
             return Json(new { message = "Appointment has been confirmed!" });
         }
