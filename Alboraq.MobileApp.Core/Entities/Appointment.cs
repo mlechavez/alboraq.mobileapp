@@ -12,5 +12,6 @@ namespace Alboraq.MobileApp.Core.Entities
         public string Email { get; set; }
         public bool IsConfirmed { get; set; }
         public DateTime? DateConfirmed { get; set; }
+        public string ConfirmedBy { get; set; }
     }
 }
