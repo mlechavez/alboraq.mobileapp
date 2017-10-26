@@ -36,7 +36,11 @@
                             <td>@unconfirmedAppt.AppointmentDate</td>
                             <td>
                                 <button type="button" 
-                                        class="btn btn-default btnConfirmModal">
+                                        class="btn btn-default btnConfirmModal"
+                                        data-toggle="modal"
+                                        data-target="#appModal"
+                                        data-backdrop="static"
+                                        data-keyboard="false">
                                 Confirm the appointment</button>
                             </td>
                         </tr>
@@ -74,8 +78,6 @@
                     id = row.attr('id'),
                     customerName = row.find('td:first-child').text();
 
-                controls.appModal.modal('show');
-
                 //set the modal to small
                 controls.appModal.find('.modal-dialog').addClass('modal-sm');
 
@@ -100,28 +102,42 @@
             controls.appModalContent.on('click', '#btnConfirmAppointment', function () {
                 var me = $(this);
                 var appointmentID = me.data('appointmentid');
-                
+                console.log(appointmentID);
+                me.html('<i class="fa fa-spinner fa-pulse"></i>&nbsp;Confirming...').addClass('disabled');
+
                 $.ajax({
                     method: 'post',
                     url: '/appointments/confirmAppointment',
                     contentType: 'application/json',
-                    data: JSOn.stringify({
-                        data: appointmentID
+                    data: JSON.stringify({
+                        appointmentID: parseInt(appointmentID)
                     }),
                     success: function (response) {
+
                         //find the modal body
                         var body = controls.appModal.find('.modal-body');
                         body.empty();
                         body.append("<p class='text-center'>" + response.message + "</p>");
 
-                        
+                        //create close button and remove the btnConfirm
+                        var button = $('<button/>').addClass('btn btn-default text-right')
+                            .text('Close').attr({                                                                
+                                'id': 'btnCloseModal'
+                            });
+                        controls.appModal.find('.modal-footer').empty().append(button);
                     }
                 });
                                 
             });
-            
-            controls.appModal.on('shown.bs.modal', function () {
+            controls.appModalContent.on('click', '#btnCloseModal', function () {
+                controls.appModal.modal('hide');
+                window.location.reload();
+            });
 
+            controls.appModal.on('hidden.bs.modal', function () {
+                var me = $(this);
+                me.find('.modal-body').empty();
+                me.find('.modal-footer').empty();
             });
         };
     }(jQuery, window.UnconfirmedApptWidget = window.UnconfirmedApptWidget || {}));
