@@ -7,6 +7,7 @@ using Alboraq.MobileApp.WebApi.Models;
 using System;
 using System.Net.Mail;
 using Alboraq.MobileApp.EF;
+using System.Security.Claims;
 
 namespace Alboraq.MobileApp.WebApi
 {
@@ -33,6 +34,9 @@ namespace Alboraq.MobileApp.WebApi
                 RequireLowercase = false,
                 RequireUppercase = false,
             };
+
+            ClaimsIdentityFactory = new CustomClaimsIdentityFactory();
+
             // Configure email Service
             AppEmailService = new AppEmailService();
 
@@ -42,7 +46,6 @@ namespace Alboraq.MobileApp.WebApi
                 UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
         }        
-
         public IAppEmailService AppEmailService { get; set; }
 
         public async Task SendAppEmailAsync(string subject, string body, string to)
@@ -55,6 +58,16 @@ namespace Alboraq.MobileApp.WebApi
         }
     }
 
+    public class CustomClaimsIdentityFactory : ClaimsIdentityFactory<ApplicationUser>
+    {
+        public async override Task<ClaimsIdentity> CreateAsync(UserManager<ApplicationUser, string> manager, ApplicationUser user, string authenticationType)
+        {
+            var claims = await base.CreateAsync(manager, user, authenticationType);
+
+            claims.AddClaim(new Claim("fullname", user.Name));
+            return claims;
+        }
+    }
 
     public interface IAppEmailService
     {
