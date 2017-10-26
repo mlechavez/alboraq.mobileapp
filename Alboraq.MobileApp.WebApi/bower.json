@@ -1,0 +1,22 @@
+{
+  "name": "alboraq.mobileapp.webapi",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Mark Lester Echavez <lester.echavez@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/mlechavez/alboraq.mobileapp",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "bootstrap-sass": "^3.3.7",
+    "font-awesome": "fontawesome#^4.7.0"
+  }
+}
