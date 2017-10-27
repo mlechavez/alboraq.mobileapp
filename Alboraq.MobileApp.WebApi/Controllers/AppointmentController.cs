@@ -1,4 +1,5 @@
 ﻿using Alboraq.MobileApp.Core;
+using Alboraq.MobileApp.Core.Entities;
 using Alboraq.MobileApp.WebApi.Models.MVC.Appointments;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -33,7 +34,7 @@ namespace Alboraq.MobileApp.WebApi.Controllers
                 return Content(System.Net.HttpStatusCode.NotFound, "The user cannot be found!");
             }
 
-            var appointment = new Core.Entities.Appointment
+            var appointment = new Appointment
             {
                 CustomerName = user.Name,
                 PlateNo = user.PlateNo,
