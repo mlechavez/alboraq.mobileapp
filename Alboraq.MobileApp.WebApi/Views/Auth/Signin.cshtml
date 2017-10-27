@@ -19,7 +19,7 @@
         <input type="password" id="Password" name="Password" class="form-control" />
     </div>
     <div class="form-group">
-        <button type="submit" class="btn btn-primary">Sign in</button>
+        <button type="submit" id="btnSignin" class="btn btn-primary">Sign in</button>
     </div>
 </form>
 
@@ -32,7 +32,8 @@
             txtUsername: $('#Username'),
             txtPassword: $('#Password'),
             alertContainer: $('#alertContainer'),
-            linkClose: $('#linkClose')
+            linkClose: $('#linkClose'),
+            btnSignin: $('#btnSignin')
         }
 
         widgetObject.init = function () {
@@ -42,6 +43,8 @@
         var bindUiActions = function () {
             controls.frmLogin.on('submit', function (e) {
                 e.preventDefault();
+
+                controls.btnSignin.html('<i class="fa fa-spinner fa-pulse"></i>&nbsp;Signing in...').addClass('disabled');
 
                 $.ajax({
                     method: 'post',
@@ -63,6 +66,8 @@
                         controls.alertContainer.find('p').remove();
                         //append error description
                         controls.alertContainer.append("<p>" + error.error_description + "</p>").show('fade');
+
+                        controls.btnSignin.html('Sign in').removeClass('disabled');
                     }
                 });
             });
