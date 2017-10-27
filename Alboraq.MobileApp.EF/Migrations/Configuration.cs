@@ -1,5 +1,6 @@
 namespace Alboraq.MobileApp.EF.Migrations
 {
+    using Alboraq.MobileApp.Core.Entities;
     using Microsoft.AspNet.Identity.EntityFramework;
     using System.Data.Entity.Migrations;
 
@@ -29,7 +30,7 @@ namespace Alboraq.MobileApp.EF.Migrations
                 new IdentityRole { Name = "receptionist" },
                 new IdentityRole { Name = "parts salesman" },
                 new IdentityRole { Name = "crm" }
-            );
+            );            
         }
     }
 }

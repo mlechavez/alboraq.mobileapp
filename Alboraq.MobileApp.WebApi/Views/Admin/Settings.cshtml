@@ -1,0 +1,111 @@
+﻿@model Alboraq.MobileApp.WebApi.Models.MVC.Admin.AdminSettingsViewModel
+
+@{
+    ViewBag.Title = "Settings";
+}
+
+@Html.Partial("_Modal")
+
+<h2>Settings</h2>
+
+<ul class="nav nav-tabs nav-justified" role="tablist">
+    <li role="presentation" class="active"><a href="#users" role="tab" data-toggle="tab">Users</a></li>
+    <li role="presentation"><a href="#roles" data-toggle="tab">Role</a></li>
+</ul>
+
+<div class="tab-content">
+    <div id="users" role="tabpanel" class="tab-pane fade in active">
+        @Html.Partial("_UsersPartialView", Model.Users)
+    </div>
+    <div id="roles" role="tabpanel" class="tab-pane fade">
+        @Html.Partial("_RolesPartialView", Model.Roles)
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        (function ($, widgetObject) {
+            var controls = {
+                appModal: $('#appModal'),
+                appModalContent: $('#appModal .modal-content'),
+                btnAddUserShowDialog: $('#btnAddUserShowDialog')                
+            };
+
+            widgetObject.init = function () {
+                bindUiActions();
+            };
+
+            var bindUiActions = function () {
+
+                controls.btnAddUserShowDialog.on('click', function () {
+
+                    controls.appModal.find('.modal-title').text('Add new user');
+                    controls.appModal.find('.modal-dialog').addClass('modal-sm');
+                    controls.appModal.find('.modal-footer')
+                        .append('<button id="btnCloseDialog" type="button" class="btn btn-default">Close</button>'); 
+
+                    var appModalBody = controls.appModal.find('.modal-body');
+
+                    appModalBody.append('<p class="text-center"><i class="fa fa-spinner fa-pulse fa-2x"></i></p>');
+
+                    appModalBody.load('/admin/NewUserPartialView');                                        
+                });
+
+                controls.appModal.on('shown.bs.modal', function () {                    
+                    if ($('#Email')) {
+                        $('#Email').focus();
+                    }
+                });
+
+                controls.appModal.on('hidden.bs.modal', function () {
+                    //remove existing button in modal-footer 
+                    //that has been created dynamically
+                    $(this).find('.modal-footer').empty();
+                });
+
+                controls.appModalContent.on('click', '#btnCloseDialog', function () {
+                    controls.appModal.modal('hide');
+                });
+
+                controls.appModalContent.on('submit', '#frmNewUser', function (e) {
+                    e.preventDefault();
+
+                    var form = $(this);
+
+                    //animate button submit
+                    controls.appModal.find('#btnAddSubmit').html('Creating user..&nbsp; <i class="fa fa-spinner fa-pulse></i>')
+                        .addClass('disabled');
+
+                    //disable this to prevent close the modal while creating a user
+                    controls.appModal.find('#btnCloseDialog').addClass('disabled');
+                    controls.appModal.find('.close').addClass('hidden');
+
+                    $.ajax({
+                        method: 'post',
+                        url: '/api/account/register',
+                        data: form.serialize(),
+                        success: function (response) {
+                            var alertDialog = $('<div class="alert alert-success"></div>');
+                            alertDialog.append('<p class="text-center">New user ' + response.UserName + 'has been created!</p>');
+
+                            controls.appModal.find('.modal-body').prepend(alertDialog);
+
+                            //enable the control state
+                            controls.appModal.find('#btnAddSubmit').html('Submit')
+                                .removeClass('disabled');
+                            controls.appModal.find('#btnCloseDialog').removeClass('disabled');
+                            controls.appModal.find('.close').removeClass('hidden');
+                        },
+                        error: function (jqXHR) {
+                            console.log(jqXHR.responseText);
+                            controls.appModal.find('#btnAddSubmit').html('Submit')
+                                .removeClass('disabled');
+                        }
+                    });
+                });
+            };
+        })(jQuery, window.UsersWidget = window.UsersWidget || {});
+
+        UsersWidget.init();
+    </script>
+}

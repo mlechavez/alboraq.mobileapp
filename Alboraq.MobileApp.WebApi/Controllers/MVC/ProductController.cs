@@ -1,14 +1,8 @@
 ﻿using Alboraq.MobileApp.Core;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 
-namespace Alboraq.MobileApp.WebApi.Controllers
+namespace Alboraq.MobileApp.WebApi.Controllers.MVC
 {
     [Authorize]
     [RoutePrefix("api/product")]

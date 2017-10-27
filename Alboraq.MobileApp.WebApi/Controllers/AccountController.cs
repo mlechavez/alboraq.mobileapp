@@ -320,7 +320,7 @@ namespace Alboraq.MobileApp.WebApi.Controllers
                 result = await _userManager.SetPhoneNumberAsync(user.Id, model.PhoneNumber);
                 if (result.Succeeded)
                 {
-                    return Ok();
+                    return Ok(user.UserName);
                 }
                 
             }

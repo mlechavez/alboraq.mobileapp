@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace Alboraq.MobileApp.WebApi.Controllers
+namespace Alboraq.MobileApp.WebApi.Controllers.MVC
 {
     public class HomeController : Controller
     {

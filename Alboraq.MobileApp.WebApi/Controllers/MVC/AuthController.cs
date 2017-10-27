@@ -1,11 +1,11 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
-namespace Alboraq.MobileApp.WebApi.Controllers
+namespace Alboraq.MobileApp.WebApi.Controllers.MVC
 {
     [AllowAnonymous]
     public class AuthController : Controller
-    {
+    {       
         // GET: Auth
         public ActionResult Signin()
         {
