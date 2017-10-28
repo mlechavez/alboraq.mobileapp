@@ -22,7 +22,7 @@ namespace Alboraq.MobileApp.WebApi.Controllers.MVC
         {            
             var viewModel = new AdminSettingsViewModel
             {
-                Users = _userManager.Users.ToList(),
+                Users = _userManager.Users.Where(x=>x.Email.Contains("boraq-porsche.com.qa")).ToList(),
                 Roles = _roleManager.Roles.ToList()
             };
             return View(viewModel);
@@ -31,6 +31,13 @@ namespace Alboraq.MobileApp.WebApi.Controllers.MVC
         public ActionResult NewUserPartialView()
         {            
             return PartialView("_NewUserPartialView");
+        }
+
+        public ActionResult EditUserPartialView(string userID)
+        {
+            var user = _userManager.FindById(userID);
+
+            return PartialView("_EditUserPartialView", user);
         }
     }
 }

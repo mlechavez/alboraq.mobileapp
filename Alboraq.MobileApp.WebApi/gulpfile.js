@@ -24,7 +24,9 @@ gulp.task('icons', function () {
 gulp.task('js', function () {
     return gulp.src([
         config.bowerDir + '/jquery/dist/jquery.min.js',
-        config.bowerDir + '/bootstrap-sass/assets/javascripts/bootstrap.min.js'
+        config.bowerDir + '/bootstrap-sass/assets/javascripts/bootstrap.min.js',
+        config.bowerDir + '/jquery-validation/dist/jquery.validate.min.js',
+        config.bowerDir + '/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js'
     ]).pipe(gulp.dest('./dist/js'));
 });
 

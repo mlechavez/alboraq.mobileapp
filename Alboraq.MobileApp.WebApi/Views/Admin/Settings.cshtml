@@ -15,7 +15,7 @@
 
 <div class="tab-content">
     <div id="users" role="tabpanel" class="tab-pane fade in active">
-        @Html.Partial("_UsersPartialView", Model.Users)
+        @Html.Partial("_UsersPartialView", Model)
     </div>
     <div id="roles" role="tabpanel" class="tab-pane fade">
         @Html.Partial("_RolesPartialView", Model.Roles)
@@ -28,7 +28,10 @@
             var controls = {
                 appModal: $('#appModal'),
                 appModalContent: $('#appModal .modal-content'),
-                btnAddUserShowDialog: $('#btnAddUserShowDialog')                
+                btnAddUserDialog: $('#btnAddUserDialog'),
+                btnEditUserDialog: $('#btnEditUserDialog'),
+                btnChangePasswordDialog: $('#btnChangePasswordDialog'),
+                btnResetPasswordDialog: $('#btnResetPasswordDialog')
             };
 
             widgetObject.init = function () {
@@ -37,7 +40,7 @@
 
             var bindUiActions = function () {
 
-                controls.btnAddUserShowDialog.on('click', function () {
+                controls.btnAddUserDialog.on('click', function () {
 
                     controls.appModal.find('.modal-title').text('Add new user');
                     controls.appModal.find('.modal-dialog').addClass('modal-sm');
@@ -52,8 +55,8 @@
                 });
 
                 controls.appModal.on('shown.bs.modal', function () {                    
-                    if ($('#Email')) {
-                        $('#Email').focus();
+                    if ($('#Name')) {
+                        $('#Name').focus();
                     }
                 });
 
@@ -80,13 +83,14 @@
                     controls.appModal.find('#btnCloseDialog').addClass('disabled');
                     controls.appModal.find('.close').addClass('hidden');
 
+                    var alertDialog = $('<div class="alert"></div>');        
+
                     $.ajax({
                         method: 'post',
                         url: '/api/account/register',
                         data: form.serialize(),
-                        success: function (response) {
-                            var alertDialog = $('<div class="alert alert-success"></div>');
-                            alertDialog.append('<p class="text-center">New user ' + response.UserName + 'has been created!</p>');
+                        success: function (response) {                                                                          
+                            alertDialog.addClass('alert-success').append('<p class="text-center">User ' + response.Email + ' has been created!</p>');
 
                             controls.appModal.find('.modal-body').prepend(alertDialog);
 
@@ -97,15 +101,45 @@
                             controls.appModal.find('.close').removeClass('hidden');
                         },
                         error: function (jqXHR) {
-                            console.log(jqXHR.responseText);
+                            //alertDialog.addClass('text-danger').append('<p class="text-center">User ' + jqXHR.respo + ' has been created!</p>');
+
+                            //controls.appModal.find('.modal-body').prepend(alertDialog);
+                            //TO DO: SHOW THE ERROR!                                                       
+                            console.log(jqXHR.responseJSON.ModelState);
                             controls.appModal.find('#btnAddSubmit').html('Submit')
                                 .removeClass('disabled');
                         }
                     });
                 });
-            };
-        })(jQuery, window.UsersWidget = window.UsersWidget || {});
 
-        UsersWidget.init();
+                controls.btnEditUserDialog.on('click', function (event) {
+                    var btn = $(event.currentTarget),
+                        userID = btn.data('userid');                    
+
+                    controls.appModal.find('.modal-title').text('Edit user');
+                    controls.appModal.find('.modal-dialog').addClass('modal-sm');
+                    controls.appModal.find('.modal-footer')
+                        .append('<button id="btnCloseDialog" type="button" class="btn btn-default">Close</button>');
+
+                    var appModalBody = controls.appModal.find('.modal-body');
+
+                    appModalBody.append('<p class="text-center"><i class="fa fa-spinner fa-pulse fa-2x"></i></p>');
+
+                    appModalBody.load('/admin/edituserpartialview?userID=' +userID);
+
+                    controls.appModal.modal('show');
+                });
+
+                controls.appModalContent.on('submit', '#frmUpdateUser', function (e) {
+                    e.preventDefault();
+
+                    
+                });
+            };
+        })(jQuery, window.UserWidget = window.UserWidget || {});
+
+        UserWidget.init();
+
+        
     </script>
 }

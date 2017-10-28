@@ -17,6 +17,8 @@
   ],
   "devDependencies": {
     "bootstrap-sass": "^3.3.7",
-    "font-awesome": "fontawesome#^4.7.0"
+    "font-awesome": "fontawesome#^4.7.0",
+    "jquery-validation": "1.17.0",
+    "jquery-validation-unobtrusive": "3.2.6"
   }
 }
