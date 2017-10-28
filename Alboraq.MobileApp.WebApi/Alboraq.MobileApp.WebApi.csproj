@@ -448,7 +448,6 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="package.json" />
     <Content Include="bower.json" />
     <Content Include="bower_components\bootstrap-sass\.bower.json" />
     <Content Include="bower_components\bootstrap-sass\assets\fonts\bootstrap\glyphicons-halflings-regular.eot" />
@@ -587,6 +586,7 @@
     <Content Include="dist\fonts\fontawesome-webfont.woff" />
     <Content Include="dist\fonts\fontawesome-webfont.woff2" />
     <Content Include="dist\fonts\FontAwesome.otf" />
+    <Content Include="package.json" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
