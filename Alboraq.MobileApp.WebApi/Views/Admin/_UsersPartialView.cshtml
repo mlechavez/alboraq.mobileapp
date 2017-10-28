@@ -1,18 +1,20 @@
 ﻿@model Alboraq.MobileApp.WebApi.Models.MVC.Admin.AdminSettingsViewModel
 
+<br /><br />
+<button type="button" id="btnAddUserDialog"
+        class="btn btn-default"
+        data-target="#appModal"
+        data-toggle="modal"
+        data-backdrop="static"
+        data-keyboard="false">
+    Add new user
+</button><br /><br />
 
 @if (Model.Users.Count() > 0)
 {
-    <div class="body-content">
-        <br /><br />
-    <button type="button" id="btnAddUserDialog" 
-            class="btn btn-default"
-            data-target="#appModal"
-            data-toggle="modal"
-            data-backdrop="static"
-            data-keyboard="false">Add new user</button><br /><br />
+    <div class="body-content">           
 
-    <table class="table table-bordered table-condensed table-hover">
+    <table class="table table-condensed table-hover">
         <thead>
             <tr>
                 <th>Username</th>
@@ -41,6 +43,6 @@
 }
 else
 {
-
+    <div class="alert alert-info">No Users found</div>
 }
 
