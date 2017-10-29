@@ -51,7 +51,42 @@
 
                     appModalBody.append('<p class="text-center"><i class="fa fa-spinner fa-pulse fa-2x"></i></p>');
 
-                    appModalBody.load('/admin/NewUserPartialView');                                        
+                    appModalBody.load('/admin/NewUserPartialView', function () {
+                        //add the form in the controls object
+                        controls.frmNewUser = controls.appModalContent.find('#frmNewUser');
+
+                        //bind the validation
+                        controls.frmNewUser.validate({
+                            rules: {
+                                Name: 'required',
+                                Email: {
+                                    required: true,
+                                    email: true //validated by the built-in email rule
+                                },
+                                Password: {
+                                    required: true,
+                                    minlength: 6
+                                },
+                                ConfirmPassword: {
+                                    equalTo: '#Password'
+                                },
+                                PhoneNumber: 'required'
+                            },
+                            messages: {
+                                Name: 'Please enter your name',
+                                Email: 'Please enter a valid email address',
+                                Password: {
+                                    required: 'Please provide a password',
+                                    minlength: 'The password atleast 6 characters long'
+                                },
+                                PhoneNumber: 'Please enter a mobile number'
+                            },
+                            submitHandler: function (form) {                                
+                                controls.frmNewUser.trigger('submit');
+                            }
+                        });
+                    });   
+                    
                 });
 
                 controls.appModal.on('shown.bs.modal', function () {                    
@@ -73,7 +108,7 @@
                 controls.appModalContent.on('submit', '#frmNewUser', function (e) {
                     e.preventDefault();
 
-                    var form = $(this);
+                    var form = $(this);                    
 
                     //animate button submit
                     controls.appModal.find('#btnAddSubmit').html('Creating user..&nbsp; <i class="fa fa-spinner fa-pulse></i>')
@@ -101,11 +136,17 @@
                             controls.appModal.find('.close').removeClass('hidden');
                         },
                         error: function (jqXHR) {
+
                             //alertDialog.addClass('text-danger').append('<p class="text-center">User ' + jqXHR.respo + ' has been created!</p>');
 
                             //controls.appModal.find('.modal-body').prepend(alertDialog);
                             //TO DO: SHOW THE ERROR!                                                       
-                            console.log(jqXHR.responseJSON.ModelState);
+                            console.log(jqXHR.responseJSON);
+                            $.each(jqXHR.responseJSON, function (key, value) {
+                                if (typeof value === 'object') {
+                                    console.log(value);
+                                }
+                            });
                             controls.appModal.find('#btnAddSubmit').html('Submit')
                                 .removeClass('disabled');
                         }
