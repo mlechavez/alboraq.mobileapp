@@ -55,13 +55,14 @@
                         //add the form in the controls object
                         controls.frmNewUser = controls.appModalContent.find('#frmNewUser');
 
-                        //bind the validation
+                        //bind the validation when the form is loaded.
                         controls.frmNewUser.validate({
                             rules: {
                                 Name: 'required',
                                 Email: {
                                     required: true,
-                                    email: true //validated by the built-in email rule
+                                    //validated by the built-in email rule
+                                    email: true 
                                 },
                                 Password: {
                                     required: true,
@@ -108,26 +109,41 @@
                 controls.appModalContent.on('submit', '#frmNewUser', function (e) {
                     e.preventDefault();
 
-                    var form = $(this);                    
-
+                    var form = $(this);
+                        
                     //animate button submit
                     controls.appModal.find('#btnAddSubmit').html('Creating user..&nbsp; <i class="fa fa-spinner fa-pulse></i>')
                         .addClass('disabled');
 
-                    //disable this to prevent close the modal while creating a user
+                    //disable buttons to prevent closing the modal while creating a user
                     controls.appModal.find('#btnCloseDialog').addClass('disabled');
                     controls.appModal.find('.close').addClass('hidden');
 
-                    var alertDialog = $('<div class="alert"></div>');        
+                    //find the alert dialog
+                    var alertDialog = controls.appModal.find('#alertMessage');
 
+                    //if exists remove the content
+                    if (alertDialog) {                        
+                        alertDialog.removeClass('alert-success alert-danger').empty();
+                    } else {                        
+                        alertDialog = $('<div id="alertMessage" class="alert"></div>');                               
+                    }
+                    
                     $.ajax({
                         method: 'post',
                         url: '/api/account/register',
                         data: form.serialize(),
                         success: function (response) {                                                                          
-                            alertDialog.addClass('alert-success').append('<p class="text-center">User ' + response.Email + ' has been created!</p>');
+                            //append response content
+                            console.log(alertDialog);
+                            alertDialog.addClass('alert-success')
+                                .append('<p class="text-center">User ' + response + ' has been created!</p>');
 
+                            //append the dialog on the top of the form
                             controls.appModal.find('.modal-body').prepend(alertDialog);
+
+                            //clear the input
+                            controls.appModalContent.find('#frmNewUser').find('input').val('');                            
 
                             //enable the control state
                             controls.appModal.find('#btnAddSubmit').html('Submit')
@@ -136,17 +152,17 @@
                             controls.appModal.find('.close').removeClass('hidden');
                         },
                         error: function (jqXHR) {
+                            var modelStateErrors = jqXHR.responseJSON.ModelState[""];
 
-                            //alertDialog.addClass('text-danger').append('<p class="text-center">User ' + jqXHR.respo + ' has been created!</p>');
-
-                            //controls.appModal.find('.modal-body').prepend(alertDialog);
-                            //TO DO: SHOW THE ERROR!                                                       
-                            console.log(jqXHR.responseJSON);
-                            $.each(jqXHR.responseJSON, function (key, value) {
-                                if (typeof value === 'object') {
-                                    console.log(value);
-                                }
+                            //loop through the error
+                            $.each(modelStateErrors, function (key, value) {
+                                alertDialog.addClass('alert-danger')
+                                    .append('<p class="text-center">User ' + value + ' has been created!</p>');
                             });
+
+                            // append on the top
+                            controls.appModal.find('.modal-body').prepend(alertDialog);                                                
+                            
                             controls.appModal.find('#btnAddSubmit').html('Submit')
                                 .removeClass('disabled');
                         }
