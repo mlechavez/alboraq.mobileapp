@@ -117,5 +117,23 @@ namespace Alboraq.MobileApp.WebApi.Controllers.MVC
 
             return PartialView("_DeleteUserPartialView");
         }
+
+        public ActionResult DeleteUser(string email)
+        {
+            var user = _userManager.FindByEmail(email);
+
+            if (user == null)
+            {
+                return Json(new { isSuccess = false, message = "The user cannot be found! Maybe it's been deleted." });
+            }
+
+            var result = _userManager.Delete(user);
+
+            if (result.Succeeded)
+            {
+                return Json(new { isSuccess = true, message = $"{ user.Email} has been deleted."});
+            }
+            return Json(new { isSuccess = false, errors = result.Errors });
+        }
     }
 }

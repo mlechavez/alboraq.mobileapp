@@ -220,7 +220,9 @@
                     var form = $(this),
                         alertDialog;
 
-                    //TODO: ADD ANIMATIONS TO THE BUTTONS                    
+                    controls.appModal.find('#btnUpdateUser').addClass('disabled')
+                        .html('Updating... &nbsp; <i class="fa fa-spinner fa-pulse></i>"');
+                    controls.appModal.find('.close').addClass('hidden');
 
                     //check if the alert dialog has already been created
                     alertDialog = controls.appModal.find('#alertMessage');
@@ -240,10 +242,18 @@
                                 alertDialog.addClass('alert-success')
                                     .append('<p class="text-center">' + response.message + '</p>');
                                 controls.appModal.find('.modal-body').prepend(alertDialog);
+
+                                controls.appModal.find('#btnUpdateUser').removeClass('disabled')
+                                    .html('Update');
+                                controls.appModal.find('.close').removeClass('hidden');
                             } else {
                                 $.each(response.errors, function (key, value) {
                                     alertDialog.addClass('alert-danger')
                                         .append('<p class="text-center">' + value + '</p>');
+
+                                    controls.appModal.find('#btnUpdateUser').removeClass('disabled')
+                                        .html('Submit');
+                                    controls.appModal.find('.close').removeClass('hidden');
                                 });
                                 controls.appModal.find('.moda-body').prepend(alertDialog);
                             }
@@ -254,6 +264,7 @@
                         }
                     });
                 });    
+
                 controls.btnResetPasswordDialog.on('click', function (event) {
                     var btn = $(event.currentTarget),
                         email = btn.data('email');
@@ -278,7 +289,9 @@
                     var form = $(this),
                         alertDialog;
 
-                    //TO DO: UPDATE ANIMATION FOR BUTTONS
+                    controls.appModal.find('#btnResetPassword').addClass('disabled')
+                        .html('Resetting the password... &nbsp; <i class="fa fa-spinner fa-pulse></i>"');
+                    controls.appModal.find('.close').addClass('hidden');
 
                     alertDialog = controls.appModal.find('#alertMessage');
 
@@ -296,6 +309,10 @@
                             alertDialog.addClass('alert-success')
                                 .append('<p class="text-center">' + response.message + '</p>');
                             controls.appModalContent.find('.modal-body').prepend(alertDialog);
+
+                            controls.appModal.find('#btnResetPassword').removeClass('disabled')
+                                .html('Submit');
+                            controls.appModal.find('.close').removeClass('hidden');
                         },
                         error: function (jqXHR) {
                             alertDialog.addClass('alert-danger')
@@ -323,8 +340,56 @@
                     controls.appModal.modal('show');
                 });
 
-                controls.appModalContent.on('submit', '#frmDeleteUser', function () {
-                    
+                controls.appModalContent.on('submit', '#frmDeleteUser', function (e) {
+                    e.preventDefault();
+
+                    var form = $(this),
+                        alertDialog;
+
+                    controls.appModal.find('#btnDeleteUser').addClass('disabled')
+                        .html('Deleting user... <i class="fa fa-spinner fa-pulse"></i>');
+                    controls.appModal.find('.close').addClass('hidden');
+
+                    alertDialog = controls.appModal.find('#alertMessage');
+
+                    if (alertDialog.length) {
+                        alertDialog.removeClass('alert-success alert-danger').empty();
+                    } else {
+                        alertDialog = $('<div id="alertMessage" class="alert"></div>');
+                    }
+
+                    $.ajax({
+                        method: 'post',
+                        url: '/admin/deleteuser',
+                        data: form.serialize(),
+                        success: function (response) {
+                            if (response.isSuccess) {
+                                alertDialog.addClass('alert-success');
+                            } else {
+                                alertDialog.addClass('alert-danger');
+                            }
+
+                            alertDialog.append('<p class="text-center">' + response.message + '</p>');
+
+                            controls.appModal.find('.modal-body').empty()
+                                .prepend(alertDialog);
+
+                            controls.appModal.find('#btnDeleteUser').removeClass('disabled')
+                                .html('Submit');
+                            controls.appModal.find('.close').removeClass('hidden');                            
+                        },
+                        error: function (jqXHR) {
+                            alertDialog.addClass('alert-danger')
+                                .append('<p class="text-center">' + response.responseText + '</p>');
+
+                            controls.appModal.find('.modal-body').prepend(alertDialog);
+
+                            controls.appModal.find('#btnDeleteUser').removeClass('disabled')
+                                .html('Submit');
+                            controls.appModal.find('.close').removeClass('hidden');
+                        }
+                    });
+
                 });
             };
         })(jQuery, window.UserWidget = window.UserWidget || {});
