@@ -760,6 +760,9 @@
     <Content Include="Views\Admin\_RolesPartialView.cshtml" />
     <Content Include="Views\Admin\_NewUserPartialView.cshtml" />
     <Content Include="Views\Admin\_EditUserPartialView.cshtml" />
+    <Content Include="Views\Shared\_ResetPasswordPartialView.cshtml" />
+    <Content Include="Views\Shared\_ConfirmPasswordResetPartialView.cshtml" />
+    <Content Include="Views\Admin\_DeleteUserPartialView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Alboraq.MobileApp.Core\Alboraq.MobileApp.Core.csproj">

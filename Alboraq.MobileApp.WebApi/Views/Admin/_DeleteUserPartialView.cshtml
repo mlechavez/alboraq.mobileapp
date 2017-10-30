@@ -1,0 +1,10 @@
+﻿
+@using (Html.BeginForm("", "", FormMethod.Post, new { id="frmDeleteUser" }))
+{
+    <h5 class="text-center">Are you sure you want delete <b>@ViewBag.Email</b>?</h5>
+    <h5 class="text-center">Once you confirm, this cannot be undone.</h5>
+    <input type="hidden" id="Email" name="Email" value="@ViewBag.Email"/>
+    <div class="form-group text-center">
+        <button type="submit" class="btn btn-default">Confirm delete</button>
+    </div>
+}

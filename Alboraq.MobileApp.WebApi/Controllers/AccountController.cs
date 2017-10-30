@@ -115,7 +115,7 @@ namespace Alboraq.MobileApp.WebApi.Controllers
             }
 
             return Ok();
-        }
+        }        
 
         // POST api/Account/SetPassword
         [Route("SetPassword")]

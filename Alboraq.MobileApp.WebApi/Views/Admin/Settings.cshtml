@@ -29,9 +29,9 @@
                 appModal: $('#appModal'),
                 appModalContent: $('#appModal .modal-content'),
                 btnAddUserDialog: $('#btnAddUserDialog'),
-                btnEditUserDialog: $('#btnEditUserDialog'),
-                btnChangePasswordDialog: $('#btnChangePasswordDialog'),
-                btnResetPasswordDialog: $('#btnResetPasswordDialog')
+                btnEditUserDialog: $('.btnEditUserDialog'), 
+                btnResetPasswordDialog: $('.btnResetPasswordDialog'),
+                btnDeleteUserDialog: $('.btnDeleteUserDialog')
             };
 
             widgetObject.init = function () {
@@ -39,6 +39,12 @@
             };
 
             var bindUiActions = function () {
+                
+                controls.appModal.modal({
+                    backdrop: 'static',
+                    keyboard: false,
+                    show: false
+                });
 
                 controls.btnAddUserDialog.on('click', function () {
 
@@ -52,7 +58,7 @@
                     appModalBody.append('<p class="text-center"><i class="fa fa-spinner fa-pulse fa-2x"></i></p>');
 
                     appModalBody.load('/admin/NewUserPartialView', function () {
-                        //add the form in the controls object
+                        //add the form element in the controls object
                         controls.frmNewUser = controls.appModalContent.find('#frmNewUser');
 
                         //bind the validation when the form is loaded.
@@ -86,8 +92,9 @@
                                 controls.frmNewUser.trigger('submit');
                             }
                         });
-                    });   
-                    
+                    });           
+
+                    controls.appModal.modal('show');
                 });
 
                 controls.appModal.on('shown.bs.modal', function () {                    
@@ -104,6 +111,7 @@
 
                 controls.appModalContent.on('click', '#btnCloseDialog', function () {
                     controls.appModal.modal('hide');
+                    location.reload();
                 });
 
                 controls.appModalContent.on('submit', '#frmNewUser', function (e) {
@@ -121,9 +129,9 @@
 
                     //find the alert dialog
                     var alertDialog = controls.appModal.find('#alertMessage');
-
+                    
                     //if exists remove the content
-                    if (alertDialog) {                        
+                    if (alertDialog.length) {                        
                         alertDialog.removeClass('alert-success alert-danger').empty();
                     } else {                        
                         alertDialog = $('<div id="alertMessage" class="alert"></div>');                               
@@ -134,8 +142,7 @@
                         url: '/api/account/register',
                         data: form.serialize(),
                         success: function (response) {                                                                          
-                            //append response content
-                            console.log(alertDialog);
+                            //append response content                            
                             alertDialog.addClass('alert-success')
                                 .append('<p class="text-center">User ' + response + ' has been created!</p>');
 
@@ -152,9 +159,11 @@
                             controls.appModal.find('.close').removeClass('hidden');
                         },
                         error: function (jqXHR) {
+
+                            //get the empty string property of the ModelState
                             var modelStateErrors = jqXHR.responseJSON.ModelState[""];
 
-                            //loop through the error
+                            //loop through
                             $.each(modelStateErrors, function (key, value) {
                                 alertDialog.addClass('alert-danger')
                                     .append('<p class="text-center">User ' + value + ' has been created!</p>');
@@ -182,7 +191,25 @@
 
                     appModalBody.append('<p class="text-center"><i class="fa fa-spinner fa-pulse fa-2x"></i></p>');
 
-                    appModalBody.load('/admin/edituserpartialview?userID=' +userID);
+                    appModalBody.load('/admin/edituserpartialview?userID=' + userID, function () {
+
+                        //add frmUpdateUser form in the controls object
+                        controls.frmUpdateUser = controls.appModalContent.find('#frmUpdateUser');
+
+                        controls.frmUpdateUser.validate({
+                            rules: {
+                                Name: 'required',
+                                PhoneNumber: 'required'
+                            },
+                            messages: {
+                                Name: 'Please enter a name',
+                                PhoneNumber: 'Please enter a mobile number'
+                            },
+                            submitHandler: function (form) {
+                                controls.frmUpdateUser.trigger('submit');
+                            }
+                        });
+                    });
 
                     controls.appModal.modal('show');
                 });
@@ -190,13 +217,118 @@
                 controls.appModalContent.on('submit', '#frmUpdateUser', function (e) {
                     e.preventDefault();
 
+                    var form = $(this),
+                        alertDialog;
+
+                    //TODO: ADD ANIMATIONS TO THE BUTTONS                    
+
+                    //check if the alert dialog has already been created
+                    alertDialog = controls.appModal.find('#alertMessage');
+
+                    if (alertDialog.length) {
+                        alertDialog.removeClass('alert-success alert-danger').empty();
+                    } else {
+                        alertDialog = $('<div id="alertMessage" class="alert"></div>');
+                    }
+
+                    $.ajax({
+                        method: 'post',
+                        url: '/admin/updateuser',
+                        data: form.serialize(),
+                        success: function (response) {
+                            if (response.isSuccess) {
+                                alertDialog.addClass('alert-success')
+                                    .append('<p class="text-center">' + response.message + '</p>');
+                                controls.appModal.find('.modal-body').prepend(alertDialog);
+                            } else {
+                                $.each(response.errors, function (key, value) {
+                                    alertDialog.addClass('alert-danger')
+                                        .append('<p class="text-center">' + value + '</p>');
+                                });
+                                controls.appModal.find('.moda-body').prepend(alertDialog);
+                            }
+                        },
+                        error: function (jqXHR) {
+                            alertDialog.add('alert-danger')
+                                .append('<p class="text-center">' + jqXHR.responseText + '</p>');
+                        }
+                    });
+                });    
+                controls.btnResetPasswordDialog.on('click', function (event) {
+                    var btn = $(event.currentTarget),
+                        email = btn.data('email');
+
+                    controls.appModal.find('.modal-title').text('Reset password');
+                    //controls.appModal.find('.modal-dialog').addClass('modal-sm');
+                    controls.appModal.find('.modal-footer')
+                        .append('<button id="btnCloseDialog" type="button" class="btn btn-default">Close</button>');
+
+                    var appModalBody = controls.appModal.find('.modal-body');
+
+                    appModalBody.append('<p class="text-center"><i class="fa fa-spinner fa-pulse fa-2x"></i></p>');
+
+                    appModalBody.load('/admin/resetpasswordpartialview?email=' + email);
+
+                    controls.appModal.modal('show');
+                });
+
+                controls.appModalContent.on('submit', '#frmResetPassword', function (e) {
+                    e.preventDefault();
+
+                    var form = $(this),
+                        alertDialog;
+
+                    //TO DO: UPDATE ANIMATION FOR BUTTONS
+
+                    alertDialog = controls.appModal.find('#alertMessage');
+
+                    if (alertDialog.length) {
+                        alertDialog.removeClass('text-success text-danger').empty();
+                    } else {
+                        alertDialog = $('<div id="alertMessage" class="alert"></div>');
+                    }
+
+                    $.ajax({
+                        method: 'post',
+                        url: '/admin/resetpassword',
+                        data: form.serialize(),
+                        success: function (response) {
+                            alertDialog.addClass('alert-success')
+                                .append('<p class="text-center">' + response.message + '</p>');
+                            controls.appModalContent.find('.modal-body').prepend(alertDialog);
+                        },
+                        error: function (jqXHR) {
+                            alertDialog.addClass('alert-danger')
+                                .append('<p class="text-center">' + jqXHR.responseText + '</p>');
+                            controls.appModalContent.find('.modal-body').prepend(alertDialog);
+                        }
+                    })
+                });
+
+                controls.btnDeleteUserDialog.on('click', function () {
+                    var btn = $(event.currentTarget),
+                        email = btn.data('email');
+
+                    controls.appModal.find('.modal-title').text('Delete user');
+                    //controls.appModal.find('.modal-dialog').addClass('modal-sm');
+                    controls.appModal.find('.modal-footer')
+                        .append('<button id="btnCloseDialog" type="button" class="btn btn-default">Close</button>');
+
+                    var appModalBody = controls.appModal.find('.modal-body');
+                    
+                    appModalBody.append('<p class="text-center"><i class="fa fa-spinner fa-pulse fa-2x"></i></p>');
+
+                    appModalBody.load('/admin/deleteuserpartialview?email=' + email);
+
+                    controls.appModal.modal('show');
+                });
+
+                controls.appModalContent.on('submit', '#frmDeleteUser', function () {
                     
                 });
             };
         })(jQuery, window.UserWidget = window.UserWidget || {});
 
-        UserWidget.init();
-
-        
+        UserWidget.init();        
     </script>
 }

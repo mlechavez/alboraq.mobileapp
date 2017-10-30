@@ -1,8 +1,8 @@
-﻿@model Alboraq.MobileApp.EF.ApplicationUser
+﻿@model Alboraq.MobileApp.WebApi.Models.UpdateBindingModel
 
 @using (Html.BeginForm("updateuser", "admin", FormMethod.Post, new { id = "frmUpdateUser" }))
 {
-    @Html.HiddenFor(user=>user.Id)
+    @Html.HiddenFor(user=>user.UserID)
     <div class="form-group">
         @Html.LabelFor(user=>user.Name)
         @Html.TextBoxFor(user=>user.Name, new { @class = "form-control", required = "required" })

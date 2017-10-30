@@ -1,14 +1,11 @@
 ﻿@model Alboraq.MobileApp.WebApi.Models.MVC.Admin.AdminSettingsViewModel
 
 <br /><br />
-<button type="button" id="btnAddUserDialog"
-        class="btn btn-default"
-        data-target="#appModal"
-        data-toggle="modal"
-        data-backdrop="static"
-        data-keyboard="false">
-    Add new user
-</button><br /><br />
+<button type="button" 
+        id="btnAddUserDialog"
+        class="btn btn-default"        
+        data-keyboard="false">Add new user</button>
+<br /><br />
 
 @if (Model.Users.Count() > 0)
 {
@@ -31,9 +28,14 @@
                     <td>@user.Name</td>
                     <td>@user.Email</td>
                     <td>
-                        <button id="btnEditUserDialog" class="btn btn-default btn-xs" data-keyboard="false" data-backdrop="static" data-userid="@user.Id">Edit</button>
-                        <button id="btnChangePasswordDialog" class="btn btn-default btn-xs" data-keyboard="false" data-backdrop="static" data-userid="@user.Id">Change password</button>
-                        <button id="btnResetPasswordDialog" class="btn btn-default btn-xs" data-keyboard="false" data-backdrop="static" data-userid="@user.Email">Reset Password</button>
+                        <button class="btn btn-default btn-xs btnEditUserDialog"         
+                                data-userid="@user.Id">Edit</button>   
+                        <button class="btn btn-default btn-xs btnResetPasswordDialog"    
+                                data-email="@user.Email">Reset Password</button>
+                        <button class="btn btn-danger btn-xs btnDeleteUserDialog"
+                                data-email="@user.Email">
+                        Delete &nbsp;<i class="fa fa-trash"></i>
+                        </button>
                     </td>
                 </tr>
             }
