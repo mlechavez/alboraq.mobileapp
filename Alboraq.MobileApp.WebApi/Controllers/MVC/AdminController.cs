@@ -1,8 +1,10 @@
 ﻿using Alboraq.MobileApp.WebApi.Models;
+using Alboraq.MobileApp.WebApi.Models.MVC;
 using Alboraq.MobileApp.WebApi.Models.MVC.Admin;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -46,7 +48,7 @@ namespace Alboraq.MobileApp.WebApi.Controllers.MVC
         }
 
         [HttpPost]
-        public ActionResult UpdateUser(UpdateBindingModel model)
+        public async Task<ActionResult> UpdateUser(UpdateBindingModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -55,7 +57,7 @@ namespace Alboraq.MobileApp.WebApi.Controllers.MVC
 
             try
             {
-                var user = _userManager.FindById(model.UserID);
+                var user = await _userManager.FindByIdAsync(model.UserID);
                 if (user == null)
                 {
                     return Json(new { message = "user cannot be found!" });
@@ -69,7 +71,7 @@ namespace Alboraq.MobileApp.WebApi.Controllers.MVC
                 {
                     return Json(new { isSuccess = true, message = $"{user.Name } has been updated!" });
                 }
-                return Json(new { isSuccess = false, errors = result.Errors });
+                return Json(new { isSuccess = false, errors = GetErrorResult(result) });
             }
             catch (Exception ex)
             {
@@ -118,7 +120,7 @@ namespace Alboraq.MobileApp.WebApi.Controllers.MVC
             return PartialView("_DeleteUserPartialView");
         }
 
-        public ActionResult DeleteUser(string email)
+        public async Task<ActionResult> DeleteUser(string email)
         {
             var user = _userManager.FindByEmail(email);
 
@@ -127,7 +129,7 @@ namespace Alboraq.MobileApp.WebApi.Controllers.MVC
                 return Json(new { isSuccess = false, message = "The user cannot be found! Maybe it's been deleted." });
             }
 
-            var result = _userManager.Delete(user);
+            var result = await _userManager.DeleteAsync(user);
 
             if (result.Succeeded)
             {
@@ -135,5 +137,90 @@ namespace Alboraq.MobileApp.WebApi.Controllers.MVC
             }
             return Json(new { isSuccess = false, errors = result.Errors });
         }
+
+        public ActionResult NewRolePartialView()
+        {
+            return PartialView("_NewRolePartialView");
+        }
+
+        public async Task<ActionResult> AddRole(AddRoleBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Json(new { isSuccess = false, message = "Please enter a role name" });
+            }
+
+            var result = await _roleManager.CreateAsync(new IdentityRole { Name = model.RoleName });
+
+            if (result.Succeeded)
+            {
+                return Json(new { isSuccess = true, message = $"Role { model.RoleName} has been added!" });
+            }
+            else
+            {
+                return Json(new { isSuccess = false, errors = GetErrorResult(result) });
+            }               
+        }
+
+        public async Task<ActionResult> EditRolePartialView(string roleID)
+        {
+            var role = await _roleManager.FindByIdAsync(roleID);
+            var bindingModel = new UpdateRoleBindingModel { RoleID = role.Id, RoleName = role.Name };
+            return PartialView("_EditRolePartialView", bindingModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> UpdateRole(UpdateRoleBindingModel model)
+        {
+            IdentityResult result = null;
+            var role = _roleManager.FindByName(model.RoleName);
+
+            //check duplicate entry
+            if (role.Id != model.RoleID)
+            {
+                return Json(new { isSuccess = false, message = "Role name already exists!" });
+            }
+
+            //if the same, no need to call the db            
+            if (role.Name.ToLower() != model.RoleName.ToLower())
+            {
+                role.Name = model.RoleName;
+                result = await _roleManager.UpdateAsync(role);
+                if (result.Succeeded)
+                {
+                    return Json(new { isSuccess = true, message = "Role has been updated!" });
+                }
+                return Json(new { isSuccess = false, errors = GetErrorResult(result) });
+            }
+            return Json(new { isSuccess = true, message = "No update has been made since it's the same role name" });
+        }
+
+        public ActionResult AddUserToRolePartialView()
+        {
+            return PartialView("AddUserToRolePartialView");
+        }
+
+        #region Helpers
+        private List<string> GetErrorResult(IdentityResult result)
+        {            
+            if (!result.Succeeded)
+            {
+                if (result.Errors != null)
+                {
+                    foreach (string error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error);
+                    }
+                }
+
+                var errorList = (from errors in ModelState.Values
+                        from error in errors.Errors
+                        select error.ErrorMessage).ToList();
+                return errorList;
+            }
+
+            return null;
+        }
+        #endregion
     }
 }

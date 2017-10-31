@@ -1,0 +1,12 @@
+﻿@model Alboraq.MobileApp.WebApi.Models.MVC.AddRoleBindingModel
+
+@using (Html.BeginForm("", "", FormMethod.Post, new { id= "frmAddRole" }))
+{
+    <div class="form-group">
+        @Html.LabelFor(role=>role.RoleName)
+        @Html.TextBoxFor(role=>role.RoleName, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <button type="submit" id="btnAddRole" class="btn btn-default">Submit</button>
+    </div>
+}

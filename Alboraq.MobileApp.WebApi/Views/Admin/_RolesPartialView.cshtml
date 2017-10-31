@@ -1,36 +1,38 @@
 ﻿@model IEnumerable<Microsoft.AspNet.Identity.EntityFramework.IdentityRole>
 
+<br /><br />
+<button type="button" id="btnAddRoleDialog" class="btn btn-default">Add new role</button>
+<br /><br />
+
 @if (Model.Count() > 0)
 {
     <div class="body-content">
-        <br /><br />
-        <button type="button" class="btn btn-default">Add new role</button><br /><br />
-
-        <table class="table table-bordered table-condensed table-hover">
+        
+        <table class="table table-condensed table-hover">
             <thead>
                 <tr>
-                    <th>Rolename</th>
-                    <th>Actions</th>
-                    
+                    <th colspan="3">Rolename</th>
+                    <th>Actions</th>                    
                 </tr>
             </thead>
             <tbody>
                 @foreach (var role in Model)
                 {
                     <tr>
-                        <td>@role.Name</td>                        
-                        <td>&nbsp;</td>
+                        <td colspan="3">@role.Name</td>                        
+                        <td>
+                            <button type="button" class="btn btn-default btn-xs btnEditRoleDialog" data-roleid="@role.Id">Edit</button>
+                            <button type="button" class="btn btn-default btn-xs btnAddUserToRoleDialog">Add user to role</button>
+                        </td>
                     </tr>
                 }
             </tbody>
         </table>
-
-        <h3>Add user to role</h3>
-
-
     </div>
 }
 else
 {
-
+    <div class="alert alert-info">
+        <p class="text-center">No roles found.</p>
+    </div>
 }
