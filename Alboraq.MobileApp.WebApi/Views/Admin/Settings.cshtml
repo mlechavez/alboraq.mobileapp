@@ -38,6 +38,57 @@
                 bindUiActions();
             };
 
+            var createModalDialog = function (args) {
+                args.modaltitle = args.title || undefined;
+                args.modalSize = args.modalSize || undefined;
+
+                if (args.modaltitle !== undefined) {
+                    controls.appModal.find('.modal-title').text(args.modalTitle);
+                }
+
+                if (args.modalSize !== undefined) {
+                    controls.appModal.find('.modal-dialog').addClass(args.modalSize);
+                }
+
+                controls.appModal.find('.modal-footer')
+                    .append('<button id="btnCloseDialog" type="button" class="btn btn-default">Close</button>');
+            };
+
+            var toggleEnableButton = function (args) {
+                args.button = args.button || undefined;
+                args.innerHTML = args.innerHTML || undefined;
+                args.disabled = args.disabled || false;
+
+                var button = controls.appModal.find(args.button);
+
+                if (args.innerHTML !== undefined && button.length > 0) {
+                    button.html(args.innerHTML);
+                }
+
+                if (args.disabled && button.length > 0) {
+                    button.addClass('disabled');
+                    controls.appModal.find('#btnCloseDialog').addClass('disabled');
+                    controls.appModal.find('.close').removeClass('hidden');
+                } else {
+                    button.removeClass('disabled');
+                    controls.appModal.find('#btnCloseDialog').removeClass('disabled');
+                    controls.appModal.find('.close').removeClass('hidden');
+                }                    
+            };
+
+            var createAlertDialog = function () {
+                var dialog;
+                                
+                dialog = controls.appModal.find('#alertMessage');
+                
+                if (dialog.length > 0) 
+                    alertDialog.removeClass('alert-success alert-danger').empty();
+                else
+                    dialog = $('<div id="alertMessage" class="alert"></div>');
+
+                return dialog;
+            };
+
             var bindUiActions = function () {
                 
                 controls.appModal.modal({
@@ -48,10 +99,10 @@
 
                 controls.btnAddUserDialog.on('click', function () {
 
-                    controls.appModal.find('.modal-title').text('Add new user');
-                    controls.appModal.find('.modal-dialog').addClass('modal-sm');
-                    controls.appModal.find('.modal-footer')
-                        .append('<button id="btnCloseDialog" type="button" class="btn btn-default">Close</button>'); 
+                    createModalDialog({
+                        modalTitle: 'Add new user',
+                        modalSize: 'modal-sm'
+                    });
 
                     var appModalBody = controls.appModal.find('.modal-body');
 
@@ -119,24 +170,14 @@
 
                     var form = $(this);
                         
-                    //animate button submit
-                    controls.appModal.find('#btnAddSubmit').html('Creating user..&nbsp; <i class="fa fa-spinner fa-pulse></i>')
-                        .addClass('disabled');
-
-                    //disable buttons to prevent closing the modal while creating a user
-                    controls.appModal.find('#btnCloseDialog').addClass('disabled');
-                    controls.appModal.find('.close').addClass('hidden');
-
-                    //find the alert dialog
-                    var alertDialog = controls.appModal.find('#alertMessage');
+                    toggleEnableButton({
+                        button: '#btnAddSubmit',
+                        innerHTML: 'Adding new user.. &nbsp; <i class="fa fa-spinner fa-pulse"></i>',
+                        disabled: true
+                    });                    
                     
-                    //if exists remove the content
-                    if (alertDialog.length) {                        
-                        alertDialog.removeClass('alert-success alert-danger').empty();
-                    } else {                        
-                        alertDialog = $('<div id="alertMessage" class="alert"></div>');                               
-                    }
-                    
+                    alertDialog = createAlertDialog();                    
+
                     $.ajax({
                         method: 'post',
                         url: '/api/account/register',
@@ -152,11 +193,12 @@
                             //clear the input
                             controls.appModalContent.find('#frmNewUser').find('input').val('');                            
 
-                            //enable the control state
-                            controls.appModal.find('#btnAddSubmit').html('Submit')
-                                .removeClass('disabled');
-                            controls.appModal.find('#btnCloseDialog').removeClass('disabled');
-                            controls.appModal.find('.close').removeClass('hidden');
+                            toggleEnableButton({
+                                button: '#btnAddSubmit',
+                                innerHTML: 'Submit',
+                                disabled: false
+                            });
+                            
                         },
                         error: function (jqXHR) {
 
@@ -166,14 +208,17 @@
                             //loop through
                             $.each(modelStateErrors, function (key, value) {
                                 alertDialog.addClass('alert-danger')
-                                    .append('<p class="text-center">User ' + value + ' has been created!</p>');
+                                    .append('<p class="text-center">' + value + '</p>');
                             });
 
                             // append on the top
-                            controls.appModal.find('.modal-body').prepend(alertDialog);                                                
-                            
-                            controls.appModal.find('#btnAddSubmit').html('Submit')
-                                .removeClass('disabled');
+                            controls.appModal.find('.modal-body').prepend(alertDialog);                                                      
+
+                            toggleEnableButton({
+                                button: '#btnAddSubmit',
+                                innerHTML: 'Submit',
+                                disabled: false
+                            });                            
                         }
                     });
                 });
@@ -182,10 +227,10 @@
                     var btn = $(event.currentTarget),
                         userID = btn.data('userid');                    
 
-                    controls.appModal.find('.modal-title').text('Edit user');
-                    controls.appModal.find('.modal-dialog').addClass('modal-sm');
-                    controls.appModal.find('.modal-footer')
-                        .append('<button id="btnCloseDialog" type="button" class="btn btn-default">Close</button>');
+                    createModalDialog({
+                        modalTitle: 'Edit user',
+                        modalSize: 'modal-sm'
+                    });
 
                     var appModalBody = controls.appModal.find('.modal-body');
 
@@ -219,19 +264,14 @@
 
                     var form = $(this),
                         alertDialog;
-
-                    controls.appModal.find('#btnUpdateUser').addClass('disabled')
-                        .html('Updating... &nbsp; <i class="fa fa-spinner fa-pulse></i>"');
-                    controls.appModal.find('.close').addClass('hidden');
-
-                    //check if the alert dialog has already been created
-                    alertDialog = controls.appModal.find('#alertMessage');
-
-                    if (alertDialog.length) {
-                        alertDialog.removeClass('alert-success alert-danger').empty();
-                    } else {
-                        alertDialog = $('<div id="alertMessage" class="alert"></div>');
-                    }
+                    
+                    toggleEnableButton({
+                        button: '#btnUpdateUser',
+                        innerHTML: 'Updating... &nbsp; <i class="fa fa-spinner fa-pulse"></i>',
+                        disabled: true
+                    });                    
+                    
+                    alertDialog = createAlertDialog();
 
                     $.ajax({
                         method: 'post',
@@ -251,9 +291,11 @@
                                     alertDialog.addClass('alert-danger')
                                         .append('<p class="text-center">' + value + '</p>');
 
-                                    controls.appModal.find('#btnUpdateUser').removeClass('disabled')
-                                        .html('Submit');
-                                    controls.appModal.find('.close').removeClass('hidden');
+                                    toggleEnableButton({
+                                        button: '#btnUpdateUser',
+                                        innerHTML: 'Update',
+                                        disabled: false
+                                    });               
                                 });
                                 controls.appModal.find('.moda-body').prepend(alertDialog);
                             }
@@ -269,10 +311,10 @@
                     var btn = $(event.currentTarget),
                         email = btn.data('email');
 
-                    controls.appModal.find('.modal-title').text('Reset password');
-                    //controls.appModal.find('.modal-dialog').addClass('modal-sm');
-                    controls.appModal.find('.modal-footer')
-                        .append('<button id="btnCloseDialog" type="button" class="btn btn-default">Close</button>');
+                    createModalDialog({
+                        modalTitle: 'Reset password',
+                        modalSize: '<button id="btnCloseDialog" type="button" class="btn btn-default">Close</button>'
+                    })                    
 
                     var appModalBody = controls.appModal.find('.modal-body');
 
@@ -289,17 +331,12 @@
                     var form = $(this),
                         alertDialog;
 
-                    controls.appModal.find('#btnResetPassword').addClass('disabled')
-                        .html('Resetting the password... &nbsp; <i class="fa fa-spinner fa-pulse></i>"');
-                    controls.appModal.find('.close').addClass('hidden');
+                    toggleEnableButton({
+                        button: '#btnResetPassword',
+                        innerHTML: 'Resetting the password... &nbsp; <i class="fa fa-spinner fa-pulse"></i>'
+                    });                    
 
-                    alertDialog = controls.appModal.find('#alertMessage');
-
-                    if (alertDialog.length) {
-                        alertDialog.removeClass('text-success text-danger').empty();
-                    } else {
-                        alertDialog = $('<div id="alertMessage" class="alert"></div>');
-                    }
+                    alertDialog = createAlertDialog();                    
 
                     $.ajax({
                         method: 'post',
@@ -310,9 +347,11 @@
                                 .append('<p class="text-center">' + response.message + '</p>');
                             controls.appModalContent.find('.modal-body').prepend(alertDialog);
 
-                            controls.appModal.find('#btnResetPassword').removeClass('disabled')
-                                .html('Submit');
-                            controls.appModal.find('.close').removeClass('hidden');
+                            toggleEnableButton({
+                                button: '#btnResetPassword',
+                                innerHTML: 'Submit',
+                                disabled: false
+                            });                            
                         },
                         error: function (jqXHR) {
                             alertDialog.addClass('alert-danger')
@@ -326,10 +365,10 @@
                     var btn = $(event.currentTarget),
                         email = btn.data('email');
 
-                    controls.appModal.find('.modal-title').text('Delete user');
-                    //controls.appModal.find('.modal-dialog').addClass('modal-sm');
-                    controls.appModal.find('.modal-footer')
-                        .append('<button id="btnCloseDialog" type="button" class="btn btn-default">Close</button>');
+                    createModalDialog({
+                        modalTitle: 'Delete user',
+                        modalSize: 'modal-sm'
+                    });                    
 
                     var appModalBody = controls.appModal.find('.modal-body');
                     
@@ -346,17 +385,13 @@
                     var form = $(this),
                         alertDialog;
 
-                    controls.appModal.find('#btnDeleteUser').addClass('disabled')
-                        .html('Deleting user... <i class="fa fa-spinner fa-pulse"></i>');
-                    controls.appModal.find('.close').addClass('hidden');
+                    toggleEnableButton({
+                        button: '#btnDeleteUser',
+                        innerHTML: 'Deleting user... <i class="fa fa-spinner fa-pulse"></i>',
+                        disabled: true
+                    });
 
-                    alertDialog = controls.appModal.find('#alertMessage');
-
-                    if (alertDialog.length) {
-                        alertDialog.removeClass('alert-success alert-danger').empty();
-                    } else {
-                        alertDialog = $('<div id="alertMessage" class="alert"></div>');
-                    }
+                    alertDialog = createAlertDialog();                   
 
                     $.ajax({
                         method: 'post',
@@ -374,9 +409,11 @@
                             controls.appModal.find('.modal-body').empty()
                                 .prepend(alertDialog);
 
-                            controls.appModal.find('#btnDeleteUser').removeClass('disabled')
-                                .html('Submit');
-                            controls.appModal.find('.close').removeClass('hidden');                            
+                            toggleEnableButton({
+                                button: '#btnDeleteUser',
+                                innerHTML: 'Submit',
+                                disabled: false
+                            });                                        
                         },
                         error: function (jqXHR) {
                             alertDialog.addClass('alert-danger')
@@ -384,14 +421,18 @@
 
                             controls.appModal.find('.modal-body').prepend(alertDialog);
 
-                            controls.appModal.find('#btnDeleteUser').removeClass('disabled')
-                                .html('Submit');
-                            controls.appModal.find('.close').removeClass('hidden');
+                            toggleEnableButton({
+                                button: '#btnDeleteUser',
+                                innerHTML: 'Submit',
+                                disabled: false
+                            });
                         }
                     });
 
                 });
             };
+
+            
         })(jQuery, window.UserWidget = window.UserWidget || {});
 
         UserWidget.init();        
