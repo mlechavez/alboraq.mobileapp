@@ -82,7 +82,7 @@
                 dialog = controls.appModal.find('#alertMessage');
                 
                 if (dialog.length > 0) 
-                    alertDialog.removeClass('alert-success alert-danger').empty();
+                    dialog.removeClass('alert-success alert-danger').empty();
                 else
                     dialog = $('<div id="alertMessage" class="alert"></div>');
 
@@ -448,7 +448,58 @@
 
             widgetObject.init = function () {
                 bindRoleUIActions();
-            }
+            };
+
+            var createModalDialog = function (args) {
+                args.modaltitle = args.title || undefined;
+                args.modalSize = args.modalSize || undefined;
+
+                if (args.modaltitle !== undefined) {
+                    controls.appModal.find('.modal-title').text(args.modalTitle);
+                }
+
+                if (args.modalSize !== undefined) {
+                    controls.appModal.find('.modal-dialog').addClass(args.modalSize);
+                }
+
+                controls.appModal.find('.modal-footer')
+                    .append('<button id="btnClose" type="button" class="btn btn-default">Close</button>');
+            };    
+
+            var toggleEnableButton = function (args) {
+                args.button = args.button || undefined;
+                args.innerHTML = args.innerHTML || undefined;
+                args.disabled = args.disabled || false;
+
+                var button = controls.appModal.find(args.button);
+
+                if (args.innerHTML !== undefined && button.length > 0) {
+                    button.html(args.innerHTML);
+                }
+
+                if (args.disabled && button.length > 0) {
+                    button.addClass('disabled');
+                    controls.appModal.find('#btnClose').addClass('disabled');
+                    controls.appModal.find('.close').removeClass('hidden');
+                } else {
+                    button.removeClass('disabled');
+                    controls.appModal.find('#btnClose').removeClass('disabled');
+                    controls.appModal.find('.close').removeClass('hidden');
+                }
+            };
+
+            var createAlertDialog = function () {
+                var dialog;
+
+                dialog = controls.appModal.find('#alertMessage');
+
+                if (dialog.length > 0)
+                    dialog.removeClass('alert-success alert-danger').empty();
+                else
+                    dialog = $('<div id="alertMessage" class="alert"></div>');
+
+                return dialog;
+            };
 
             var bindRoleUIActions = function () {
                 controls.appModal.modal({
@@ -465,7 +516,10 @@
 
                 controls.btnAddRoleDialog.on('click', function () {
 
-                    createDialog("Add Role","modal-sm");
+                    createModalDialog({
+                        modalTitle: 'Add role',
+                        modalSize: 'modal-sm'
+                    });                    
 
                     var modalBody = controls.appModal.find('.modal-body');
 
@@ -494,10 +548,12 @@
 
                     var form = $(this),
                         alertDialog;
-                    
-                    animateSubmitButton('#btnAddRole',
-                        'Adding role..&nbsp; <i class="fa fa-spinner fa-pulse"></i>',
-                        true);
+
+                    toggleEnableButton({
+                        button: '#btnAddRole',
+                        innerHTML: 'Adding role..&nbsp; <i class="fa fa-spinner fa-pulse"></i>',
+                        disabled: true
+                    });                    
 
                     alertDialog = createAlertDialog();
 
@@ -516,9 +572,13 @@
                                 });
                             }                                                       
                             controls.appModal.find('.modal-body').prepend(alertDialog);
+                            controls.appModal.find('input').val('').focus();
 
-                            //return the button submit state to normal
-                            animateSubmitButton('#btnAddRole', 'Submit', false);
+                            toggleEnableButton({
+                                button: '#btnAddRole',
+                                innerHTML: 'Submit',
+                                disabled: false
+                            });                            
                         },
                         error: function (jqXHR) {
                             alertDialog.addClass('alert-danger');
@@ -536,7 +596,10 @@
                     var btn = $(e.currentTarget),
                         roleID = btn.data('roleid');
 
-                    createDialog('Edit role', 'modal-sm');
+                    createModalDialog({
+                        modaltitle: 'Edit role',
+                        modalSize: 'modal-sm'
+                    });                    
 
                     var modalBody = controls.appModal.find('.modal-body');
                     modalBody.append('<p class="text-center"><i class="fa fa-spinner fa-pulse fa-2x"></i></p>');
@@ -559,13 +622,18 @@
                     controls.appModal.modal('show');
                 });
 
+                //TO DO: GET BACK HERE THERE'S AN ERROR ON THE UPDATE
                 controls.appModalContent.on('submit', '#frmUpdateRole', function (e) {
                     e.preventDefault();
 
                     var form = $(this),
                         alertDialog;
 
-                    animateSubmitButton('#btnUpdateRole', 'Updating..&nbsp;<i class="fa fa-spinner fa-pulse"></i>', true);
+                    toggleEnableButton({
+                        button: '#btnUpdateRole',
+                        innerHTML: 'Updating..&nbsp;<i class="fa fa-spinner fa-pulse"></i>',
+                        disabled: true
+                    });                  
 
                     alertDialog = createAlertDialog();
                     
@@ -575,7 +643,7 @@
                         data: form.serialize(),
                         success: function (response) {
                             if (response.isSuccess) {
-                                alertDialog.add('alert-success')
+                                alertDialog.addClass('alert-success')
                                     .append('<p class="text-center">' + response.message + '</p>'); 
                             } else {
                                 $.each(response.errors, function (key, value) {
@@ -584,7 +652,11 @@
                                 });                                
                             }
                             controls.appModal.find('.modal-body').prepend(alertDialog);
-                            animateSubmitButton('#btnUpdateRole', 'Update', false);
+                            toggleEnableButton({
+                                button: '#btnUpdateRole',
+                                innerHTML: 'Update',
+                                disabled: false
+                            });                            
                         },
                         error: function (jqXHR) {
                             alertDialog.addClass('alert-danger')
@@ -592,44 +664,7 @@
                         }
                     })
                 });
-            }
-
-            var createDialog = function (title, modalSize) {
-
-                if (modalSize) {
-                    controls.appModal.find('.modal-dialog').addClass(modalSize);
-                }
-                
-                controls.appModal.find('.modal-title').text(title);
-
-                controls.appModal.find('.modal-footer')
-                    .append('<button type="button" id="btnClose" class="btn btn-default" data-dismiss="modal">Close</button>');
-            };
-
-            var animateSubmitButton = function (buttonToFind, yourHTML, animate = true) {
-                if (animate) {
-                    //button animation
-                    controls.appModal.find(buttonToFind)
-                        .html(yourHTML)
-                        .addClass('disabled');
-                    controls.appModal.find('.close').addClass('hidden');
-                } else {
-                    controls.appModal.find(buttonToFind).html(yourHTML).removeClass('disabled');
-                    controls.appModal.find('.close').removeClass('hidden');
-                }                
-            };
-
-            var createAlertDialog = function () {
-                var dialog = controls.appModal.find('#alertMessage');
-
-                if (dialog.length) {
-                    dialog.removeClass('alert-success alert-danger').empty();
-                } else {
-                    dialog = $('<div id="alertMessage" class="alert"></div>');
-                }
-                return dialog;
-            };
-
+            }                        
         })(jQuery, window.RoleWidget = window.RoleWidget || {});
 
         RoleWidget.init();
