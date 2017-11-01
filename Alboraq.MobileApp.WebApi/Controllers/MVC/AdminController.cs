@@ -174,26 +174,15 @@ namespace Alboraq.MobileApp.WebApi.Controllers.MVC
         public async Task<ActionResult> UpdateRole(UpdateRoleBindingModel model)
         {
             IdentityResult result = null;
-            var role = _roleManager.FindByName(model.RoleName);
+            var role = _roleManager.FindById(model.RoleID);            
 
-            //check duplicate entry
-            if (role.Id != model.RoleID)
-            {
-                return Json(new { isSuccess = false, message = "Role name already exists!" });
-            }
+            result = await _roleManager.UpdateAsync(role);
 
-            //if the same, no need to call the db            
-            if (role.Name.ToLower() != model.RoleName.ToLower())
+            if (result.Succeeded)
             {
-                role.Name = model.RoleName;
-                result = await _roleManager.UpdateAsync(role);
-                if (result.Succeeded)
-                {
-                    return Json(new { isSuccess = true, message = "Role has been updated!" });
-                }
-                return Json(new { isSuccess = false, errors = GetErrorResult(result) });
+                return Json(new { isSuccess = true, message = "Role has been updated!" });
             }
-            return Json(new { isSuccess = true, message = "No update has been made since it's the same role name" });
+            return Json(new { isSuccess = false, errors = GetErrorResult(result) });
         }
 
         public ActionResult AddUserToRolePartialView()

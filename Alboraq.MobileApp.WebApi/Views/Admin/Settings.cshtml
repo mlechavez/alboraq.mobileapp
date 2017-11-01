@@ -501,6 +501,50 @@
                 return dialog;
             };
 
+            var addRoleAsync = function () {
+                
+
+                var form = $(this),
+                    alertDialog;
+
+                toggleEnableButton({
+                    button: '#btnAddRole',
+                    innerHTML: 'Adding role..&nbsp; <i class="fa fa-spinner fa-pulse"></i>',
+                    disabled: true
+                });
+
+                alertDialog = createAlertDialog();
+
+                $.ajax({
+                    method: 'post',
+                    url: '/admin/addrole',
+                    data: form.serialize(),
+                    success: function (response) {
+                        if (response.isSuccess) {
+                            alertDialog.addClass('alert-success');
+                            alertDialog.append('<p class="text-center">' + response.message + '</p>');
+                        } else {
+                            alertDialog.addClass('alert-danger');
+                            $.each(response.errors, function (key, value) {
+                                alertDialog.append('<p class="text-center">' + value + '</p>');
+                            });
+                        }
+                        controls.appModal.find('.modal-body').prepend(alertDialog);
+                        controls.appModal.find('input').val('').focus();
+
+                        toggleEnableButton({
+                            button: '#btnAddRole',
+                            innerHTML: 'Submit',
+                            disabled: false
+                        });
+                    },
+                    error: function (jqXHR) {
+                        alertDialog.addClass('alert-danger');
+                        alertDialog.append('<p class="text-center">' + jqXHR.responseText + '</p>');
+                    }
+                });
+            }
+
             var bindRoleUIActions = function () {
                 controls.appModal.modal({
                     backdrop: 'static',
@@ -535,57 +579,107 @@
                             messages: {
                                 RoleName: 'Please enter a role name'
                             },
-                            submitHandler: function (form) {                                
-                                controls.frmAddRole.trigger('submit'); 
+                            submitHandler: function (form) {  
+
+                                $(form).submit(function (e) {
+                                    
+                                    e.preventDefault();
+
+                                    console.log('goes here');
+
+                                    var form = $(this),
+                                        alertDialog;
+
+                                    toggleEnableButton({
+                                        button: '#btnAddRole',      
+                                        innerHTML: 'Adding role..&nbsp; <i class="fa fa-spinner fa-pulse"></i>',
+                                        disabled: true
+                                    });
+
+                                    alertDialog = createAlertDialog();
+
+                                    $.ajax({
+                                        method: 'post',
+                                        url: '/admin/addrole',
+                                        data: form.serialize(),
+                                        success: function (response) {
+                                            if (form.valid()) {
+                                                if (response.isSuccess) {
+                                                    alertDialog.addClass('alert-success');
+                                                    alertDialog.append('<p class="text-center">' + response.message + '</p>');
+                                                    console.log('goes on success');
+                                                } else {
+                                                    alertDialog.addClass('alert-danger');
+                                                    $.each(response.errors, function (key, value) {
+                                                        alertDialog.append('<p class="text-center">' + value + '</p>');
+                                                    });
+                                                    console.log('goes on not success');
+                                                }
+                                                controls.appModal.find('.modal-body').prepend(alertDialog);
+                                                controls.appModal.find('input').val('').focus();                                                
+                                            }
+                                            toggleEnableButton({
+                                                button: '#btnAddRole',
+                                                innerHTML: 'Submit',
+                                                disabled: false
+                                            });
+                                        },
+                                        error: function (jqXHR) {
+                                            alertDialog.addClass('alert-danger');
+                                            alertDialog.append('<p class="text-center">' + jqXHR.responseText + '</p>');
+                                            console.log('goes on error');
+                                        }
+                                    });
+                                });                                
                             }
                         });
                     });
                     controls.appModal.modal('show');
                 });
 
-                controls.appModalContent.on('submit', '#frmAddRole', function (e) {
-                    e.preventDefault();
+                //controls.appModalContent.on('submit', '#frmAddRole', function (e) {
+                //    e.preventDefault();
 
-                    var form = $(this),
-                        alertDialog;
+                //    var form = $(this),
+                //        alertDialog;
 
-                    toggleEnableButton({
-                        button: '#btnAddRole',
-                        innerHTML: 'Adding role..&nbsp; <i class="fa fa-spinner fa-pulse"></i>',
-                        disabled: true
-                    });                    
+                //    toggleEnableButton({
+                //        button: '#btnAddRole',
+                //        innerHTML: 'Adding role..&nbsp; <i class="fa fa-spinner fa-pulse"></i>',
+                //        disabled: true
+                //    });                    
 
-                    alertDialog = createAlertDialog();
+                //    alertDialog = createAlertDialog();
 
-                    $.ajax({
-                        method: 'post',
-                        url: '/admin/addrole',
-                        data: form.serialize(),
-                        success: function (response) {
-                            if (response.isSuccess) {
-                                alertDialog.addClass('alert-success');
-                                alertDialog.append('<p class="text-center">' + response.message + '</p>');
-                            } else {
-                                alertDialog.addClass('alert-danger');
-                                $.each(response.errors, function (key, value) {
-                                    alertDialog.append('<p class="text-center">' + value + '</p>');
-                                });
-                            }                                                       
-                            controls.appModal.find('.modal-body').prepend(alertDialog);
-                            controls.appModal.find('input').val('').focus();
+                //    $.ajax({
+                //        method: 'post',
+                //        url: '/admin/addrole',
+                //        data: form.serialize(),
+                //        success: function (response) {
+                //            if (response.isSuccess) {
+                //                alertDialog.addClass('alert-success');
+                //                alertDialog.append('<p class="text-center">' + response.message + '</p>');
+                //            } else {
+                //                alertDialog.addClass('alert-danger');
+                //                $.each(response.errors, function (key, value) {
+                //                    alertDialog.append('<p class="text-center">' + value + '</p>');
+                //                });
+                //            }                                                       
+                //            controls.appModal.find('.modal-body').prepend(alertDialog);
+                //            controls.appModal.find('input').val('').focus();
 
-                            toggleEnableButton({
-                                button: '#btnAddRole',
-                                innerHTML: 'Submit',
-                                disabled: false
-                            });                            
-                        },
-                        error: function (jqXHR) {
-                            alertDialog.addClass('alert-danger');
-                            alertDialog.append('<p class="text-center">' + jqXHR.responseText + '</p>');
-                        }
-                    });
-                });
+                //            toggleEnableButton({
+                //                button: '#btnAddRole',
+                //                innerHTML: 'Submit',
+                //                disabled: false
+                //            });                            
+                //        },
+                //        error: function (jqXHR) {
+                //            alertDialog.addClass('alert-danger');
+                //            alertDialog.append('<p class="text-center">' + jqXHR.responseText + '</p>');
+                //        }
+                //    });
+                //});
 
                 controls.appModalContent.on('click', '#btnClose', function () {
                     controls.appModal.modal('hide');
@@ -615,14 +709,13 @@
                                 RoleName: 'Please enter a role name'
                             },
                             submitHandler: function (form) {
-                                controls.frmUpdateRole.trigger('submit');
+                                controls.frmUpdateRole.triggerHandler('submit');
                             }
                         });
                     });
                     controls.appModal.modal('show');
                 });
-
-                //TO DO: GET BACK HERE THERE'S AN ERROR ON THE UPDATE
+                
                 controls.appModalContent.on('submit', '#frmUpdateRole', function (e) {
                     e.preventDefault();
 
@@ -652,6 +745,7 @@
                                 });                                
                             }
                             controls.appModal.find('.modal-body').prepend(alertDialog);
+
                             toggleEnableButton({
                                 button: '#btnUpdateRole',
                                 innerHTML: 'Update',
