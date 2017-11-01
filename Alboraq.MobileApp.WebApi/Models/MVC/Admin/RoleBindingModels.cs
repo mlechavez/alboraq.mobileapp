@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Alboraq.MobileApp.WebApi.Models.MVC
+namespace Alboraq.MobileApp.WebApi.Models.MVC.Admin
 {
     public class AddRoleBindingModel
     {
@@ -15,5 +15,5 @@ namespace Alboraq.MobileApp.WebApi.Models.MVC
         public string RoleID { get; set; }
         [Required]
         public string RoleName { get; set; }
-    }    
+    }
 }

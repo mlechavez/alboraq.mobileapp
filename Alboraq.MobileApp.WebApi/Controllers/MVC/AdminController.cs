@@ -1,5 +1,4 @@
 ﻿using Alboraq.MobileApp.WebApi.Models;
-using Alboraq.MobileApp.WebApi.Models.MVC;
 using Alboraq.MobileApp.WebApi.Models.MVC.Admin;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
