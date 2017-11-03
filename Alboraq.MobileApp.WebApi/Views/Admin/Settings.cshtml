@@ -667,6 +667,7 @@
                             submitHandler: function (form) {
                                 var formUpdateRole = $(form);
 
+                                
                                 if (!formUpdateRole.valid()) return;
 
                                 formUpdateRole.submit(updateRoleAsync(event));
@@ -674,7 +675,7 @@
                         });
                     });
                     controls.appModal.modal('show');
-                });                               
+                });                         
             }                        
         })(jQuery, window.RoleWidget = window.RoleWidget || {});
 

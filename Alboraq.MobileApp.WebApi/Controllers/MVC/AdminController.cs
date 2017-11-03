@@ -26,7 +26,7 @@ namespace Alboraq.MobileApp.WebApi.Controllers.MVC
         {            
             var viewModel = new AdminSettingsViewModel
             {
-                Users = _userManager.Users.Where(x=>x.Email.Contains("boraq-porsche.com.qa")).ToList(),
+                Users = _userManager.Users.Where(x => x.Email.Contains("boraq-porsche.com.qa")).ToList(),
                 Roles = _roleManager.Roles.ToList()
             };
             return View(viewModel);
@@ -172,8 +172,31 @@ namespace Alboraq.MobileApp.WebApi.Controllers.MVC
         [HttpPost]
         public async Task<ActionResult> UpdateRole(UpdateRoleBindingModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return Json(new { errors = new List<string> { "Role name cannot be empty" } });
+            }
+
             IdentityResult result = null;
-            var role = _roleManager.FindById(model.RoleID);            
+            var role = await _roleManager.FindByNameAsync(model.RoleName);
+
+            if (role != null)
+            {
+                if (role.Id != model.RoleID)
+                {
+                    return Json(new { isSuccess = false, errors = new List<string> { "Name already taken" } });
+                }
+
+                if (role.Name.ToLower() == model.RoleName.ToLower())
+                {
+                    //there's no need to call db just return with success;s
+                    return Json(new { isSuccess = true, message = "Role has been updated" });
+                }
+            }
+
+            role = await _roleManager.FindByIdAsync(model.RoleID);            
+
+            role.Name = model.RoleName.ToLower();
 
             result = await _roleManager.UpdateAsync(role);
 
@@ -185,7 +208,7 @@ namespace Alboraq.MobileApp.WebApi.Controllers.MVC
         }
 
         public ActionResult AddUserToRolePartialView()
-        {
+        {                        
             return PartialView("AddUserToRolePartialView");
         }
 
