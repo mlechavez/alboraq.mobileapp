@@ -315,6 +315,11 @@ namespace Alboraq.MobileApp.WebApi.Controllers
 
             IdentityResult result = await _userManager.CreateAsync(user, model.Password);
 
+            if (!string.IsNullOrWhiteSpace(model.RoleName))
+            {
+                await _userManager.AddToRoleAsync(user.Id, model.RoleName);
+            }
+
             if (result.Succeeded)
             {
                 result = await _userManager.SetPhoneNumberAsync(user.Id, model.PhoneNumber);

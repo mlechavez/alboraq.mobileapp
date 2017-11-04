@@ -9,15 +9,15 @@
 <h2>Settings</h2>
 
 <ul class="nav nav-tabs nav-justified" role="tablist">
-    <li role="presentation" ><a href="#users" role="tab" data-toggle="tab">Users</a></li>
-    <li role="presentation" class="active"><a href="#roles" data-toggle="tab">Role</a></li>
+    <li role="presentation" class="active"><a href="#users" role="tab" data-toggle="tab">Users</a></li>
+    <li role="presentation"><a href="#roles" data-toggle="tab">Role</a></li>
 </ul>
 
 <div class="tab-content">
-    <div id="users" role="tabpanel" class="tab-pane fade in">
+    <div id="users" role="tabpanel" class="tab-pane fade in active">
         @Html.Partial("_UsersPartialView", Model)
     </div>
-    <div id="roles" role="tabpanel" class="tab-pane fade in active">
+    <div id="roles" role="tabpanel" class="tab-pane fade in">
         @Html.Partial("_RolesPartialView", Model.Roles)
     </div>
 </div>
@@ -39,7 +39,7 @@
             };
 
             var createModalDialog = function (args) {
-                args.modaltitle = args.title || undefined;
+                args.modaltitle = args.modalTitle || undefined;
                 args.modalSize = args.modalSize || undefined;
 
                 if (args.modaltitle !== undefined) {
@@ -67,11 +67,11 @@
 
                 if (args.disabled && button.length > 0) {
                     button.addClass('disabled');
-                    controls.appModal.find('#btnCloseDialog').addClass('disabled');
-                    controls.appModal.find('.close').removeClass('hidden');
+                    controls.appModal.find('#btnCloseDialog').addClass('hidden');
+                    controls.appModal.find('.close').addClass('hidden');
                 } else {
                     button.removeClass('disabled');
-                    controls.appModal.find('#btnCloseDialog').removeClass('disabled');
+                    controls.appModal.find('#btnCloseDialog').removeClass('hidden');
                     controls.appModal.find('.close').removeClass('hidden');
                 }                    
             };
@@ -88,6 +88,115 @@
 
                 return dialog;
             };
+
+            var addUserAsync = function (e) {
+                e.preventDefault();
+
+                var form = $(e.currentTarget),
+                    alertDialog;
+
+                toggleEnableButton({
+                    button: '#btnAddSubmit',
+                    innerHTML: 'Adding new user.. &nbsp; <i class="fa fa-spinner fa-pulse"></i>',
+                    disabled: true
+                });
+
+                alertDialog = createAlertDialog();
+
+                $.ajax({
+                    method: 'post',
+                    url: '/api/account/register',
+                    data: form.serialize(),
+                    success: function (response) {
+                        //append response content                            
+                        alertDialog.addClass('alert-success')
+                            .append('<p class="text-center">User ' + response + ' has been created!</p>');
+
+                        //append the dialog on the top of the form
+                        controls.appModal.find('.modal-body').prepend(alertDialog);
+
+                        //clear the input
+                        controls.appModalContent.find('#frmNewUser').find('input').val('');
+
+                        toggleEnableButton({
+                            button: '#btnAddSubmit',
+                            innerHTML: 'Submit',
+                            disabled: false
+                        });
+
+                    },
+                    error: function (jqXHR) {
+
+                        //get the empty string property of the ModelState
+                        var modelStateErrors = jqXHR.responseJSON.ModelState[""];
+
+                        //loop through
+                        $.each(modelStateErrors, function (key, value) {
+                            alertDialog.addClass('alert-danger')
+                                .append('<p class="text-center">' + value + '</p>');
+                        });
+
+                        // append on the top
+                        controls.appModal.find('.modal-body').prepend(alertDialog);
+
+                        toggleEnableButton({
+                            button: '#btnAddSubmit',
+                            innerHTML: 'Submit',
+                            disabled: false
+                        });
+                    }
+                });
+            }
+
+            var updateUserAsync = function (e) {
+                e.preventDefault();                
+
+                var form = $(e.currentTarget),
+                    alertDialog;
+
+                toggleEnableButton({
+                    button: '#btnUpdateUser',
+                    innerHTML: 'Updating... &nbsp; <i class="fa fa-spinner fa-pulse"></i>',
+                    disabled: true
+                });
+
+                alertDialog = createAlertDialog();
+
+                $.ajax({
+                    method: 'post',
+                    url: '/admin/updateuser',
+                    data: form.serialize(),
+                    success: function (response) {
+                        if (response.isSuccess) {
+                            alertDialog.addClass('alert-success')
+                                .append('<p class="text-center">' + response.message + '</p>');
+                            controls.appModal.find('.modal-body').prepend(alertDialog);
+
+                            toggleEnableButton({
+                                button: '#btnUpdateUser',
+                                innerHTML: 'Update',
+                                disabled: false
+                            });
+                        } else {
+                            $.each(response.errors, function (key, value) {
+                                alertDialog.addClass('alert-danger')
+                                    .append('<p class="text-center">' + value + '</p>');
+
+                                toggleEnableButton({
+                                    button: '#btnUpdateUser',
+                                    innerHTML: 'Update',
+                                    disabled: false
+                                });
+                            });
+                            controls.appModal.find('.moda-body').prepend(alertDialog);
+                        }
+                    },
+                    error: function (jqXHR) {
+                        alertDialog.add('alert-danger')
+                            .append('<p class="text-center">' + jqXHR.responseText + '</p>');
+                    }
+                });
+            }
 
             var bindUiActions = function () {
                 
@@ -139,12 +248,15 @@
                                 },
                                 PhoneNumber: 'Please enter a mobile number'
                             },
-                            submitHandler: function (form) {                             
-                                controls.frmNewUser.trigger('submit');
+                            submitHandler: function (form) {    
+                                var formAddUser = $(form);
+
+                                if (!formAddUser.valid()) return;
+
+                                formAddUser.submit(addUserAsync(event));
                             }
                         });
-                    });           
-
+                    });          
                     controls.appModal.modal('show');
                 });
 
@@ -163,73 +275,15 @@
                 controls.appModalContent.on('click', '#btnCloseDialog', function () {
                     controls.appModal.modal('hide');
                     location.reload();
-                });
-
-                controls.appModalContent.on('submit', '#frmNewUser', function (e) {
-                    e.preventDefault();
-
-                    var form = $(this);
-                        
-                    toggleEnableButton({
-                        button: '#btnAddSubmit',
-                        innerHTML: 'Adding new user.. &nbsp; <i class="fa fa-spinner fa-pulse"></i>',
-                        disabled: true
-                    });                    
-                    
-                    alertDialog = createAlertDialog();                    
-
-                    $.ajax({
-                        method: 'post',
-                        url: '/api/account/register',
-                        data: form.serialize(),
-                        success: function (response) {                                                                          
-                            //append response content                            
-                            alertDialog.addClass('alert-success')
-                                .append('<p class="text-center">User ' + response + ' has been created!</p>');
-
-                            //append the dialog on the top of the form
-                            controls.appModal.find('.modal-body').prepend(alertDialog);
-
-                            //clear the input
-                            controls.appModalContent.find('#frmNewUser').find('input').val('');                            
-
-                            toggleEnableButton({
-                                button: '#btnAddSubmit',
-                                innerHTML: 'Submit',
-                                disabled: false
-                            });
-                            
-                        },
-                        error: function (jqXHR) {
-
-                            //get the empty string property of the ModelState
-                            var modelStateErrors = jqXHR.responseJSON.ModelState[""];
-
-                            //loop through
-                            $.each(modelStateErrors, function (key, value) {
-                                alertDialog.addClass('alert-danger')
-                                    .append('<p class="text-center">' + value + '</p>');
-                            });
-
-                            // append on the top
-                            controls.appModal.find('.modal-body').prepend(alertDialog);                                                      
-
-                            toggleEnableButton({
-                                button: '#btnAddSubmit',
-                                innerHTML: 'Submit',
-                                disabled: false
-                            });                            
-                        }
-                    });
-                });
-
-                controls.btnEditUserDialog.on('click', function (event) {
-                    var btn = $(event.currentTarget),
+                });      
+                
+                controls.btnEditUserDialog.on('click', function (e) {
+                    var btn = $(e.currentTarget),
                         userID = btn.data('userid');                    
 
                     createModalDialog({
                         modalTitle: 'Edit user',
-                        modalSize: 'modal-sm'
+                        modalSize: ''
                     });
 
                     var appModalBody = controls.appModal.find('.modal-body');
@@ -251,61 +305,18 @@
                                 PhoneNumber: 'Please enter a mobile number'
                             },
                             submitHandler: function (form) {
-                                controls.frmUpdateUser.trigger('submit');
+                                var formUpdateUser = $(form);
+
+                                if (!formUpdateUser.valid()) return;
+                                
+                                formUpdateUser.submit(updateUserAsync(event));
+                                
                             }
                         });
                     });
 
                     controls.appModal.modal('show');
-                });
-
-                controls.appModalContent.on('submit', '#frmUpdateUser', function (e) {
-                    e.preventDefault();
-
-                    var form = $(this),
-                        alertDialog;
-                    
-                    toggleEnableButton({
-                        button: '#btnUpdateUser',
-                        innerHTML: 'Updating... &nbsp; <i class="fa fa-spinner fa-pulse"></i>',
-                        disabled: true
-                    });                    
-                    
-                    alertDialog = createAlertDialog();
-
-                    $.ajax({
-                        method: 'post',
-                        url: '/admin/updateuser',
-                        data: form.serialize(),
-                        success: function (response) {
-                            if (response.isSuccess) {
-                                alertDialog.addClass('alert-success')
-                                    .append('<p class="text-center">' + response.message + '</p>');
-                                controls.appModal.find('.modal-body').prepend(alertDialog);
-
-                                controls.appModal.find('#btnUpdateUser').removeClass('disabled')
-                                    .html('Update');
-                                controls.appModal.find('.close').removeClass('hidden');
-                            } else {
-                                $.each(response.errors, function (key, value) {
-                                    alertDialog.addClass('alert-danger')
-                                        .append('<p class="text-center">' + value + '</p>');
-
-                                    toggleEnableButton({
-                                        button: '#btnUpdateUser',
-                                        innerHTML: 'Update',
-                                        disabled: false
-                                    });               
-                                });
-                                controls.appModal.find('.moda-body').prepend(alertDialog);
-                            }
-                        },
-                        error: function (jqXHR) {
-                            alertDialog.add('alert-danger')
-                                .append('<p class="text-center">' + jqXHR.responseText + '</p>');
-                        }
-                    });
-                });    
+                });            
 
                 controls.btnResetPasswordDialog.on('click', function (event) {
                     var btn = $(event.currentTarget),
@@ -451,7 +462,7 @@
             };
 
             var createModalDialog = function (args) {
-                args.modaltitle = args.title || undefined;
+                args.modaltitle = args.modalTitle || undefined;
                 args.modalSize = args.modalSize || undefined;
 
                 if (args.modaltitle !== undefined) {

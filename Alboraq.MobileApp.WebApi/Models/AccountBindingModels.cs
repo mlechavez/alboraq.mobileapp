@@ -78,6 +78,10 @@ namespace Alboraq.MobileApp.WebApi.Models
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
 
+        [Required]
+        [Display(Name = "Role")]
+        public string RoleName { get; set; }
+
     }
 
     public class UpdateBindingModel

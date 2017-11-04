@@ -33,14 +33,17 @@ namespace Alboraq.MobileApp.WebApi.Controllers.MVC
         }
 
         public ActionResult NewUserPartialView()
-        {            
+        {
+            var roles = _roleManager.Roles.ToList();            
+            ViewBag.RoleName = new SelectList(roles, "Name", "Name");
             return PartialView("_NewUserPartialView");
         }
 
         public ActionResult EditUserPartialView(string userID)
         {
             var user = _userManager.FindById(userID);
-
+            ViewBag.UserRoles = _userManager.GetRoles(userID);
+            ViewBag.Roles = new SelectList(_roleManager.Roles.ToList(), "Name", "Name");
             var viewModel = new UpdateBindingModel { UserID = user.Id, Name = user.Name, PhoneNumber = user.PhoneNumber };
 
             return PartialView("_EditUserPartialView", viewModel);

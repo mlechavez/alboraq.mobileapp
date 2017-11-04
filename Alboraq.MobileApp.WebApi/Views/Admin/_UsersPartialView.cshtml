@@ -24,19 +24,24 @@
             @foreach (var user in Model.Users)
             {
                 <tr>
+                    <td>
+                        <button class="btn btn-default btn-xs btnEditUserDialog"
+                                data-userid="@user.Id">
+                            Edit
+                        </button>
+                        <button class="btn btn-default btn-xs btnResetPasswordDialog"
+                                data-email="@user.Email">
+                            Reset Password
+                        </button>
+                        <button class="btn btn-danger btn-xs btnDeleteUserDialog"
+                                data-email="@user.Email">
+                            Delete &nbsp;<i class="fa fa-trash"></i>
+                        </button>
+                    </td>
                     <td>@user.UserName</td>
                     <td>@user.Name</td>
                     <td>@user.Email</td>
-                    <td>
-                        <button class="btn btn-default btn-xs btnEditUserDialog"         
-                                data-userid="@user.Id">Edit</button>   
-                        <button class="btn btn-default btn-xs btnResetPasswordDialog"    
-                                data-email="@user.Email">Reset Password</button>
-                        <button class="btn btn-danger btn-xs btnDeleteUserDialog"
-                                data-email="@user.Email">
-                        Delete &nbsp;<i class="fa fa-trash"></i>
-                        </button>
-                    </td>
+                    
                 </tr>
             }
         </tbody>

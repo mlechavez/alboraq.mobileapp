@@ -24,12 +24,17 @@
                         <li>@Html.ActionLink("Appointment", "Index", "Appt", new { area = "" }, null)</li>
                         <li>@Html.ActionLink("Products", "Index", "Prod", new { area = "" }, null)</li>
                     </ul>
+
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="@Url.Action("settings", "admin", new { area = "" }, null)" id="linkSettings">Settings &nbsp;<i class="fa fa-cog"></i></a></li>
-                        <li>@Html.ActionLink("Sign out", "signout", "auth", new { area = "" }, null)</li>
-                        
-                    </ul>
-                    <p class="navbar-text navbar-right">Welcome! @User.Identity.Name</p>
+                        <li class="dropdown">
+                            <a href="#" data-toggle="dropdown"> @User.Identity.Name &nbsp;<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="@Url.Action("settings", "admin", new { area = "" }, null)" id="linkSettings"><i class="fa fa-cog"></i> &nbsp; Settings</a></li>
+                                <li class="divider"></li>
+                                <li><a href="@Url.Action("signout", "auth", new { area = "" })"><i class="fa fa-sign-out"></i> &nbsp; Sign out</a></li>
+                            </ul>
+                        </li>                            
+                    </ul>                    
                 }
             </div>
         </div>

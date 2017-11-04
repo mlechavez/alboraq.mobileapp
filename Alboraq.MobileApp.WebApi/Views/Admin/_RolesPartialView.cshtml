@@ -19,10 +19,10 @@
                 @foreach (var role in Model)
                 {
                     <tr>
-                        <td colspan="3">@role.Name</td>                        
                         <td>
-                            <button type="button" class="btn btn-default btn-xs btnEditRoleDialog" data-roleid="@role.Id">Edit</button>                            
+                            <button type="button" class="btn btn-default btn-xs btnEditRoleDialog" data-roleid="@role.Id">Edit</button>
                         </td>
+                        <td colspan="3">@role.Name</td>                                                
                     </tr>
                 }
             </tbody>
