@@ -4,6 +4,7 @@
     <div class="col-md-6">
         @using (Html.BeginForm("updateuser", "admin", FormMethod.Post, new { id = "frmUpdateUser" }))
         {
+            <h4>User Profile</h4>
             @Html.HiddenFor(user => user.UserID)
             <div class="form-group">
                 @Html.LabelFor(user => user.Name)
@@ -21,13 +22,16 @@
     <div class="col-md-6">
         @using (Html.BeginForm("", "", FormMethod.Post, new { id = "frmAddUserToRole"}))
         {
+            <h4>Add to role</h4>
             <div class="form-group">
-                <div class="input-group">
+                <div class="input-group">                    
+                    <span id="addToRoleStatus"></span>
                     @Html.DropDownList("Roles", null, null, new { @class = "form-control" })
-                    <span class="input-group-btn">
-                        <button type="button">Add to role</button>
+                    <span class="input-group-btn">                        
+                        <button type="button" id="btnAddToRole" class="btn btn-default"
+                                data-loading-text="Adding to role...">Add</button>
                     </span>
-                </div>
+                </div>                
             </div>
             
         }

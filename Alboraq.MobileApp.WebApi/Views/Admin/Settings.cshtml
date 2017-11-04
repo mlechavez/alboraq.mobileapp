@@ -90,8 +90,7 @@
             };
 
             var addUserAsync = function (e) {
-                e.preventDefault();
-
+                e.preventDefault();                
                 var form = $(e.currentTarget),
                     alertDialog;
 
@@ -293,8 +292,8 @@
                     appModalBody.load('/admin/edituserpartialview?userID=' + userID, function () {
 
                         //add frmUpdateUser form in the controls object
-                        controls.frmUpdateUser = controls.appModalContent.find('#frmUpdateUser');
-
+                        controls.frmUpdateUser = controls.appModalContent.find('#frmUpdateUser');                        
+                                                
                         controls.frmUpdateUser.validate({
                             rules: {
                                 Name: 'required',
@@ -309,14 +308,22 @@
 
                                 if (!formUpdateUser.valid()) return;
                                 
-                                formUpdateUser.submit(updateUserAsync(event));
-                                
+                                formUpdateUser.submit(updateUserAsync(event));                                
                             }
                         });
-                    });
 
+                        var frmAddUserToRole = controls.appModalContent.find('#frmAddUserToRole');
+
+                        $(frmAddUserToRole).on('submit', function (e) {
+                            e.preventDefault();
+                            console.log('submitted');
+                        });
+
+                                               
+                    });
+                    
                     controls.appModal.modal('show');
-                });            
+                });                            
 
                 controls.btnResetPasswordDialog.on('click', function (event) {
                     var btn = $(event.currentTarget),
@@ -553,8 +560,7 @@
                     },
                     error: function (jqXHR) {
                         alertDialog.addClass('alert-danger');
-                        alertDialog.append('<p class="text-center">' + jqXHR.responseText + '</p>');
-                        console.log('goes on error');
+                        alertDialog.append('<p class="text-center">' + jqXHR.responseText + '</p>');                        
                     }
                 });
             };
