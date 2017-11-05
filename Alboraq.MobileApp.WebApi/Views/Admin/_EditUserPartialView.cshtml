@@ -25,17 +25,18 @@
             <h4>Add to role</h4>
             <div class="form-group">
                 <div class="input-group">                    
-                    <span id="addToRoleStatus"></span>
-                    @Html.DropDownList("Roles", null, null, new { @class = "form-control" })
+                    <div id="addToRoleStatus"></div>
+                    @Html.HiddenFor(user=>user.UserID)
+                    @Html.DropDownList("RoleName", null, null, new { @class = "form-control" })
                     <span class="input-group-btn">                        
-                        <button type="button" id="btnAddToRole" class="btn btn-default"
+                        <button type="submit" id="btnAddToRole" class="btn btn-default"
                                 data-loading-text="Adding to role...">Add</button>
                     </span>
                 </div>                
-            </div>
-            
+            </div>            
         }
-        <table class="table table-bordered table-condensed">
+        <div id="removeFromRoleStatus"></div>
+        <table id="tblRoles" class="table table-bordered table-condensed">
             <thead>
                 <tr>
                     <th></th>
@@ -46,7 +47,11 @@
                 @foreach (var role in ViewBag.UserRoles)
                 {
                     <tr>
-                        <td><button type="button" class="btn btn-danger btn-xs">Remove</button></td>
+                        <td>
+                        <button type="button" 
+                                class="btn btn-danger btn-xs btnRemoveRole"
+                                data-userid="@Model.UserID"
+                                data-rolename="@role">Remove</button></td>
                         <td>@role</td>
                     </tr>
                 }                

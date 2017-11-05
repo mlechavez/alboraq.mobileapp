@@ -43,7 +43,7 @@ namespace Alboraq.MobileApp.WebApi.Controllers.MVC
         {
             var user = _userManager.FindById(userID);
             ViewBag.UserRoles = _userManager.GetRoles(userID);
-            ViewBag.Roles = new SelectList(_roleManager.Roles.ToList(), "Name", "Name");
+            ViewBag.RoleName = new SelectList(_roleManager.Roles.ToList(), "Name", "Name");
             var viewModel = new UpdateBindingModel { UserID = user.Id, Name = user.Name, PhoneNumber = user.PhoneNumber };
 
             return PartialView("_EditUserPartialView", viewModel);
@@ -215,6 +215,27 @@ namespace Alboraq.MobileApp.WebApi.Controllers.MVC
             return PartialView("AddUserToRolePartialView");
         }
 
+        public ActionResult AddUserToRole(string UserID, string RoleName)
+        {
+            var result = _userManager.AddToRole(UserID, RoleName);
+
+            if (result.Succeeded)
+            {
+                return Json(new { isSuccess = true, message = $"{RoleName} role has been added!" });
+            }
+            return Json(new { success = false, errors = GetErrorResult(result) });
+        }
+
+        public ActionResult RemoveFromRole(string userID, string roleName)
+        {
+            var result = _userManager.RemoveFromRole(userID, roleName);
+
+            if (result.Succeeded)
+            {
+                return Json(new { isSuccess = true, message = $"{roleName} role has been removed!" });
+            }
+            return Json(new { success = false, errors = GetErrorResult(result) });
+        }
         #region Helpers
         private List<string> GetErrorResult(IdentityResult result)
         {            
