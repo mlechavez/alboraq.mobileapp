@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using System.Web.Http;
 
-namespace Alboraq.MobileApp.WebApi.Controllers.MVC
+namespace Alboraq.MobileApp.WebApi.Controllers
 {
     [Authorize]
     [RoutePrefix("api/product")]

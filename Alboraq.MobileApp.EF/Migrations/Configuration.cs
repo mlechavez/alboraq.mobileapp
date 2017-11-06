@@ -29,8 +29,15 @@ namespace Alboraq.MobileApp.EF.Migrations
             context.Roles.AddOrUpdate(r => r.Name,                
                 new IdentityRole { Name = "receptionist" },
                 new IdentityRole { Name = "parts salesman" },
-                new IdentityRole { Name = "crm" }
-            );            
+                new IdentityRole { Name = "crm" });
+
+            context.ProductCategories.AddOrUpdate(cat => cat.CategoryName,
+                new ProductCategory { CategoryName = "pds", CategoryDescription = "Porsche Drivers Selection" },
+                new ProductCategory { CategoryName = "TEquip", CategoryDescription = "TEquipment" },
+                new ProductCategory { CategoryName = "pd", CategoryDescription = "Porsche Desing" });
+
+            //context.Products.AddOrUpdate(product => product.ProductNo,
+            //    new Product { ProductNo = "PRWAP0000116", ProductName = "BASEBALL CAP #7 MOTORSPORT", ProductDescription = "BASEBALL CAP #7 MOTORSPORT", UnitPrice });
         }
     }
 }

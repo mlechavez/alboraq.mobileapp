@@ -13,7 +13,7 @@ namespace Alboraq.MobileApp.Core.Entities
         public string ProductDescription { get; set; }
         public decimal UnitPrice { get; set; }
         public decimal Qoh { get; set; }
-        public string ImageUrl { get; set; }
+        public byte[] Image { get; set; }
         public int? ProductCategoryID { get; set; }
 
         [JsonIgnore]
