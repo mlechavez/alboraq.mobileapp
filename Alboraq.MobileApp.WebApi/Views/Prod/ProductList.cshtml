@@ -23,10 +23,10 @@
             {
                 <tr>
                     <td>
-                        <img src="/products/product-list/@product.ID" alt="@product.ProductName" height="100" width="100" />
+                        @*<img src="@Url.Action("retrieveimage","prod", new { ID = product.ID })" alt="@product.ProductName" height="100" width="100" />*@
+                        <img src="/products/retrieveimage/@product.ID" alt="@product.ProductName" height="100" width="100" />
                     </td>
-                    <td>@product.ProductNo</td>
-                    <td>@product.ProductNo</td>
+                    <td>@product.ProductNo</td>                    
                     <td>@product.ProductName</td>
                     <td>@product.ProductDescription</td>
                     <td>@product.UnitPrice</td>

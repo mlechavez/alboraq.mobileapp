@@ -6,6 +6,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Diagnostics;
 
 namespace Alboraq.MobileApp.WebApi.Controllers.MVC
 {
@@ -40,6 +41,7 @@ namespace Alboraq.MobileApp.WebApi.Controllers.MVC
         }
 
         [HttpPost]
+        [Route("new-product")]
         public ActionResult NewProduct(ProductModel prod)
         {
             if (!ModelState.IsValid)
@@ -54,7 +56,7 @@ namespace Alboraq.MobileApp.WebApi.Controllers.MVC
                 UnitPrice = prod.UnitPrice,
                 Qoh = prod.Qoh                
             };
-            HttpPostedFileBase file = Request.Files["Images"];
+            HttpPostedFileBase file = Request.Files["Image"];
 
             newProduct.Image = ConvertToBytes(file);
 
@@ -64,17 +66,27 @@ namespace Alboraq.MobileApp.WebApi.Controllers.MVC
             return RedirectToAction("ProductList");
         }
 
-        public async Task<ActionResult> RetrieveImage(int ID)
+        //TODO: MODIFY THIS
+        [Route("retrieveimage")]
+        public ActionResult RetrieveImage(int ID)
         {
-            var product = await _unitOfWork.Products.GetAsync(ID);
+            Product product = null;
+            Task.Run(async () => {
+                product = await _unitOfWork.Products.GetAsync(ID);
+                Debug.WriteLine(product.Image);
+                return File(product.Image, "image/jpg");
+            });
             return File(product.Image, "image/jpg");
         }
 
         private byte[] ConvertToBytes(HttpPostedFileBase file)
         {
             byte[] imageBytes = null;
-            BinaryReader reader = new BinaryReader(file.InputStream);
-            imageBytes = reader.ReadBytes((int)file.ContentLength);
+            using (BinaryReader reader = new BinaryReader(file.InputStream))
+            {
+                imageBytes = reader.ReadBytes((int)file.ContentLength);
+            }
+                        
             return imageBytes;
         }
     }
