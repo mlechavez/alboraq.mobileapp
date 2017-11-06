@@ -6,10 +6,12 @@ Click here to learn more. https://go.microsoft.com/fwlink/?LinkId=518007
 var gulp = require('gulp'),
     sass = require('gulp-sass'),
     notify = require('gulp-notify'),
-    bower = require('gulp-bower');    
+    bower = require('gulp-bower'),
+    uglify = require('gulp-uglify');
 
 var config = {
     sassPath: './assets/sass',
+    jsPath: './assets/js',
     bowerDir: './bower_components',
 };
 
@@ -21,13 +23,19 @@ gulp.task('icons', function () {
     return gulp.src(config.bowerDir + '/font-awesome/fonts/**.*')
         .pipe(gulp.dest('./dist/fonts'));
 });
-gulp.task('js', function () {
+gulp.task('js-lib', function () {
     return gulp.src([
         config.bowerDir + '/jquery/dist/jquery.min.js',
         config.bowerDir + '/bootstrap-sass/assets/javascripts/bootstrap.min.js',
         config.bowerDir + '/jquery-validation/dist/jquery.validate.min.js',
         config.bowerDir + '/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js'
     ]).pipe(gulp.dest('./dist/js'));
+});
+
+gulp.task('js', function () {
+    return gulp.src(config.jsPath + '/**/*.js')
+        .pipe(uglify())
+        .pipe(gulp.dest('./dist/js'));
 });
 
 gulp.task('css', function () {
@@ -47,6 +55,7 @@ gulp.task('css', function () {
 
 gulp.task('watch', function () {
     gulp.watch(config.sassPath + '/**/*.scss', ['css']);
+    gulp.watch(config.jsPath + '/**/*.js', ['js']);
 });
 
 gulp.task('default', ['bower', 'icons', 'css']);
