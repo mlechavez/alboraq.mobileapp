@@ -1,13 +1,14 @@
 ﻿using Alboraq.MobileApp.Core;
+using Alboraq.MobileApp.WebApi.Filters;
 using Alboraq.MobileApp.WebApi.Models.MVC.Appointments;
 using System;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace Alboraq.MobileApp.WebApi.Controllers.MVC
 {
     [RoutePrefix("appointments")]
+    [AccessActionFilter(RoleName = "receptionist")]
     public class ApptController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

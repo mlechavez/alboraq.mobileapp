@@ -1,4 +1,5 @@
-﻿using Alboraq.MobileApp.WebApi.Models;
+﻿using Alboraq.MobileApp.WebApi.Filters;
+using Alboraq.MobileApp.WebApi.Models;
 using Alboraq.MobileApp.WebApi.Models.MVC.Admin;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -10,7 +11,7 @@ using System.Web.Mvc;
 
 namespace Alboraq.MobileApp.WebApi.Controllers.MVC
 {
-
+    [Authorize]
     public class AdminController : Controller
     {
         private readonly ApplicationUserManager _userManager;
@@ -22,6 +23,7 @@ namespace Alboraq.MobileApp.WebApi.Controllers.MVC
             _roleManager = roleManager;
         }
         // GET: Admin
+        [AccessActionFilter(RoleName = "admin")]
         public ActionResult Settings()
         {            
             var viewModel = new AdminSettingsViewModel
@@ -221,7 +223,12 @@ namespace Alboraq.MobileApp.WebApi.Controllers.MVC
 
             if (result.Succeeded)
             {
-                return Json(new { isSuccess = true, message = $"{RoleName} role has been added!" });
+                return Json(
+                    new {
+                        isSuccess = true,
+                        userID = UserID,
+                        roleName = RoleName,
+                        message = $"{RoleName} role has been added!" });
             }
             return Json(new { success = false, errors = GetErrorResult(result) });
         }
@@ -232,7 +239,11 @@ namespace Alboraq.MobileApp.WebApi.Controllers.MVC
 
             if (result.Succeeded)
             {
-                return Json(new { isSuccess = true, message = $"{roleName} role has been removed!" });
+                return Json(
+                    new {
+                        isSuccess = true,                        
+                        message = $"{roleName} role has been removed!"
+                    });
             }
             return Json(new { success = false, errors = GetErrorResult(result) });
         }
