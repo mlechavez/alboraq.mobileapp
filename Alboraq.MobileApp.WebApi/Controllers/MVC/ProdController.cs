@@ -35,26 +35,29 @@ namespace Alboraq.MobileApp.WebApi.Controllers.MVC
         }
 
         [Route("new-product")]
-        public ActionResult NewProduct()
+        public async Task<ActionResult> NewProduct()
         {
+            var categories = await _unitOfWork.ProductCategories.GetAllAsync();
+            ViewBag.ProductCategoryID = new SelectList(items: categories, dataValueField: "ProductCategoryID", dataTextField: "CategoryName");
             return View();
         }
 
         [HttpPost]
         [Route("new-product")]
-        public ActionResult NewProduct(ProductModel prod)
+        public ActionResult NewProduct(ProductModel productModel)
         {
             if (!ModelState.IsValid)
             {
-                return View(prod);
+                return View(productModel);
             }
             var newProduct = new Product
             {
-                ProductNo = prod.ProductNo.ToUpper(),
-                ProductName = prod.ProductName.ToUpper(),
-                ProductDescription = prod.ProductDescription.ToUpper(),
-                UnitPrice = prod.UnitPrice,
-                Qoh = prod.Qoh                
+                ProductNo = productModel.ProductNo.ToUpper(),
+                ProductName = productModel.ProductName.ToUpper(),
+                ProductDescription = productModel.ProductDescription.ToUpper(),
+                UnitPrice = productModel.UnitPrice,
+                Qoh = productModel.Qoh,
+                ProductCategoryID = productModel.ProductCategoryID
             };
             HttpPostedFileBase file = Request.Files["Image"];
 
@@ -66,17 +69,14 @@ namespace Alboraq.MobileApp.WebApi.Controllers.MVC
             return RedirectToAction("ProductList");
         }
 
-        //TODO: MODIFY THIS
-        [Route("retrieveimage")]
-        public ActionResult RetrieveImage(int ID)
+        
+        [Route("RetrieveProductImage")]
+        public async Task<ActionResult> RetrieveProductImage(string productNo)
         {
-            Product product = null;
-            Task.Run(async () => {
-                product = await _unitOfWork.Products.GetAsync(ID);
-                Debug.WriteLine(product.Image);
-                return File(product.Image, "image/jpg");
-            });
-            return File(product.Image, "image/jpg");
+            
+            var product = await _unitOfWork.Products.GetAsync(productNo);
+
+            return File(product.Image, "image/jpg");            
         }
 
         private byte[] ConvertToBytes(HttpPostedFileBase file)
@@ -88,6 +88,81 @@ namespace Alboraq.MobileApp.WebApi.Controllers.MVC
             }
                         
             return imageBytes;
+        }
+
+        [Route("new-product-category")]
+        public async Task<ActionResult> NewProductCategory()
+        {
+            var categories = await _unitOfWork.ProductCategories.GetAllAsync();
+            var viewModel = new NewProductCategoryViewModel { ProductCategories = categories, ProductCategoryModel = new ProductCategoryModel() };
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [Route("new-product-category")]
+        public ActionResult NewProductCategory(NewProductCategoryViewModel newProductCategoryViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(newProductCategoryViewModel.ProductCategoryModel);
+            }
+
+            var newCategory = new ProductCategory
+            {
+                CategoryName = newProductCategoryViewModel.ProductCategoryModel.CategoryName,
+                CategoryDescription = newProductCategoryViewModel.ProductCategoryModel.CategoryDescription
+            };
+            newCategory.Image = ConvertToBytes(newProductCategoryViewModel.ProductCategoryModel.Image);
+
+            _unitOfWork.ProductCategories.Add(newCategory);
+            _unitOfWork.SaveChanges();
+
+            return RedirectToAction("productlist");
+        }
+
+        [Route("RetrieveProductCategoryImage")]
+        public async Task<ActionResult> RetrieveProductCategoryImage(int id)
+        {
+            var productCategory = await _unitOfWork.ProductCategories.GetAsync(id);
+
+            return File(productCategory.Image, "image/jpg");
+        }
+
+        [Route("{productNo}/details")]
+        public async Task<ActionResult> ProductDetails(string productNo)
+        {
+            var product = await _unitOfWork.Products.GetAsync(productNo);
+            var categories = await _unitOfWork.ProductCategories.GetAllAsync();
+            ViewBag.ProductCategoryID = new SelectList(items: categories, dataValueField: "ProductCategoryID", dataTextField: "CategoryName", selectedValue: product.ProductCategory.ProductCategoryID);
+            return View(product);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> UpdateProduct(Product productModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                var categories = await _unitOfWork.ProductCategories.GetAllAsync();
+                ViewBag.ProductCategoryID = new SelectList(items: categories, dataValueField: "ProductCategoryID", dataTextField: "CategoryName", selectedValue: productModel.ProductCategoryID);
+                return View(productModel);
+            }
+            var product = await _unitOfWork.Products.GetAsync(productModel.ProductNo);
+
+            product.ProductName = productModel.ProductName;
+            product.ProductDescription = productModel.ProductDescription;
+            product.UnitPrice = productModel.UnitPrice;
+            product.Qoh = productModel.Qoh;
+            product.ProductCategoryID = productModel.ProductCategoryID;
+
+            HttpPostedFileBase file = Request.Files["Image"];
+
+            if (file != null)
+            {
+                product.Image = new byte[file.ContentLength];
+                file.InputStream.Read(product.Image, 0, file.ContentLength);
+            }
+            await _unitOfWork.SaveChangesAsync();
+            return RedirectToAction("productlist");
         }
     }
 }

@@ -7,7 +7,8 @@ var gulp = require('gulp'),
     sass = require('gulp-sass'),
     notify = require('gulp-notify'),
     bower = require('gulp-bower'),
-    uglify = require('gulp-uglify');
+    uglify = require('gulp-uglify'),
+    concat = require('gulp-concat');
 
 var config = {
     sassPath: './assets/sass',
@@ -24,12 +25,13 @@ gulp.task('icons', function () {
         .pipe(gulp.dest('./dist/fonts'));
 });
 gulp.task('js-lib', function () {
-    return gulp.src([
+    return gulp.src([        
         config.bowerDir + '/jquery/dist/jquery.min.js',
         config.bowerDir + '/bootstrap-sass/assets/javascripts/bootstrap.min.js',
         config.bowerDir + '/jquery-validation/dist/jquery.validate.min.js',
-        config.bowerDir + '/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js'
-    ]).pipe(gulp.dest('./dist/js'));
+        config.bowerDir + '/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js',
+        './assets/js/lib/**/*.js'
+    ]).pipe(concat('lib.min.js')).pipe(gulp.dest('./dist/js'));
 });
 
 gulp.task('js', function () {
@@ -58,4 +60,4 @@ gulp.task('watch', function () {
     gulp.watch(config.jsPath + '/**/*.js', ['js']);
 });
 
-gulp.task('default', ['bower', 'icons', 'css']);
+gulp.task('default', ['bower', 'icons', 'css', 'js']);

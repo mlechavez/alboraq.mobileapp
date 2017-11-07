@@ -3,14 +3,14 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Customer Orders</h2>
 
 <ul class="nav nav-pills">
     <li role="presentation"><a href="@Url.Action("productlist", "prod")">View List of Products</a></li>
     <li role="presentation"><a href="@Url.Action("newproduct", "prod")">Add New product</a></li>
-    <li role="presentation"><a href="#">Reports</a></li>
+    <li role="presentation"><a href="@Url.Action("newproductcategory", "prod")">Add New Product Category</a></li>
 </ul>
 
+<h2>Customer Orders</h2>
 <div>
     <table class="table table-condensed table-hover">
         <thead>

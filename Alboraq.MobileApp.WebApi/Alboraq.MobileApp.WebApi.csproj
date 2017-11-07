@@ -275,6 +275,8 @@
     <Compile Include="Models\MVC\Appointments\AppointmentIndexViewModel.cs" />
     <Compile Include="Models\MVC\Appointments\AppointmentModel.cs" />
     <Compile Include="Models\MVC\Admin\RoleBindingModels.cs" />
+    <Compile Include="Models\MVC\Prod\NewProductCategoryViewModel.cs" />
+    <Compile Include="Models\MVC\Prod\ProductCategoryModel.cs" />
     <Compile Include="Models\MVC\Prod\ProductModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
@@ -283,6 +285,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="assets\images\noimage.png" />
+    <Content Include="assets\js\editProduct.js" />
     <Content Include="assets\js\role.js" />
     <Content Include="assets\js\user.js" />
     <Content Include="bower_components\bootstrap-sass\assets\fonts\bootstrap\glyphicons-halflings-regular.svg" />
@@ -543,14 +547,16 @@
     <Content Include="bower_components\jquery\src\wrap.js" />
     <Content Include="dist\css\styles.css" />
     <Content Include="dist\fonts\fontawesome-webfont.svg" />
+    <Content Include="dist\images\noimage.png" />
     <Content Include="dist\images\products\tequipment.jpg" />
     <Content Include="dist\images\products\pds.jpg" />
     <Content Include="dist\images\products\pd.jpg" />
     <Content Include="dist\images\products\penguins.jpg" />
-    <Content Include="dist\js\bootstrap.min.js" />
-    <Content Include="dist\js\jquery.min.js" />
-    <Content Include="dist\js\jquery.validate.min.js" />
-    <Content Include="dist\js\jquery.validate.unobtrusive.min.js" />
+    <Content Include="assets\js\lib\additional-methods.min.js" />
+    <Content Include="assets\js\newProduct.js" />
+    <Content Include="dist\js\editProduct.js" />
+    <Content Include="dist\js\lib.min.js" />
+    <Content Include="dist\js\newProduct.js" />
     <Content Include="dist\js\role.js" />
     <Content Include="dist\js\user.js" />
     <Content Include="favicon.ico" />
@@ -778,6 +784,8 @@
     <Content Include="Views\Prod\Index.cshtml" />
     <Content Include="Views\Prod\ProductList.cshtml" />
     <Content Include="Views\Prod\NewProduct.cshtml" />
+    <Content Include="Views\Prod\NewProductCategory.cshtml" />
+    <Content Include="Views\Prod\ProductDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Alboraq.MobileApp.Core\Alboraq.MobileApp.Core.csproj">
@@ -800,7 +808,6 @@
   <ItemGroup>
     <Folder Include="assets\css\" />
     <Folder Include="assets\fonts\" />
-    <Folder Include="assets\images\" />
     <Folder Include="assets\js\settings\" />
     <Folder Include="bower_components\bootstrap-sass\assets\images\" />
   </ItemGroup>

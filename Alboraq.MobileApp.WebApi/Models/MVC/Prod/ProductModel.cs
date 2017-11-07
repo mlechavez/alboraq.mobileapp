@@ -21,6 +21,9 @@ namespace Alboraq.MobileApp.WebApi.Models.MVC.Prod
         [Display(Name = "Quantity")]
         public decimal Qoh { get; set; }
         [Required]
+        [Display(Name = "Category")]
+        public int ProductCategoryID { get; set; }
+        [Required]
         [Display(Name = "Image")]
         public HttpPostedFileBase Image { get; set; }
     }
