@@ -229,6 +229,9 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\AppointmentController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
     <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
     <Compile Include="Areas\HelpPage\App_Start\HelpPageConfig.cs" />
     <Compile Include="Areas\HelpPage\Controllers\HelpController.cs" />
@@ -257,27 +260,27 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AppointmentController.cs" />
-    <Compile Include="Controllers\MVC\AdminController.cs" />
-    <Compile Include="Controllers\MVC\AuthController.cs" />
-    <Compile Include="Controllers\MVC\HomeController.cs" />
-    <Compile Include="Controllers\MVC\ApptController.cs" />
-    <Compile Include="Controllers\MVC\ProdController.cs" />
-    <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\Api\AccountController.cs" />
+    <Compile Include="Controllers\Api\AppointmentController.cs" />
+    <Compile Include="Controllers\Admin\UserController.cs" />
+    <Compile Include="Controllers\Web\AuthController.cs" />
+    <Compile Include="Controllers\Web\HomeController.cs" />
+    <Compile Include="Controllers\Admin\ProductController.cs" />
+    <Compile Include="Controllers\Api\ProductController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Filters\AccessActionFilter.cs" />
-    <Compile Include="Models\AccountBindingModels.cs" />
-    <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\MVC\Admin\AdminSettingsViewModel.cs" />
-    <Compile Include="Models\MVC\Appointments\AppointmentIndexViewModel.cs" />
-    <Compile Include="Models\MVC\Appointments\AppointmentModel.cs" />
-    <Compile Include="Models\MVC\Admin\RoleBindingModels.cs" />
-    <Compile Include="Models\MVC\Prod\NewProductCategoryViewModel.cs" />
-    <Compile Include="Models\MVC\Prod\ProductCategoryModel.cs" />
-    <Compile Include="Models\MVC\Prod\ProductModel.cs" />
+    <Compile Include="Models\Api\AccountBindingModels.cs" />
+    <Compile Include="Models\Api\AccountViewModels.cs" />
+    <Compile Include="Models\Admin\Users\AdminSettingsViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\AppointmentIndexViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\AppointmentModel.cs" />
+    <Compile Include="Models\Admin\Users\RoleBindingModels.cs" />
+    <Compile Include="Areas\Admin\Models\NewProductCategoryViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\OrderListViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\ProductCategoryModel.cs" />
+    <Compile Include="Areas\Admin\Models\ProductModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
@@ -735,6 +738,10 @@
     <Content Include="bower_components\jquery-validation\package.json" />
     <Content Include="bower_components\jquery-validation\README.md" />
     <Content Include="bower_components\jquery-validation\validation.jquery.json" />
+    <Content Include="Areas\Admin\Views\web.config" />
+    <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Admin\Views\Appointment\Index.cshtml" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -763,29 +770,28 @@
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Web\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Auth\Signin.cshtml" />
-    <Content Include="Views\Appt\Index.cshtml" />
+    <Content Include="Views\Web\Auth\Signin.cshtml" />
     <Content Include="Views\Shared\_Modal.cshtml" />
-    <Content Include="Views\Admin\Settings.cshtml" />
-    <Content Include="Views\Admin\_UsersPartialView.cshtml" />
-    <Content Include="Views\Admin\_RolesPartialView.cshtml" />
-    <Content Include="Views\Admin\_NewUserPartialView.cshtml" />
-    <Content Include="Views\Admin\_EditUserPartialView.cshtml" />
+    <Content Include="Views\Admin\Users\Settings.cshtml" />
+    <Content Include="Views\Admin\Users\_UsersPartialView.cshtml" />
+    <Content Include="Views\Admin\Users\_RolesPartialView.cshtml" />
+    <Content Include="Views\Admin\Users\_NewUserPartialView.cshtml" />
+    <Content Include="Views\Admin\Users\_EditUserPartialView.cshtml" />
     <Content Include="Views\Shared\_ResetPasswordPartialView.cshtml" />
     <Content Include="Views\Shared\_ConfirmPasswordResetPartialView.cshtml" />
-    <Content Include="Views\Admin\_DeleteUserPartialView.cshtml" />
-    <Content Include="Views\Admin\_NewRolePartialView.cshtml" />
-    <Content Include="Views\Admin\_EditRolePartialView.cshtml" />
-    <Content Include="Views\Admin\_AddUsersToRolePartialView.cshtml" />
+    <Content Include="Views\Admin\Users\_DeleteUserPartialView.cshtml" />
+    <Content Include="Views\Admin\Users\_NewRolePartialView.cshtml" />
+    <Content Include="Views\Admin\Users\_EditRolePartialView.cshtml" />
+    <Content Include="Views\Admin\Users\_AddUsersToRolePartialView.cshtml" />
     <Content Include="Views\Shared\_UnAuthorized.cshtml" />
-    <Content Include="Views\Prod\Index.cshtml" />
-    <Content Include="Views\Prod\ProductList.cshtml" />
-    <Content Include="Views\Prod\NewProduct.cshtml" />
-    <Content Include="Views\Prod\NewProductCategory.cshtml" />
-    <Content Include="Views\Prod\ProductDetails.cshtml" />
+    <Content Include="Views\Admin\Products\Index.cshtml" />
+    <Content Include="Views\Admin\Products\ProductList.cshtml" />
+    <Content Include="Views\Admin\Products\NewProduct.cshtml" />
+    <Content Include="Views\Admin\Products\NewProductCategory.cshtml" />
+    <Content Include="Views\Admin\Products\ProductDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Alboraq.MobileApp.Core\Alboraq.MobileApp.Core.csproj">
@@ -806,10 +812,12 @@
     <Content Include="Scripts\jquery-3.2.1.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Areas\Admin\Views\Product\" />
     <Folder Include="assets\css\" />
     <Folder Include="assets\fonts\" />
     <Folder Include="assets\js\settings\" />
     <Folder Include="bower_components\bootstrap-sass\assets\images\" />
+    <Folder Include="Models\Admin\Products\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

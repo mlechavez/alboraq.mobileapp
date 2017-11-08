@@ -31,7 +31,7 @@
                     number: true,
                     min: 0
                 },
-                Image: {
+                PostedImage: {
                     required: true,
                     extension: 'jpg|jpeg'
                 },

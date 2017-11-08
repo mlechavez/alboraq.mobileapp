@@ -1,0 +1,47 @@
+﻿@model Alboraq.MobileApp.WebApi.Models.Admin.Products.OrderListViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<ul class="nav nav-pills">
+    <li role="presentation"><a href="@Url.Action("productlist", "product")">View List of Products</a></li>
+    <li role="presentation"><a href="@Url.Action("newproduct", "product")">Add New product</a></li>
+    <li role="presentation"><a href="@Url.Action("newproductcategory", "product")">Add New Product Category</a></li>
+</ul>
+
+<h2>Customer Orders</h2>
+<div>
+    @if (Model.Orders.Count > 0)
+    {
+        <table class="table table-condensed table-hover">
+            <thead>
+                <tr>
+                    <th>Order no.</th>
+                    <th>Customer no</th>
+                    <th>Customer name</th>
+                    <th>Order date</th>
+                    <th>Invoice no.</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in Model.Orders)
+                {
+                    <tr>
+                        <td>@order.OrderNo</td>
+                        <th>@order.CustomerNo</th>
+                        <th>Name</th>
+                        <th>@order.OrderDate</th>
+                        <th>@order.InvoiceNo</th>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            <p class="text-center">No orders</p>
+        </div>            
+    }
+</div>

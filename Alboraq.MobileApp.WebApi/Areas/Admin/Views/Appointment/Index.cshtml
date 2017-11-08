@@ -1,0 +1,148 @@
+﻿@model Alboraq.MobileApp.WebApi.Areas.Admin.Models.AppointmentIndexViewModel
+
+@{
+    ViewBag.Title = "Appointment Systems";
+}
+
+@Html.Partial("_Modal")
+
+<h2>Appointment System</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-8">
+
+        @if (Model.UnconfirmedAppointments.Count > 0)
+        {
+            <table class="table table-condensed table-hover">
+                <thead>
+                    <tr>
+                        <th>Customer name</th>
+                        <th>Plate no</th>
+                        <th>Mobile</th>
+                        <th>Email</th>
+                        <th>Appointment Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var unconfirmedAppt in Model.UnconfirmedAppointments)
+                    {
+                        <tr id="@unconfirmedAppt.ID">
+                            <td>@unconfirmedAppt.CustomerName</td>
+                            <td>@unconfirmedAppt.PlateNo</td>
+                            <td>@unconfirmedAppt.MobileNo</td>
+                            <td>@unconfirmedAppt.Email</td>
+                            <td>@unconfirmedAppt.AppointmentDate</td>
+                            <td>
+                                <button type="button"
+                                        class="btn btn-default btnConfirmModal"
+                                        data-toggle="modal"
+                                        data-target="#appModal"
+                                        data-backdrop="static"
+                                        data-keyboard="false">
+                                    Confirm the appointment
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-info">
+                <p>No request appointments</p>
+            </div>
+        }
+    </div>
+</div>
+
+@section scripts{
+    <script>
+    (function ($, widgetObject) {
+        var controls = {
+            appModal: $('#appModal'),
+            btnShowModal: $('.btnConfirmModal'),
+            appModalContent: $('#appModal .modal-content')
+        };
+
+        widgetObject.init = function () {
+            bindUIActions();
+        };
+
+        var bindUIActions = function () {
+
+            controls.btnShowModal.on('click', function () {
+                var me = $(this),
+                    row = me.closest('tr'),
+                    id = row.attr('id'),
+                    customerName = row.find('td:first-child').text();
+
+                //set the modal to small
+                controls.appModal.find('.modal-dialog').addClass('modal-sm');
+
+                //set the modal title
+                controls.appModal.find('.modal-title').text('Confirm appointment');
+
+                //append the modal body text
+                controls.appModal.find('.modal-body')
+                    .append("<p class='text-center'>Are you sure you want to confirm the appointment of <b>" + customerName + "</b></p>");
+
+                //create confirm button and pass the appointment
+                var button = $('<button/>').addClass('btn btn-default text-right')
+                    .text('Confirm').attr({
+                        'id': 'btnConfirmAppointment',
+                        'data-appointmentid': id
+                    });
+
+                //find the modal footer and append the button
+                controls.appModal.find('.modal-footer').append(button);
+            });
+
+            controls.appModalContent.on('click', '#btnConfirmAppointment', function () {
+                var me = $(this);
+                var appointmentID = me.data('appointmentid');
+                console.log(appointmentID);
+                me.html('<i class="fa fa-spinner fa-pulse"></i>&nbsp;Confirming...').addClass('disabled');
+
+                $.ajax({
+                    method: 'post',
+                    url: 'admin/appointments/confirmAppointment',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        appointmentID: parseInt(appointmentID)
+                    }),
+                    success: function (response) {
+
+                        //find the modal body
+                        var body = controls.appModal.find('.modal-body');
+                        body.empty();
+                        body.append("<p class='text-center'>" + response.message + "</p>");
+
+                        //create close button and remove the btnConfirm
+                        var button = $('<button/>').addClass('btn btn-default text-right')
+                            .text('Close').attr({
+                                'id': 'btnCloseModal'
+                            });
+                        controls.appModal.find('.modal-footer').empty().append(button);
+                    }
+                });
+
+            });
+            controls.appModalContent.on('click', '#btnCloseModal', function () {
+                controls.appModal.modal('hide');
+                window.location.reload();
+            });
+
+            controls.appModal.on('hidden.bs.modal', function () {
+                var me = $(this);
+                me.find('.modal-body').empty();
+                me.find('.modal-footer').empty();
+            });
+        };
+    }(jQuery, window.UnconfirmedApptWidget = window.UnconfirmedApptWidget || {}));
+
+    UnconfirmedApptWidget.init();
+    </script>
+}
